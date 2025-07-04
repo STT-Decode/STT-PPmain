@@ -1,5 +1,0 @@
-left_front
-left_back
-right_front
-right_back
-sensor_otos

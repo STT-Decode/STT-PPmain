@@ -14,7 +14,6 @@ public class All_Parts
     private DcMotorEx arm;
     private Servo claw;
     private Servo rotationServo;
-    private double maxPower;
 
 
     public void init(HardwareMap map)
