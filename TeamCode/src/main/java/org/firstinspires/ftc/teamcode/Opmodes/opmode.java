@@ -52,7 +52,6 @@ public class opmode extends LinearOpMode
             }
 
             allParts.drive0(y, x, rotate, speed);
-            allParts.setArmPower(armPower);
             allParts.setClawPos(clawPos);
             allParts.setRotationPos(rotationPos);
         }

@@ -31,7 +31,7 @@ import pedroPathing.constants.LConstants;
 public class Circle extends OpMode {
     private Telemetry telemetryA;
 
-    public static double RADIUS = 10;
+    public static double RADIUS = 0.5;
 
     private Follower follower;
 

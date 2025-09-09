@@ -9,8 +9,8 @@ public class LConstants {
     static {
         OTOSConstants.useCorrectedOTOSClass = false;
         OTOSConstants.hardwareMapName = "sensor_otos";
-        OTOSConstants.linearUnit = DistanceUnit.INCH;
-        OTOSConstants.angleUnit = OTOSConstants.angleUnit.RADIANS;
+        OTOSConstants.linearUnit = DistanceUnit.METER;
+        OTOSConstants.angleUnit = OTOSConstants.angleUnit.DEGREES;
         OTOSConstants.offset = new SparkFunOTOS.Pose2D(0, 0, Math.PI / 2);
         OTOSConstants.linearScalar = 1.0;
         OTOSConstants.angularScalar = 1.0;

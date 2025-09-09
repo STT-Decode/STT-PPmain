@@ -49,9 +49,9 @@ public class All_Parts
         lb.setPower(leftRearPower);
     }
 
-    public void setArmPower(double power)
+    public void setLfPower(double power)
     {
-        arm.setPower(power);
+        lf.setPower(power);
     }
 
     public void setClawPos(double pos)
