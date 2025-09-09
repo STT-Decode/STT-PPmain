@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Opmodes;
 
+import android.util.Size;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -74,13 +76,14 @@ public class AprilTagTest extends LinearOpMode {
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();
 
         // Create the vision portal the easy way.
-        if (USE_WEBCAM) {
-            visionPortal = VisionPortal.easyCreateWithDefaults(
-                    hardwareMap.get(WebcamName.class, "webcam"), aprilTag);
-        } else {
-            visionPortal = VisionPortal.easyCreateWithDefaults(
-                    BuiltinCameraDirection.BACK, aprilTag);
-        }
+
+        visionPortal = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "webcam"))
+                .addProcessor(aprilTag)
+                .setCameraResolution(new Size(320, 240))
+                .setStreamFormat(VisionPortal.StreamFormat.YUY2)
+                .setAutoStopLiveView(true)
+                .build();
 
     }   // end method initAprilTag()
 
@@ -95,6 +98,10 @@ public class AprilTagTest extends LinearOpMode {
         // Step through the list of detections and display info for each one.
         for (AprilTagDetection detection : currentDetections) {
             switch (detection.id) {
+                case 20:
+                    telemetry.addLine("BLUE");
+                    break;
+
                 case 21:
                     telemetry.addLine("GPP");
                     break;
@@ -106,20 +113,23 @@ public class AprilTagTest extends LinearOpMode {
                 case 23:
                     telemetry.addLine("PPG");
                     break;
+
+                case 24:
+                    telemetry.addLine("RED");
+                    break;
             }
 
-            telemetry.addLine("X center offset: " + (detection.center.x - 320));
+            telemetry.addLine("X center offset: " + (detection.center.x - 160));
 
-            if ((Math.abs(detection.center.x - 320) > 100) && (detection.id == 23)) {
-                allParts.drive0(0, 0, -(detection.center.x - 320) / 320, 1);
+            if ((Math.abs(detection.center.x - 160) > 100) && (detection.id == 23)) {
+                allParts.drive0(0, 0, -(detection.center.x - 160) / 160, 1);
             }else{
                 allParts.drive0(0, 0, 0, 0);
             }
         }
         if (currentDetections.size() == 0){
-            allParts.drive0(0, 0, 1, 0.2);
+            allParts.drive0(0, 0, 1, 0.3);
         }
     }   // end method telemetryAprilTag()
 
 }   // end class
-
