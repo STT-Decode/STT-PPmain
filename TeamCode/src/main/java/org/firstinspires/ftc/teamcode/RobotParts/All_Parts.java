@@ -3,7 +3,8 @@ package org.firstinspires.ftc.teamcode.RobotParts;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
+
 
 public class All_Parts
 {
@@ -11,9 +12,8 @@ public class All_Parts
     private DcMotorEx rf;
     private DcMotorEx lb;
     private DcMotorEx rb;
-    private DcMotorEx arm;
-    private Servo claw;
-    private Servo rotationServo;
+    private DcMotorEx flyWheel;
+    private CRServo servo;
 
 
     public void init(HardwareMap map)
@@ -23,15 +23,13 @@ public class All_Parts
         rf = map.get(DcMotorEx.class, "right_front");
         lb = map.get(DcMotorEx.class, "left_back");
         rb = map.get(DcMotorEx.class, "right_back");
-        arm = map.get(DcMotorEx.class, "arm");
-        claw = map.get(Servo.class, "claw");
-        rotationServo = map.get(Servo.class,"rotationServo");
+        flyWheel = map.get(DcMotorEx.class, "flywheel");
+        servo = map.get(CRServo.class, "servo");
 
         rf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
 
@@ -54,14 +52,12 @@ public class All_Parts
         lf.setPower(power);
     }
 
-    public void setClawPos(double pos)
-    {
-        claw.setPosition(pos);
+    public void setFlyWheelPower(double power){
+        flyWheel.setPower(power);
     }
 
-    public void setRotationPos(double pos)
-    {
-        rotationServo.setPosition(pos);
+    public void setServoPower(double power){
+        servo.setPower(power);
     }
 
 }

@@ -18,42 +18,34 @@ public class opmode extends LinearOpMode
     public void runOpMode() throws InterruptedException
     {
         allParts.init(hardwareMap);
-        double clawPos = 0;
-        double rotationPos = 0;
-        boolean canToggleClaw = true;
-        boolean canToggleRotation = true;
+        double y;
+        double x;
+        double rotate;
+        double speed;
+        double servoSpeed;
+        double flyWheelSpeed = 0;
+        boolean flyWheelToggle = true;
 
         waitForStart();
         if (isStopRequested()) return;
         while (opModeIsActive())
         {
-            double y = -gamepad1.left_stick_y;
-            double x = gamepad1.left_stick_x;
-            double rotate = -0.3 * gamepad1.right_stick_x;
-            double speed = 0.5 + gamepad1.right_trigger * 0.5;
-            double armPower = -0.7 * gamepad2.right_stick_y;
+            y = -gamepad1.left_stick_y;
+            x = gamepad1.left_stick_x;
+            rotate = -0.3 * gamepad1.right_stick_x;
+            speed = 0.5 + gamepad1.right_trigger * 0.5;
+            servoSpeed = 0.3 * ((gamepad1.left_bumper ? -1 : 0) + (gamepad1.right_bumper ? 1 : 0));
 
-            if (canToggleClaw && gamepad2.left_bumper)
-            {
-                clawPos = Math.abs(clawPos - 1);
-                canToggleClaw = false;
-            } else if (!gamepad2.left_bumper)
-            {
-                canToggleClaw = true;
-            }
+            if (gamepad1.a && flyWheelToggle) {
+                flyWheelSpeed = -flyWheelSpeed + 0.5;
+                flyWheelToggle = false;
+            } else if (!gamepad1.a){
+                flyWheelToggle = true;
+                }
 
-            if (canToggleRotation && gamepad2.right_bumper)
-            {
-                rotationPos = Math.abs(rotationPos - 1);
-                canToggleRotation = false;
-            } else if (!gamepad2.right_bumper)
-            {
-                canToggleRotation = true;
-            }
-
+            allParts.setServoPower(servoSpeed);
+            allParts.setFlyWheelPower(flyWheelSpeed);
             allParts.drive0(y, x, rotate, speed);
-            allParts.setClawPos(clawPos);
-            allParts.setRotationPos(rotationPos);
         }
 
 
