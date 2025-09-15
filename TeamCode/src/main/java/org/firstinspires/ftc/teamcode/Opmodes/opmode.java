@@ -22,7 +22,7 @@ public class opmode extends LinearOpMode
         double x;
         double rotate;
         double speed;
-        double servoSpeed;
+        double flywheelFeederSpeed;
         double flyWheelSpeed = 0;
         boolean flyWheelToggle = true;
 
@@ -34,7 +34,7 @@ public class opmode extends LinearOpMode
             x = gamepad1.left_stick_x;
             rotate = -0.3 * gamepad1.right_stick_x;
             speed = 0.5 + gamepad1.right_trigger * 0.5;
-            servoSpeed = 0.3 * ((gamepad1.left_bumper ? -1 : 0) + (gamepad1.right_bumper ? 1 : 0));
+            flywheelFeederSpeed = 0.3 * ((gamepad1.left_bumper ? -1 : 0) + (gamepad1.right_bumper ? 1 : 0));
 
             if (gamepad1.a && flyWheelToggle) {
                 flyWheelSpeed = -flyWheelSpeed + 0.5;
@@ -43,8 +43,6 @@ public class opmode extends LinearOpMode
                 flyWheelToggle = true;
                 }
 
-            allParts.setServoPower(servoSpeed);
-            allParts.setFlyWheelPower(flyWheelSpeed);
             allParts.drive0(y, x, rotate, speed);
         }
 

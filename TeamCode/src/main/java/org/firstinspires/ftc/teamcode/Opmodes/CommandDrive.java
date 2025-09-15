@@ -12,6 +12,7 @@ import dev.nextftc.ftc.NextFTCOpMode;
 import dev.nextftc.ftc.components.BulkReadComponent;
 import dev.nextftc.hardware.driving.MecanumDriverControlled;
 import dev.nextftc.hardware.impl.MotorEx;
+import dev.nextftc.bindings.BindingManager;
 
 
 @TeleOp(name = "Drive")
@@ -44,11 +45,12 @@ public class CommandDrive extends NextFTCOpMode
                 Gamepads.gamepad1().rightStickX()
         );
         driverControlled.schedule();
+        BindingManager.update();
 
         //Toggles the flywheels between on and whatever value the right trigger gives
         Gamepads.gamepad1().a().toggleOnBecomesTrue()
                 .whenBecomesTrue(Flywheel.INSTANCE.turnOn())
-                .whenBecomesFalse(Flywheel.INSTANCE.setCustomPower(Gamepads.gamepad1().rightTrigger().get()));
+                .whenFalse(Flywheel.INSTANCE.setCustomPower(Gamepads.gamepad1().rightTrigger().get()));
     }
 
 }
