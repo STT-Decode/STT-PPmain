@@ -49,8 +49,10 @@ public class CommandDrive extends NextFTCOpMode
 
         //Toggles the flywheels between on and whatever value the right trigger gives
         Gamepads.gamepad1().a().toggleOnBecomesTrue()
-                .whenBecomesTrue(Flywheel.INSTANCE.turnOn())
-                .whenFalse(Flywheel.INSTANCE.setCustomPower(Gamepads.gamepad1().rightTrigger().get()));
+                .whenBecomesTrue((Flywheel.INSTANCE.turnOn()))
+                .whenFalse(() -> Flywheel.INSTANCE.setCustomPower(Gamepads.gamepad1().rightTrigger().get()).schedule());
+
+
     }
 
 }
