@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.RobotParts.All_Parts;
 
 
 //the name is how this Opmode will show up on the driver-hub
-@TeleOp(name = "Opmode", group = "TeleOp")
+@TeleOp(name = "opmode", group = "TeleOp")
 public class opmode extends LinearOpMode
 {
     private ElapsedTime runtime = new ElapsedTime();
@@ -22,7 +22,7 @@ public class opmode extends LinearOpMode
         double x;
         double rotate;
         double speed;
-        double flywheelFeederSpeed;
+        double flywheelFeederPos = 0;
         double flyWheelSpeed = 0;
         boolean flyWheelToggle = true;
 
@@ -30,20 +30,14 @@ public class opmode extends LinearOpMode
         if (isStopRequested()) return;
         while (opModeIsActive())
         {
-            y = -gamepad1.left_stick_y;
-            x = gamepad1.left_stick_x;
-            rotate = -0.3 * gamepad1.right_stick_x;
-            speed = 0.5 + gamepad1.right_trigger * 0.5;
-            flywheelFeederSpeed = 0.3 * ((gamepad1.left_bumper ? -1 : 0) + (gamepad1.right_bumper ? 1 : 0));
-
-            if (gamepad1.a && flyWheelToggle) {
-                flyWheelSpeed = -flyWheelSpeed + 0.5;
-                flyWheelToggle = false;
-            } else if (!gamepad1.a){
-                flyWheelToggle = true;
-                }
-
-            allParts.drive0(y, x, rotate, speed);
+            flyWheelSpeed = gamepad1.left_stick_y;
+            allParts.setLfPower(flyWheelSpeed);
+            if (gamepad1.a){flywheelFeederPos=0;}
+            if (gamepad1.b){flywheelFeederPos=0.5;}
+            allParts.setServo1pos(flywheelFeederPos);
+            telemetry.addData("pos", flywheelFeederPos);
+            telemetry.addData("flyWheelSpeed", flyWheelSpeed);
+            telemetry.update();
         }
 
 

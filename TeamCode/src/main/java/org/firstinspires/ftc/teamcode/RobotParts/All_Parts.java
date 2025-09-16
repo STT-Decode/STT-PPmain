@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class All_Parts
 {
@@ -12,15 +13,18 @@ public class All_Parts
     private DcMotorEx lb;
     private DcMotorEx rb;
     private DcMotorEx flywheel1;
+    private DcMotorEx flywheel2;
+    private Servo servo1;
 
     public void init(HardwareMap map)
     {
-
+        servo1 = map.get(Servo.class, "servo1");
         lf = map.get(DcMotorEx.class, "left_front");
         rf = map.get(DcMotorEx.class, "right_front");
         lb = map.get(DcMotorEx.class, "left_back");
         rb = map.get(DcMotorEx.class, "right_back");
         flywheel1 = map.get(DcMotorEx.class, "flywheel1");
+        flywheel2 = map.get(DcMotorEx.class, "flywheel2");
 
         rf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -45,8 +49,11 @@ public class All_Parts
     {
         lf.setPower(power);
         flywheel1.setPower(power);
+        flywheel2.setPower(-power);
     }
-
+    public void setServo1pos(double pos){
+        servo1.setPosition(pos);
+    }
 
 
 }
