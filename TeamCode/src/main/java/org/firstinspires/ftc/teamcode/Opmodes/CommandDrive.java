@@ -18,25 +18,14 @@ import dev.nextftc.bindings.Range;
 
 
 @TeleOp(name = "Drive")
-public class CommandDrive extends NextFTCOpMode
+public class CommandDrive extends rootOpMode
 {
-    public CommandDrive()
-    {
-        addComponents(
-                new SubsystemComponent(Flywheel.INSTANCE, Feeder.INSTANCE),
-                BulkReadComponent.INSTANCE,
-                BindingsComponent.INSTANCE
-        );
-    }
 
-    private final MotorEx frontLeftMotor = new MotorEx("left_front");
-    private final MotorEx frontRightMotor = new MotorEx("right_front").reversed();
-    private final MotorEx backLeftMotor = new MotorEx("left_back");
-    private final MotorEx backRightMotor = new MotorEx("right_back").reversed();
 
     @Override
     public void onStartButtonPressed()
     {
+
         Command driverControlled = new MecanumDriverControlled(
                 frontLeftMotor,
                 frontRightMotor,
@@ -49,7 +38,6 @@ public class CommandDrive extends NextFTCOpMode
         driverControlled.schedule();
         BindingManager.update();
         BindingManager.setLayer("Close scoring zone");
-
 
         /**Toggles the state, used for choosing the flywheel speed*/
         Gamepads.gamepad1().a().toggleOnBecomesTrue()
