@@ -2,8 +2,10 @@ package org.firstinspires.ftc.teamcode.Opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.Subsystems.AlignWithAprilTag;
 import org.firstinspires.ftc.teamcode.Subsystems.Feeder;
 import org.firstinspires.ftc.teamcode.Subsystems.Flywheel;
+import org.firstinspires.ftc.teamcode.Subsystems.AlignWithAprilTag;
 
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.components.BindingsComponent;
@@ -43,6 +45,8 @@ public class CommandDrive extends rootOpMode
         Gamepads.gamepad1().a().toggleOnBecomesTrue()
                 .whenBecomesTrue(() -> BindingManager.setLayer("Close scoring zone"))
                 .whenBecomesFalse(() -> BindingManager.setLayer("Far scoring zone"));
+
+        Gamepads.gamepad1().b().whenBecomesTrue(new AlignWithAprilTag(hardwareMap, -1, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor));
 
         /**Toggles the flywheels between on and whatever value the right trigger gives.
          * inLayer() bases the flywheel speed based on our distance to the goal.*/
