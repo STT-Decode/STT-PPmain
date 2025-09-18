@@ -25,15 +25,17 @@ public class opmode extends LinearOpMode
         double flywheelFeederPos = 0;
         double flyWheelSpeed = 0;
         boolean flyWheelToggle = true;
-
+        double flyWheelFactor=1;
         waitForStart();
         if (isStopRequested()) return;
         while (opModeIsActive())
         {
             flyWheelSpeed = gamepad1.left_stick_y;
-            allParts.setLfPower(flyWheelSpeed);
+            if (gamepad1.x && flyWheelFactor>0.4){flyWheelFactor-=0.01;}
+            if (gamepad1.y && flyWheelFactor<1){flyWheelFactor+=0.01;}
+            allParts.setLfPower(flyWheelSpeed*flyWheelFactor);
             if (gamepad1.a){flywheelFeederPos=0;}
-            if (gamepad1.b){flywheelFeederPos=0.5;}
+            if (gamepad1.b){flywheelFeederPos=0.35;}
             allParts.setServo1pos(flywheelFeederPos);
             telemetry.addData("pos", flywheelFeederPos);
             telemetry.addData("flyWheelSpeed", flyWheelSpeed);

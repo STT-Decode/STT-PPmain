@@ -25,7 +25,7 @@ public class Feeder implements Subsystem
     /**Turns the feeder give artifacts to the flywheels to fire them*/
     public Command fire()
     {
-        return new SetPosition(feeder, 0.5);
+        return new SetPosition(feeder, 0.35);
     }
 
 }

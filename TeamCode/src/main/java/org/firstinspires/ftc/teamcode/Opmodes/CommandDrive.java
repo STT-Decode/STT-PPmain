@@ -30,7 +30,7 @@ public class CommandDrive extends rootOpMode
     @Override
     public void onStartButtonPressed()
     {
-
+        BindingManager.update();
         Command driverControlled = new MecanumDriverControlled(
                 frontLeftMotor,
                 frontRightMotor,
@@ -69,8 +69,6 @@ public class CommandDrive extends rootOpMode
                 .whenBecomesTrue(Feeder.INSTANCE.fire())
                 .whenBecomesFalse(Feeder.INSTANCE.open());
 
-
-        BindingManager.update();
 
     }
 
