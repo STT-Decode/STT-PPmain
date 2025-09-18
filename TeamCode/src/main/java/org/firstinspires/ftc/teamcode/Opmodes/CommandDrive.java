@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Opmodes;
 
+import androidx.annotation.NonNull;
+
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Subsystems.AlignWithAprilTag;
@@ -8,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Flywheel;
 import org.firstinspires.ftc.teamcode.Subsystems.AlignWithAprilTag;
 
 import dev.nextftc.core.commands.Command;
+import dev.nextftc.core.commands.CommandManager;
 import dev.nextftc.core.components.BindingsComponent;
 import dev.nextftc.core.components.SubsystemComponent;
 import dev.nextftc.ftc.Gamepads;
@@ -38,15 +41,17 @@ public class CommandDrive extends rootOpMode
                 Gamepads.gamepad1().rightStickX()
         );
         driverControlled.schedule();
-        BindingManager.update();
         BindingManager.setLayer("Close scoring zone");
+        AlignWithAprilTag alignWithAprilTag = new AlignWithAprilTag(hardwareMap, -1, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
 
         /**Toggles the state, used for choosing the flywheel speed*/
         Gamepads.gamepad1().a().toggleOnBecomesTrue()
                 .whenBecomesTrue(() -> BindingManager.setLayer("Close scoring zone"))
                 .whenBecomesFalse(() -> BindingManager.setLayer("Far scoring zone"));
 
-        Gamepads.gamepad1().b().whenBecomesTrue(new AlignWithAprilTag(hardwareMap, -1, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor));
+        Gamepads.gamepad1().b().whenBecomesTrue(alignWithAprilTag);
+
+
 
         /**Toggles the flywheels between on and whatever value the right trigger gives.
          * inLayer() bases the flywheel speed based on our distance to the goal.*/
@@ -64,6 +69,10 @@ public class CommandDrive extends rootOpMode
                 .whenBecomesTrue(Feeder.INSTANCE.fire())
                 .whenBecomesFalse(Feeder.INSTANCE.open());
 
+
+        BindingManager.update();
+
     }
+
 
 }

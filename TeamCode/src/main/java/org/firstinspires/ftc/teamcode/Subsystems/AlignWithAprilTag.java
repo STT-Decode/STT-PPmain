@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import android.util.Size;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -53,7 +55,7 @@ public class AlignWithAprilTag extends Command
         this.id = id;
     }
 
-
+    @Override
     public void update()
     {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
@@ -67,8 +69,10 @@ public class AlignWithAprilTag extends Command
                 frontRight.setPower(-(detection.center.x - 160) / 160);
                 backRight.setPower(-(detection.center.x - 160) / 160);
                 break;
+
             }
         }
+
     }
 
     @Override
@@ -86,6 +90,7 @@ public class AlignWithAprilTag extends Command
         return currentDetections.isEmpty();
     }
 
+    @Override
     public void stop(boolean interrupted)
     {
         backLeft.setPower(0);

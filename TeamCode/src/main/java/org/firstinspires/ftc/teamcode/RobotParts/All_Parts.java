@@ -47,7 +47,6 @@ public class All_Parts
 
     public void setLfPower(double power)
     {
-        lf.setPower(power);
         flywheel1.setPower(power);
         flywheel2.setPower(-power);
     }
