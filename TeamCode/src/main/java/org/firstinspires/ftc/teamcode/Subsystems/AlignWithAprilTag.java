@@ -62,14 +62,14 @@ public class AlignWithAprilTag extends Command
 
         // Step through the list of detections and display info for each one.
         for (AprilTagDetection detection : currentDetections) {
-            if ((Math.abs(detection.center.x - 160) > 20) && ((detection.id == this.id) || (this.id == -1)))
+            if ((Math.abs(detection.center.x - 160) > 10) && ((detection.id == this.id) || (this.id == -1)))
             {
-                backLeft.setPower((detection.center.x - 160) / 160);
-                frontLeft.setPower((detection.center.x - 160) / 160);
-                frontRight.setPower(-(detection.center.x - 160) / 160);
-                backRight.setPower(-(detection.center.x - 160) / 160);
+                double factor = (detection.center.x - 160) / Math.abs(detection.center.x - 160);
+                backLeft.setPower(-0.5 * factor);
+                frontLeft.setPower(-0.5 * factor);
+                frontRight.setPower(0.5 * factor);
+                backRight.setPower(0.5 * factor);
                 break;
-
             }
         }
 
@@ -81,7 +81,7 @@ public class AlignWithAprilTag extends Command
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
 
         for (AprilTagDetection detection : currentDetections) {
-            if ((Math.abs(detection.center.x - 160) < 20) && ((detection.id == this.id) || (this.id == -1)))
+            if ((Math.abs(detection.center.x - 160) < 10) && ((detection.id == this.id) || (this.id == -1)))
             {
                 return true;
             }
