@@ -27,8 +27,6 @@ import dev.nextftc.bindings.Range;
 @TeleOp(name = "Drive")
 public class CommandDrive extends rootOpMode
 {
-
-
     @Override
     public void onStartButtonPressed()
     {

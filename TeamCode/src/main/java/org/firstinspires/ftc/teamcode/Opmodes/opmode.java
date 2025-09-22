@@ -24,21 +24,35 @@ public class opmode extends LinearOpMode
         double speed;
         double flywheelFeederPos = 0;
         double flyWheelSpeed = 0;
+        double flyWheelSpeed_2 = 0.7;
         boolean flyWheelToggle = true;
+        boolean speedChangeAllowed = true;
         double flyWheelFactor=1;
         waitForStart();
         if (isStopRequested()) return;
         while (opModeIsActive())
         {
             flyWheelSpeed = gamepad1.left_stick_y;
+            if (gamepad1.right_bumper && speedChangeAllowed){
+                flyWheelSpeed_2 += 0.05;
+                speedChangeAllowed = false;
+            }
+            if (gamepad1.left_bumper && speedChangeAllowed){
+                flyWheelSpeed_2 -= 0.05;
+                speedChangeAllowed = false;
+            }
+            if (!gamepad1.left_bumper && !gamepad1.right_bumper){speedChangeAllowed = true;}
             if (gamepad1.x && flyWheelFactor>0.4){flyWheelFactor-=0.01;}
             if (gamepad1.y && flyWheelFactor<1){flyWheelFactor+=0.01;}
-            allParts.setLfPower(flyWheelSpeed*flyWheelFactor);
+            //allParts.setLfPower(flyWheelSpeed*flyWheelFactor);
+            if (gamepad1.dpad_up){allParts.setLfPower(flyWheelSpeed_2);}
+            else {allParts.setLfPower(0);}
             if (gamepad1.a){flywheelFeederPos=0;}
             if (gamepad1.b){flywheelFeederPos=0.35;}
             allParts.setServo1pos(flywheelFeederPos);
             telemetry.addData("pos", flywheelFeederPos);
-            telemetry.addData("flyWheelSpeed", flyWheelSpeed);
+            telemetry.addData("flyWheelSpeed", flyWheelSpeed_2);
+            //telemetry.addData("flyWheelSpeed", flyWheelSpeed);
             telemetry.update();
         }
 
