@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Opmodes;
+package org.firstinspires.ftc.teamcode.Opmodes.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -24,7 +24,7 @@ public class opmode extends LinearOpMode
         double speed;
         double flywheelFeederPos = 0;
         double flyWheelSpeed = 0;
-        double flyWheelSpeed_2 = 0.7;
+        double flyWheelSpeed_2 = 0.9;
         boolean flyWheelToggle = true;
         boolean speedChangeAllowed = true;
         double flyWheelFactor=1;
@@ -34,11 +34,11 @@ public class opmode extends LinearOpMode
         {
             flyWheelSpeed = gamepad1.left_stick_y;
             if (gamepad1.right_bumper && speedChangeAllowed){
-                flyWheelSpeed_2 += 0.05;
+                flyWheelSpeed_2 += 0.02;
                 speedChangeAllowed = false;
             }
             if (gamepad1.left_bumper && speedChangeAllowed){
-                flyWheelSpeed_2 -= 0.05;
+                flyWheelSpeed_2 -= 0.02;
                 speedChangeAllowed = false;
             }
             if (!gamepad1.left_bumper && !gamepad1.right_bumper){speedChangeAllowed = true;}
