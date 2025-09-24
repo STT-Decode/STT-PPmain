@@ -35,8 +35,8 @@ public class Constants {
             .leftRearMotorName("left_back")
             .rightFrontMotorName("right_front")
             .rightRearMotorName("right_back")
-            .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
-            .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
+            .leftFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
+            .leftRearMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
             .xVelocity(57.8741)
@@ -44,9 +44,9 @@ public class Constants {
 
     public static OTOSConstants localizerConstants = new OTOSConstants()
             .hardwareMapName("sensor_otos")
-            .linearUnit(DistanceUnit.METER)
+            .linearUnit(DistanceUnit.INCH)
             .angleUnit(AngleUnit.DEGREES)
-            .offset(new SparkFunOTOS.Pose2D(0, 0, Math.PI / 2))
+            .offset(new SparkFunOTOS.Pose2D(0, 13, Math.PI / 2))
             .linearScalar(1.0)
             .angularScalar(1.0);
 
