@@ -15,10 +15,12 @@ public class All_Parts
     private DcMotorEx flywheel1;
     private DcMotorEx flywheel2;
     private Servo servo1;
+    private Servo servo2;
 
     public void init(HardwareMap map)
     {
         servo1 = map.get(Servo.class, "servo1");
+        servo2 = map.get(Servo.class, "servo2");
         lf = map.get(DcMotorEx.class, "left_front");
         rf = map.get(DcMotorEx.class, "right_front");
         lb = map.get(DcMotorEx.class, "left_back");
@@ -52,6 +54,9 @@ public class All_Parts
     }
     public void setServo1pos(double pos){
         servo1.setPosition(pos);
+    }
+    public void setServo2pos(double pos){
+        servo2.setPosition(pos);
     }
 
 

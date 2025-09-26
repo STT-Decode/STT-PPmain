@@ -22,6 +22,9 @@ public class opmode extends LinearOpMode
         double x;
         double rotate;
         double speed;
+        double intakeTime = 0;
+        double flywheelTime = 0;
+        double intakepos=0;
         double flywheelFeederPos = 0;
         double flyWheelSpeed = 0;
         double flyWheelSpeed_2 = 0.9;
@@ -42,14 +45,36 @@ public class opmode extends LinearOpMode
                 speedChangeAllowed = false;
             }
             if (!gamepad1.left_bumper && !gamepad1.right_bumper){speedChangeAllowed = true;}
-            if (gamepad1.x && flyWheelFactor>0.4){flyWheelFactor-=0.01;}
-            if (gamepad1.y && flyWheelFactor<1){flyWheelFactor+=0.01;}
+
             //allParts.setLfPower(flyWheelSpeed*flyWheelFactor);
             if (gamepad1.dpad_up){allParts.setLfPower(flyWheelSpeed_2);}
             else {allParts.setLfPower(0);}
             if (gamepad1.a){flywheelFeederPos=0;}
             if (gamepad1.b){flywheelFeederPos=0.35;}
+            if (gamepad1.x){intakepos=0;}
+            if (gamepad1.y){intakepos=0.5;}
+
+//            if (gamepad1.a){
+//                flywheelFeederPos=0;
+//                intakepos=0.5;
+//                flywheelTime = getRuntime();
+//            }
+//            if (getRuntime() - 0.8 > flywheelTime){
+//                flywheelFeederPos=0.32;
+//                intakepos=0;;
+//            }
+//
+//            if (gamepad1.y){
+//                intakepos=0.5;
+//                intakeTime = getRuntime();
+//            }
+//            if (getRuntime() - 1 > intakeTime){
+//                intakepos=0;
+//            }
+
+
             allParts.setServo1pos(flywheelFeederPos);
+            allParts.setServo2pos(intakepos);
             telemetry.addData("pos", flywheelFeederPos);
             telemetry.addData("flyWheelSpeed", flyWheelSpeed_2);
             //telemetry.addData("flyWheelSpeed", flyWheelSpeed);

@@ -43,14 +43,27 @@ public abstract class SelectableOpMode extends OpMode {
     @Override
     public final void init_loop() {
         if (selectedOpMode == null) {
-            if (gamepad1.dpad_up || gamepad2.dpad_up)
-                selector.decrementSelected();
-            else if (gamepad1.dpad_down|| gamepad2.dpad_down)
-                selector.incrementSelected();
-            else if (gamepad1.right_bumper || gamepad2.right_bumper)
-                selector.select();
-            else if (gamepad1.left_bumper || gamepad2.left_bumper)
-                selector.goBack();
+            try {
+                if (gamepad1.dpad_up || gamepad2.dpad_up) {
+                    Thread.sleep(1000);
+                selector.decrementSelected();}
+            else if (gamepad1.dpad_down || gamepad2.dpad_down){
+                    Thread.sleep(1000);
+                selector.incrementSelected();}
+            else if (gamepad1.right_bumper || gamepad2.right_bumper){
+                    Thread.sleep(1000);
+                selector.select();}
+            else if (gamepad1.left_bumper || gamepad2.left_bumper) {
+                    Thread.sleep(1000);
+                    selector.goBack();
+                }
+            }
+            catch (RuntimeException e) {
+                throw new RuntimeException(e);
+            }
+            catch (InterruptedException e){
+                throw new RuntimeException(e);
+            }
 
             List<String> lines = selector.getLines();
             for (String line : lines) {
