@@ -21,18 +21,15 @@ public class PPtest extends rootOpMode
 {
 
     Pose startPose = new Pose(0, 0, 0);
-    Pose endPose = new Pose(0, 2, 0);
+    Pose endPose = new Pose(0, 40, 0);
     Path path = new Path(new BezierCurve(startPose, endPose));
 
     private Command autonomousRoutine() {
-        return new SequentialGroup(
-            new FollowPath(path, true, 0.5)
-        );
+        return new FollowPath(path, false, 0.5);
     }
 
     @Override
     public void onStartButtonPressed() {
-
         autonomousRoutine().schedule();
     }
 }

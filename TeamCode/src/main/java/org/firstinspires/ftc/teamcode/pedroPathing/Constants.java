@@ -50,8 +50,8 @@ public class Constants {
             .angularScalar(0.0017);
 
     public static PathConstraints pathConstraints = new PathConstraints(
-            0.995,
-            500,
+            0.99,
+            300,
             1,
             1
     );
