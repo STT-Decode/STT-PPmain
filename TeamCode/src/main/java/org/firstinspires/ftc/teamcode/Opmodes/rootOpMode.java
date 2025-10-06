@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Opmodes;
 
+import com.pedropathing.follower.Follower;
+
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.Subsystems.Feeder;
 import org.firstinspires.ftc.teamcode.Subsystems.Flywheel;
@@ -11,6 +13,7 @@ import dev.nextftc.extensions.pedro.PedroComponent;
 import dev.nextftc.ftc.NextFTCOpMode;
 import dev.nextftc.ftc.components.BulkReadComponent;
 import dev.nextftc.hardware.impl.MotorEx;
+import static dev.nextftc.extensions.pedro.PedroComponent.follower;
 
 public class rootOpMode extends NextFTCOpMode
 {
@@ -28,10 +31,6 @@ public class rootOpMode extends NextFTCOpMode
     protected final MotorEx frontRightMotor = new MotorEx("right_front").reversed();
     protected final MotorEx backLeftMotor = new MotorEx("left_back");
     protected final MotorEx backRightMotor = new MotorEx("right_back").reversed();
-
-
-
-
 
 
 
