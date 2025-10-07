@@ -33,14 +33,15 @@ public class PPtest extends rootOpMode
 {
     //public static PathBuilder builder = new PathBuilder(PedroComponent.follower());
     public static PathChain paths;
+    Pose startPose = new Pose(105, 8, 90);
 
     private PathChain buildPaths(PathBuilder builder)
     {
         paths = builder.addPath(
                         // Line 1
-                        new BezierLine(new Pose(50.000, 40.000), new Pose(50.000, 80.000))
+                        new BezierCurve(startPose, new Pose(122, 140), new Pose(30, 120))
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(90))
+                .setTangentHeadingInterpolation()
                 .build();
         return paths;
     }
@@ -53,6 +54,7 @@ public class PPtest extends rootOpMode
 
     @Override
     public void onStartButtonPressed() {
+        PedroComponent.follower().setPose(startPose);
         autonomousRoutine().schedule();
     }
 }

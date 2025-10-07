@@ -42,9 +42,10 @@ public class Constants {
             .hardwareMapName("sensor_otos")
             .linearUnit(DistanceUnit.INCH)
             .angleUnit(AngleUnit.RADIANS)
-            .offset(new SparkFunOTOS.Pose2D(0, 13, 0))
+            .offset(new SparkFunOTOS.Pose2D(0, 13, Math.PI / 2))
             .linearScalar(1.07)
-            .angularScalar(0.97);
+            /** TODO: tune angularScalar to work consistently*/
+            .angularScalar(1);
 
     public static PathConstraints pathConstraints = new PathConstraints(
             0.99,
