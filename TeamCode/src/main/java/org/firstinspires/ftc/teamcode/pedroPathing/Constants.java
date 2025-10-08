@@ -45,7 +45,7 @@ public class Constants {
             .offset(new SparkFunOTOS.Pose2D(0, 13, Math.PI / 2))
             .linearScalar(1.07)
             /** TODO: tune angularScalar to work consistently*/
-            .angularScalar(1);
+            .angularScalar(0.9);
 
     public static PathConstraints pathConstraints = new PathConstraints(
             0.99,
