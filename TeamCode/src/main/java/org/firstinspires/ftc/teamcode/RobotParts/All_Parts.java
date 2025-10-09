@@ -52,6 +52,8 @@ public class All_Parts
         flywheel1.setPower(power);
         flywheel2.setPower(-power);
     }
+    public void ninjitsu(double power){flywheel1.setPower(power);
+        flywheel2.setPower(power);}
     public void setServo1pos(double pos){
         servo1.setPosition(pos);
     }

@@ -48,6 +48,7 @@ public class opmode extends LinearOpMode
 
             //allParts.setLfPower(flyWheelSpeed*flyWheelFactor);
             if (gamepad1.dpad_up){allParts.setLfPower(flyWheelSpeed_2);}
+            else if(gamepad1.dpad_down){allParts.ninjitsu(flyWheelSpeed_2);}
             else {allParts.setLfPower(0);}
             if (gamepad1.a){flywheelFeederPos=0;}
             if (gamepad1.b){flywheelFeederPos=0.35;}
