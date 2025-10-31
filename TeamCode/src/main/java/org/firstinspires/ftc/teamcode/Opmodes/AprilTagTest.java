@@ -127,7 +127,7 @@ public class AprilTagTest extends LinearOpMode {
                 allParts.drive0(0, 0, 0, 0);
             }
         }
-        if (currentDetections.size() == 0){
+        if (currentDetections.isEmpty()){
             allParts.drive0(0, 0, 1, 0.3);
         }
     }   // end method telemetryAprilTag()

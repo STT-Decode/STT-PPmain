@@ -34,15 +34,12 @@ public class CommandDrive extends rootOpMode
         driverControlled.schedule();
         BindingManager.setLayer("Close scoring zone");
 
-
         /**Toggles the state, used for choosing the flywheel speed*/
         Gamepads.gamepad1().a().toggleOnBecomesTrue()
                 .whenBecomesTrue(() -> BindingManager.setLayer("Close scoring zone"))
                 .whenBecomesFalse(() -> BindingManager.setLayer("Far scoring zone"));
 
         Gamepads.gamepad1().b().whenBecomesTrue(alignWithAprilTag.requires(driverControlled));
-
-
 
         /**Toggles the flywheels between on and whatever value the right trigger gives.
          * inLayer() bases the flywheel speed based on our distance to the goal.*/
@@ -63,8 +60,6 @@ public class CommandDrive extends rootOpMode
                 .whenBecomesTrue(Feeder.INSTANCE.fire())
                 .whenBecomesFalse(Feeder.INSTANCE.open());
 
-
     }
-
 
 }
