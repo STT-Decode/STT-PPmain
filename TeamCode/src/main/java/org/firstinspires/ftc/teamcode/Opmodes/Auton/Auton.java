@@ -12,7 +12,7 @@ import dev.nextftc.core.commands.Command;
 import dev.nextftc.extensions.pedro.FollowPath;
 import dev.nextftc.extensions.pedro.PedroComponent;
 
-@Autonomous(name = "HOLYSHITWILLITWORKCHAT??")
+@Autonomous(name = "auton")
 public class Auton extends rootOpMode
 {
     //public static PathBuilder builder = new PathBuilder(PedroComponent.follower());

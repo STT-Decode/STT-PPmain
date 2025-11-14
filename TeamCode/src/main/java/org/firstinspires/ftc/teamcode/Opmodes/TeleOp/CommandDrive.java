@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.AlignWithAprilTag;
 import org.firstinspires.ftc.teamcode.Subsystems.Feeder;
 import org.firstinspires.ftc.teamcode.Subsystems.Flywheel;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
+import org.firstinspires.ftc.teamcode.Subsystems.Overtake;
 
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.ftc.Gamepads;
@@ -30,36 +31,29 @@ public class CommandDrive extends rootOpMode
                 Gamepads.gamepad1().rightStickX()
         );
 
-        AlignWithAprilTag alignWithAprilTag = new AlignWithAprilTag(hardwareMap, -1, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
-        driverControlled.schedule();
-        BindingManager.setLayer("Close scoring zone");
+        driverControlled.schedule();;
+        BindingManager.update();
 
-        /**Toggles the state, used for choosing the flywheel speed*/
+        /**Toggles the flywheels between on and whatever value the right trigger gives.*/
         Gamepads.gamepad1().a().toggleOnBecomesTrue()
-                .whenBecomesTrue(() -> BindingManager.setLayer("Close scoring zone"))
-                .whenBecomesFalse(() -> BindingManager.setLayer("Far scoring zone"));
-
-        Gamepads.gamepad1().b().whenBecomesTrue(alignWithAprilTag.requires(driverControlled));
-
-        /**Toggles the flywheels between on and whatever value the right trigger gives.
-         * inLayer() bases the flywheel speed based on our distance to the goal.*/
-        Gamepads.gamepad1().rightBumper().toggleOnBecomesTrue()
-                .inLayer("Close scoring zone")
                 .whenBecomesTrue((Flywheel.INSTANCE.setCustomPower(0.5)))
-                .inLayer("Far scoring zone")
-                .whenBecomesTrue(Flywheel.INSTANCE.setCustomPower(1))
-                .global()
                 .whenFalse(() -> Flywheel.INSTANCE.setCustomPower(Gamepads.gamepad1().rightTrigger().get()).schedule());
 
-        Gamepads.gamepad1().x().toggleOnBecomesTrue()
-                .whenBecomesTrue((Flywheel.INSTANCE.turnOn()))
+
+        /**Toggles the intake*/
+        Gamepads.gamepad1().b().toggleOnBecomesTrue()
+                .whenBecomesTrue(Intake.INSTANCE.turnOn())
                 .whenBecomesFalse(Intake.INSTANCE.turnOff());
 
-        /**Toggles the servo*/
-        Gamepads.gamepad1().leftBumper().toggleOnBecomesTrue()
+        /**Toggles the overtake*/
+        Gamepads.gamepad1().x().toggleOnBecomesTrue()
+                .whenBecomesTrue(Overtake.INSTANCE.turnOn())
+                .whenBecomesFalse(Overtake.INSTANCE.turnOff());
+
+        /**Toggles the feeder*/
+        Gamepads.gamepad1().y().toggleOnBecomesTrue()
                 .whenBecomesTrue(Feeder.INSTANCE.fire())
                 .whenBecomesFalse(Feeder.INSTANCE.open());
-
     }
 
 }

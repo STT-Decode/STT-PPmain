@@ -15,22 +15,17 @@ public class Intake implements Subsystem
 
     public Command turnOn()
     {
-        return new ParallelGroup(
-                new SetPower(intake, 1)
-        ).requires(this);
+        return new SetPower(intake, -1).requires(this);
     }
 
     public Command turnOff()
     {
-        return new ParallelGroup(
-                new SetPower(intake, 0)
-        ).requires(this);
+        return
+                new SetPower(intake, 0).requires(this);
     }
 
     public Command setCustomPower(double power)
     {
-        return new ParallelGroup(
-                new SetPower(intake, power)
-        ).requires(this);
+        return new SetPower(intake, power).requires(this);
     }
 }
