@@ -16,7 +16,9 @@ public class Drivetrain
     private DcMotorEx flywheel2;
 
     private DcMotorEx intake;
-    private CRServo servo1;
+    private CRServo overtake_1;
+    private Servo overtake_2;
+    private Servo overtake_3;
 
     private CRServo servo2;
     public void init(HardwareMap map)
@@ -28,8 +30,9 @@ public class Drivetrain
         flywheel1 = map.get(DcMotorEx.class, "flywheel1");
         flywheel2 = map.get(DcMotorEx.class, "flywheel2");
         intake = map.get(DcMotorEx.class, "intake");
-        servo1=map.get(CRServo.class,"servo1");
-        servo2=map.get(CRServo.class,"servo2");
+        overtake_1 = map.get(CRServo.class, "overtake_1");
+        overtake_2 = map.get(Servo.class, "overtake_2");
+        overtake_3 = map.get(Servo.class, "overtake_3");
 
         rf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -61,10 +64,12 @@ public class Drivetrain
         intake.setPower(power);
     }
     public void setServo1(double power){
-        servo1.setPower(power);
+        overtake_1.setPower(power);
     }
-    public void setServo2(double power){
-        servo2.setPower(power);
+    public void setServo2pos(double pos){overtake_2.setPosition(pos);}
+
+    public void setServo3pos(double pos){
+        overtake_3.setPosition(pos);
     }
 
 }
