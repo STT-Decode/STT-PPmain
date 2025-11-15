@@ -3,11 +3,11 @@ package org.firstinspires.ftc.teamcode.Opmodes.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Opmodes.rootOpMode;
-import org.firstinspires.ftc.teamcode.Subsystems.AlignWithAprilTag;
-import org.firstinspires.ftc.teamcode.Subsystems.Feeder;
 import org.firstinspires.ftc.teamcode.Subsystems.Flywheel;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
-import org.firstinspires.ftc.teamcode.Subsystems.Overtake;
+import org.firstinspires.ftc.teamcode.Subsystems.Overtake_1;
+import org.firstinspires.ftc.teamcode.Subsystems.Overtake_2;
+import org.firstinspires.ftc.teamcode.Subsystems.Overtake_3;
 
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.ftc.Gamepads;
@@ -35,25 +35,33 @@ public class CommandDrive extends rootOpMode
         BindingManager.update();
 
         /**Toggles the flywheels between on and whatever value the right trigger gives.*/
-        Gamepads.gamepad1().a().toggleOnBecomesTrue()
-                .whenBecomesTrue((Flywheel.INSTANCE.setCustomPower(0.5)))
-                .whenFalse(() -> Flywheel.INSTANCE.setCustomPower(Gamepads.gamepad1().rightTrigger().get()).schedule());
+        Gamepads.gamepad1().dpadUp().toggleOnBecomesTrue()
+                .whenBecomesTrue((Flywheel.INSTANCE.setCustomPower(1)))
+                .whenBecomesFalse(() -> Flywheel.INSTANCE.setCustomPower(0));
 
+        Gamepads.gamepad1().dpadDown().toggleOnBecomesTrue()
+                .whenBecomesTrue((Flywheel.INSTANCE.setCustomPower(0.9)))
+                .whenBecomesFalse(() -> Flywheel.INSTANCE.setCustomPower(0));
 
         /**Toggles the intake*/
-        Gamepads.gamepad1().b().toggleOnBecomesTrue()
+        Gamepads.gamepad1().dpadRight().toggleOnBecomesTrue()
                 .whenBecomesTrue(Intake.INSTANCE.turnOn())
                 .whenBecomesFalse(Intake.INSTANCE.turnOff());
 
-        /**Toggles the overtake*/
+        /**Toggles the flywheels overtake*/
         Gamepads.gamepad1().x().toggleOnBecomesTrue()
-                .whenBecomesTrue(Overtake.INSTANCE.turnOn())
-                .whenBecomesFalse(Overtake.INSTANCE.turnOff());
+                .whenBecomesTrue(Overtake_1.INSTANCE.turnOn())
+                .whenBecomesFalse(Overtake_1.INSTANCE.turnOff());
 
-        /**Toggles the feeder*/
+        /**Toggles the overtake_2*/
         Gamepads.gamepad1().y().toggleOnBecomesTrue()
-                .whenBecomesTrue(Feeder.INSTANCE.fire())
-                .whenBecomesFalse(Feeder.INSTANCE.open());
+                .whenBecomesTrue(Overtake_2.INSTANCE.feed())
+                .whenBecomesFalse(Overtake_2.INSTANCE.open());
+
+        /**Toggles the overtake_3*/
+        Gamepads.gamepad1().b().toggleOnBecomesTrue()
+                .whenBecomesTrue(Overtake_3.INSTANCE.open())
+                .whenBecomesFalse(Overtake_3.INSTANCE.feed());
     }
 
 }

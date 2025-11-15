@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+;
+
 public class All_Parts
 {
     private DcMotorEx lf;
@@ -14,13 +16,15 @@ public class All_Parts
     private DcMotorEx rb;
     private DcMotorEx flywheel1;
     private DcMotorEx flywheel2;
-    private Servo servo1;
-    private Servo servo2;
+    private CRServo overtake_1;
+    private Servo overtake_2;
+    private Servo overtake_3;
 
     public void init(HardwareMap map)
     {
-        servo1 = map.get(Servo.class, "servo1");
-        servo2 = map.get(Servo.class, "servo2");
+        overtake_1 = map.get(CRServo.class, "overtake_1");
+        overtake_2 = map.get(Servo.class, "overtake_2");
+        overtake_3 = map.get(Servo.class, "overtake_3");
         lf = map.get(DcMotorEx.class, "left_front");
         rf = map.get(DcMotorEx.class, "right_front");
         lb = map.get(DcMotorEx.class, "left_back");
@@ -54,13 +58,16 @@ public class All_Parts
     }
     public void ninjitsu(double power){flywheel1.setPower(power);
         flywheel2.setPower(power);}
-    public void setServo1pos(double pos){
-        servo1.setPosition(pos);
+    public void setServo1pos(double power){
+        overtake_1.setPower(power);
     }
     public void setServo2pos(double pos){
-        servo2.setPosition(pos);
+        overtake_2.setPosition(pos);
     }
 
+    public void setServo3pos(double pos){
+        overtake_3.setPosition(pos);
+    }
 
 
 }

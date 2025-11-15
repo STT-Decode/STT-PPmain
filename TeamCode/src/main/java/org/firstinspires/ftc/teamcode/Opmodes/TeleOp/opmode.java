@@ -30,6 +30,8 @@ public class opmode extends LinearOpMode
         boolean flyWheelToggle = true;
         boolean speedChangeAllowed = true;
         double flyWheelFactor = 1;
+        double servoPos = 0;
+        boolean toggleServoPos = true;
 
         waitForStart();
         if (isStopRequested()) return;
@@ -63,7 +65,25 @@ public class opmode extends LinearOpMode
                 allParts.setLfPower(0);
             }
 
-            telemetry.addData("pos", flywheelFeederPos);
+            if (gamepad1.dpad_left && !toggleServoPos)
+            {
+                servoPos -= 0.02;
+                allParts.setServo2pos(servoPos);
+                toggleServoPos = true;
+            }
+            else if (gamepad1.dpad_right && !toggleServoPos)
+            {
+                servoPos += 0.02;
+                allParts.setServo2pos(servoPos);
+                toggleServoPos = true;
+            }
+            if (!gamepad1.dpad_right && !gamepad1.dpad_left)
+            {
+                toggleServoPos = false;
+            }
+
+            //telemetry.addData("pos", flywheelFeederPos);
+            telemetry.addData("pos", servoPos);
             telemetry.addData("flyWheelSpeed", flyWheelSpeed_2);
             //telemetry.addData("flyWheelSpeed", flyWheelSpeed);
             telemetry.update();
