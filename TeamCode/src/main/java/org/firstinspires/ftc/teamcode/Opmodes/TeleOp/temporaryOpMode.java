@@ -27,11 +27,17 @@ public class temporaryOpMode extends LinearOpMode
         boolean speedChangeAllowed = true;
         double servo1speed=0;
         double servo2speed=0;
+<<<<<<< Updated upstream
         boolean toggleOvertake2 = true;
         boolean toggleOvertake3 = true;
         double overtakePosition2 = 0;
         double overtakePosition3 = 0.6;
 
+=======
+        boolean toggleOvertake2
+        boolean toggleOvertake3
+                double overtakePosition
+>>>>>>> Stashed changes
 
         waitForStart();
         if (isStopRequested()) return;
@@ -81,6 +87,7 @@ public class temporaryOpMode extends LinearOpMode
             {
                 drivetrain.intake(0);
             }
+<<<<<<< Updated upstream
             if (gamepad2.x){servo1speed=1;} else{servo1speed=0;}
             if (gamepad2.y && toggleOvertake2)
             {
@@ -100,6 +107,11 @@ public class temporaryOpMode extends LinearOpMode
             {
                 toggleOvertake3 = true;
             }
+=======
+
+            if (gamepad1.x){servo1speed=1;} else{servo1speed=0;}
+            //if (gamepad1.b){servo2speed=-1;} else{servo2speed=0;}
+>>>>>>> Stashed changes
             drivetrain.setServo1(servo1speed);
             drivetrain.setServo2pos(overtakePosition2);
             drivetrain.setServo3pos(overtakePosition3);
