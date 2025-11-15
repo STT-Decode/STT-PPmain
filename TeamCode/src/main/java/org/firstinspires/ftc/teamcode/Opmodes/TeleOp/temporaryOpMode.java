@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Opmodes.TeleOp;
 
-import static java.lang.Math.abs;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -27,51 +25,33 @@ public class temporaryOpMode extends LinearOpMode
         boolean speedChangeAllowed = true;
         double servo1speed=0;
         double servo2speed=0;
-<<<<<<< Updated upstream
-        boolean toggleOvertake2 = true;
-        boolean toggleOvertake3 = true;
-        double overtakePosition2 = 0;
-        double overtakePosition3 = 0.6;
-
-=======
         boolean toggleOvertake2
         boolean toggleOvertake3
                 double overtakePosition
->>>>>>> Stashed changes
 
         waitForStart();
         if (isStopRequested()) return;
         while (opModeIsActive())
         {
-            if (gamepad1.right_bumper)
-            {
-                y = -gamepad1.left_stick_y * 0.5;
-                x = gamepad1.left_stick_x * 0.5;
-                rotate = -gamepad1.right_stick_x * 0.5;
-            }
-            else
-            {
-                y = -gamepad1.left_stick_y;
-                x = gamepad1.left_stick_x;
-                rotate = -gamepad1.right_stick_x * 0.7;
-            }
-
-            if (gamepad2.right_bumper && speedChangeAllowed)
+            y = gamepad1.left_stick_y;
+            x = gamepad1.left_stick_x;
+            rotate = gamepad1.right_stick_x;
+            if (gamepad1.right_bumper && speedChangeAllowed)
             {
                 flyWheelSpeed_2 += 0.02;
                 speedChangeAllowed = false;
             }
-            if (gamepad2.left_bumper && speedChangeAllowed)
+            if (gamepad1.left_bumper && speedChangeAllowed)
             {
                 flyWheelSpeed_2 -= 0.02;
                 speedChangeAllowed = false;
             }
-            if (!gamepad2.left_bumper && !gamepad2.right_bumper)
+            if (!gamepad1.left_bumper && !gamepad1.right_bumper)
             {
                 speedChangeAllowed = true;
             }
 
-            if (gamepad2.dpad_up)
+            if (gamepad1.dpad_up)
             {
                 drivetrain.flywheels(flyWheelSpeed_2);
             }
@@ -79,46 +59,21 @@ public class temporaryOpMode extends LinearOpMode
             {
                 drivetrain.flywheels(0);
             }
-            if (gamepad2.dpad_down)
+            if (gamepad1.dpad_down)
             {
-                drivetrain.intake(1);
+                drivetrain.intake(-1);
             }
             else
             {
                 drivetrain.intake(0);
             }
-<<<<<<< Updated upstream
-            if (gamepad2.x){servo1speed=1;} else{servo1speed=0;}
-            if (gamepad2.y && toggleOvertake2)
-            {
-                overtakePosition2 = -overtakePosition2 + 0.4;
-                toggleOvertake2 = false;
-            }
-            if (!gamepad2.y)
-            {
-                toggleOvertake2 = true;
-            }
-            if (gamepad2.b && toggleOvertake3)
-            {
-                overtakePosition3 = -overtakePosition3 + 0.6;
-                toggleOvertake3 = false;
-            }
-            if (!gamepad2.b)
-            {
-                toggleOvertake3 = true;
-            }
-=======
 
             if (gamepad1.x){servo1speed=1;} else{servo1speed=0;}
             //if (gamepad1.b){servo2speed=-1;} else{servo2speed=0;}
->>>>>>> Stashed changes
             drivetrain.setServo1(servo1speed);
-            drivetrain.setServo2pos(overtakePosition2);
-            drivetrain.setServo3pos(overtakePosition3);
+            drivetrain.setServo2(servo2speed);
             drivetrain.drive0(y, x, rotate, 1);
             telemetry.addData("flyWheelSpeed", flyWheelSpeed_2);
-            telemetry.addData("overtakePosition2", overtakePosition2);
-            telemetry.addData("overtakePosition3", overtakePosition3);
             telemetry.update();
         }
 
