@@ -26,11 +26,12 @@ public class AlignWithAprilTag extends Command
     private final MotorEx frontRight;
     private VisionPortal visionPortal;
     private int id;
+    Size camSize;
 
     /**
      * Aims the robot to a April Tag, used for scoring for example
      *
-     * @param id               the ID of the April Tag to aim at. -1 works if there is only one April Tag visible, else it will return exit code 1
+     * @param id the ID of the April Tag to aim at. -1 works if there is only one April Tag visible, else it will return exit code 1
      */
     public AlignWithAprilTag(HardwareMap hardwareMap, int id, MotorEx bl, MotorEx fl, MotorEx br, MotorEx fr)
     {
@@ -44,10 +45,12 @@ public class AlignWithAprilTag extends Command
 
         // Create the vision portal the easy way.
 
+        camSize = new Size(640, 480);
+
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "webcam"))
                 .addProcessor(aprilTag)
-                .setCameraResolution(new Size(320, 240))
+                .setCameraResolution(camSize)
                 .setStreamFormat(VisionPortal.StreamFormat.YUY2)
                 .setAutoStopLiveView(true)
                 .build();
@@ -60,17 +63,22 @@ public class AlignWithAprilTag extends Command
     {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
 
-        // Step through the list of detections and display info for each one.
-        for (AprilTagDetection detection : currentDetections) {
-            if ((Math.abs(detection.center.x - 160) > 10) && ((detection.id == this.id) || (this.id == -1)))
-            {
-                double factor = (detection.center.x - 160) / Math.abs(detection.center.x - 160);
-                backLeft.setPower(0.5 * factor);
-                frontLeft.setPower(  0.5 * factor);
-                frontRight.setPower(0.5 * factor);
-                backRight.setPower(0.5 * factor);
-                break;
-            }
+        for (AprilTagDetection detection : currentDetections)
+        {
+            double rotation = (detection.center.x - ((double) camSize.getWidth() / 2)) / camSize.getWidth();
+            backLeft.setPower(0.3 * rotation);
+            frontLeft.setPower(0.3 * rotation);
+            frontRight.setPower(-0.3 * rotation);
+            backRight.setPower(-0.3 * rotation);
+            break;
+        }
+
+        if (currentDetections.isEmpty())
+        {
+            backLeft.setPower(0);
+            backRight.setPower(0);
+            frontRight.setPower(0);
+            frontLeft.setPower(0);
         }
 
     }
@@ -80,14 +88,15 @@ public class AlignWithAprilTag extends Command
     {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
 
-        for (AprilTagDetection detection : currentDetections) {
-            if ((Math.abs(detection.center.x - 160) < 10) && ((detection.id == this.id) || (this.id == -1)))
+        for (AprilTagDetection detection : currentDetections)
+        {
+            if ((Math.abs(detection.center.x - ((double) camSize.getWidth() / 2)) < 30) && ((detection.id == this.id) || (this.id == -1)))
             {
                 return true;
             }
         }
 
-        return currentDetections.isEmpty();
+        return false;
     }
 
     @Override
@@ -97,5 +106,16 @@ public class AlignWithAprilTag extends Command
         frontLeft.setPower(0);
         frontRight.setPower(0);
         backRight.setPower(0);
+    }
+
+    @Override
+    public void start()
+    {
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+
+        if (currentDetections.isEmpty())
+        {
+            stop(false);
+        }
     }
 }

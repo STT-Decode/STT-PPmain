@@ -36,18 +36,17 @@ public class CommandDrive extends rootOpMode
         BindingManager.update();
 
         /**Toggles the flywheels between on and whatever value the right trigger gives.*/
-        Gamepads.gamepad1().dpadUp().toggleOnBecomesTrue()
-                .whenBecomesTrue((Flywheel.INSTANCE.setCustomPower(1)))
-                .whenBecomesFalse(() -> Flywheel.INSTANCE.setCustomPower(0));
 
         Gamepads.gamepad1().dpadDown().toggleOnBecomesTrue()
-                .whenBecomesTrue((Flywheel.INSTANCE.setCustomPower(0.9)))
-                .whenBecomesFalse(() -> Flywheel.INSTANCE.setCustomPower(0));
+                .whenBecomesTrue((Flywheel.INSTANCE.setCustomPower(1)))
+                .whenBecomesFalse(() -> Flywheel.INSTANCE.setCustomPower(Gamepads.gamepad1().rightTrigger().get()));
 
         /**Toggles the intake*/
         Gamepads.gamepad1().dpadRight().toggleOnBecomesTrue()
                 .whenBecomesTrue(Intake.INSTANCE.turnOn())
                 .whenBecomesFalse(Intake.INSTANCE.turnOff());
+
+        //TODO: Rename overtake instances (or combine into one big instance)
 
         /**Toggles the flywheels overtake*/
         Gamepads.gamepad1().x().toggleOnBecomesTrue()
@@ -65,8 +64,8 @@ public class CommandDrive extends rootOpMode
                 .whenBecomesFalse(Overtake_3.INSTANCE.feed());
 
 
-        Command alignwapriltag = new AlignWithAprilTag(hardwareMap, -1, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
-        Gamepads.gamepad1().a().whenBecomesTrue(alignwapriltag);
+        Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, -1, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
+        Gamepads.gamepad1().a().whenBecomesTrue(alignWithAprilTag);
     }
 
 }

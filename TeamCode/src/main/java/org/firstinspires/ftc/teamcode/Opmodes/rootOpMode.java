@@ -30,6 +30,7 @@ public class rootOpMode extends NextFTCOpMode
         );
     }
 
+    //TODO: update reverse motors
     protected final MotorEx frontLeftMotor = new MotorEx("left_front");
     protected final MotorEx frontRightMotor = new MotorEx("right_front").reversed();
     protected final MotorEx backLeftMotor = new MotorEx("left_back");
