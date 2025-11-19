@@ -57,8 +57,8 @@ public class Drivetrain
 
     public void flywheels(double velocity)
     {
-        flywheel1.setPower(velocity);
-        flywheel2.setPower(-velocity);
+        flywheel1.setVelocity(velocity);
+        flywheel2.setVelocity(-velocity);
     }
 
     public void intake(double power)

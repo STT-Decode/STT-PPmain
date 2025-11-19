@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.RobotParts.All_Parts;
+import org.firstinspires.ftc.teamcode.RobotParts.Drivetrain;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -30,12 +31,14 @@ public class AprilTagTest extends LinearOpMode {
      */
     private VisionPortal visionPortal;
     All_Parts allParts = new All_Parts();
+    Drivetrain drivetrain  = new Drivetrain();
 
     @Override
     public void runOpMode() {
 
         initAprilTag();
         allParts.init(hardwareMap);
+        drivetrain.init(hardwareMap);
         // Wait for the DS start button to be touched.
         telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
         telemetry.addData(">", "Touch START to start OpMode");
@@ -80,7 +83,7 @@ public class AprilTagTest extends LinearOpMode {
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "webcam"))
                 .addProcessor(aprilTag)
-                .setCameraResolution(new Size(320, 240))
+                .setCameraResolution(new Size(640, 480))
                 .setStreamFormat(VisionPortal.StreamFormat.YUY2)
                 .setAutoStopLiveView(true)
                 .build();
@@ -121,14 +124,15 @@ public class AprilTagTest extends LinearOpMode {
 
             telemetry.addLine("X center offset: " + (detection.center.x - 160));
 
-            if ((Math.abs(detection.center.x - 160) > 100) && (detection.id == 23)) {
-                allParts.drive0(0, 0, -(detection.center.x - 160) / 160, 1);
+            if ((Math.abs(detection.center.x - 320) > 60)) {
+                allParts.drive0(0, 0, -(detection.center.x - 320) / 320, 1);
             }else{
                 allParts.drive0(0, 0, 0, 0);
+                drivetrain.flywheels(1);
             }
         }
         if (currentDetections.isEmpty()){
-            allParts.drive0(0, 0, 1, 0.3);
+            allParts.drive0(0, 0, 0, 0);
         }
     }   // end method telemetryAprilTag()
 

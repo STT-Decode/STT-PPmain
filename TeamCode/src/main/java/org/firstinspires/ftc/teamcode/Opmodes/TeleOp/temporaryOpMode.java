@@ -24,7 +24,7 @@ public class temporaryOpMode extends LinearOpMode
         double rotate;
         double flywheelFeederPos = 0;
         double flyWheelSpeed_2 = 0.9;
-        double flywheelVelocity = 10;
+        double flywheelVelocity = 2400;
         boolean speedChangeAllowed = true;
         double servo1speed=0;
         double servo2speed=0;
@@ -53,12 +53,12 @@ public class temporaryOpMode extends LinearOpMode
 
             if (gamepad2.right_bumper && speedChangeAllowed)
             {
-                flywheelVelocity += 1;
+                flywheelVelocity += 100;
                 speedChangeAllowed = false;
             }
             if (gamepad2.left_bumper && speedChangeAllowed)
             {
-                flywheelVelocity -= 1;
+                flywheelVelocity -= 100;
                 speedChangeAllowed = false;
             }
             if (!gamepad2.left_bumper && !gamepad2.right_bumper)
@@ -105,8 +105,7 @@ public class temporaryOpMode extends LinearOpMode
             drivetrain.setServo2pos(overtakePosition2);
             drivetrain.setServo3pos(overtakePosition3);
             drivetrain.drive0(y, x, rotate, 1);
-            telemetry.addData("flywheelVelocity in RPS", flywheelVelocity);
-            telemetry.addData("flywheelVelocity in RPM", flywheelVelocity * 60);
+            telemetry.addData("flywheelVelocity", flywheelVelocity);
             telemetry.addData("overtakePosition2", overtakePosition2);
             telemetry.addData("overtakePosition3", overtakePosition3);
             telemetry.update();

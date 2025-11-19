@@ -65,8 +65,8 @@ public class AlignWithAprilTag extends Command
             if ((Math.abs(detection.center.x - 160) > 10) && ((detection.id == this.id) || (this.id == -1)))
             {
                 double factor = (detection.center.x - 160) / Math.abs(detection.center.x - 160);
-                backLeft.setPower(-0.5 * factor);
-                frontLeft.setPower(-0.5 * factor);
+                backLeft.setPower(0.5 * factor);
+                frontLeft.setPower(  0.5 * factor);
                 frontRight.setPower(0.5 * factor);
                 backRight.setPower(0.5 * factor);
                 break;
