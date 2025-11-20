@@ -5,10 +5,10 @@ import dev.nextftc.core.subsystems.Subsystem;
 import dev.nextftc.hardware.impl.CRServoEx;
 import dev.nextftc.hardware.powerable.SetPower;
 
-public class Overtake_1 implements Subsystem
+public class Overtake implements Subsystem
 {
-    public static final Overtake_1 INSTANCE = new Overtake_1();
-    private Overtake_1() { }
+    public static final Overtake INSTANCE = new Overtake();
+    private Overtake() { }
 
     private CRServoEx overtake_1 = new CRServoEx("overtake_1");
 
