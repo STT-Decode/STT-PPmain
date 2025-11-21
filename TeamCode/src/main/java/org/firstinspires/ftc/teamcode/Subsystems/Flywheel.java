@@ -17,8 +17,8 @@ public class Flywheel implements Subsystem
     public Command turnOn()
     {
         return new ParallelGroup(
-                new SetPower(flywheel2, 0.8),
-                new SetPower(flywheel1, 0.8)
+                new SetPower(flywheel2, -1),
+                new SetPower(flywheel1, -1)
         ).requires(this);
     }
 

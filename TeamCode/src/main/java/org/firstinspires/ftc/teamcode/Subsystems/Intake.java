@@ -15,7 +15,7 @@ public class Intake implements Subsystem
 
     public Command turnOn()
     {
-        return new SetPower(intake, -1).requires(this);
+        return new SetPower(intake, 1).requires(this);
     }
 
     public Command turnOff()
