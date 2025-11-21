@@ -38,16 +38,16 @@ public class ScrimmageAutonomous extends LinearOpMode
             }
             if (passedTime < 1250 && passedTime > 500)
             {
-                Drivetrain.setServo3pos(0);
+                //Drivetrain.setServo3pos(0);
             }
             else if (passedTime < 2000)
             {
-                Drivetrain.setServo2pos(0.4);
+                //Drivetrain.setServo2pos(0.4);
             }
             else if (passedTime < 3750)
             {
-                Drivetrain.setServo3pos(0.6);
-                Drivetrain.setServo2pos(0);
+                //Drivetrain.setServo3pos(0.6);
+                //Drivetrain.setServo2pos(0);
             }
         }
     }

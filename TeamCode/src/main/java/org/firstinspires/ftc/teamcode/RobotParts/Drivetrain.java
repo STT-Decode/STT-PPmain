@@ -24,7 +24,7 @@ public class Drivetrain
         flywheel1 = map.get(DcMotorEx.class, "flywheel1");
         flywheel2 = map.get(DcMotorEx.class, "flywheel2");
         intake = map.get(DcMotorEx.class, "intake");
-        overtake = map.get(DcMotorEx.class, "overtake_1");
+        overtake = map.get(DcMotorEx.class, "overtake" + "");
 
         rf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -49,15 +49,15 @@ public class Drivetrain
 
     public void flywheels(double velocity)
     {
-        flywheel1.setVelocity(velocity);
-        flywheel2.setVelocity(-velocity);
+        flywheel1.setVelocity(-velocity);
+        flywheel2.setVelocity(velocity);
     }
 
     public void intake(double power)
     {
         intake.setPower(power);
     }
-    public void overtake(double power){overtake.setPower(power);}
+    public void overtake(double power){overtake.setPower(-power);}
 
 
 }
