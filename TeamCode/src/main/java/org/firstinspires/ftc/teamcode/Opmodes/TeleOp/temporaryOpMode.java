@@ -22,16 +22,11 @@ public class temporaryOpMode extends LinearOpMode
         double y;
         double x;
         double rotate;
-        double flywheelFeederPos = 0;
-        double flyWheelSpeed_2 = 0.9;
         double flywheelVelocity = 2400;
         boolean speedChangeAllowed = true;
-        double servo1speed=0;
-        double servo2speed=0;
-        boolean toggleOvertake2 = true;
-        boolean toggleOvertake3 = true;
         double overtakePosition2 = 0;
         double overtakePosition3 = 0.6;
+        double overtakeSpeed = 0;
 
 
         waitForStart();
@@ -82,28 +77,8 @@ public class temporaryOpMode extends LinearOpMode
             {
                 drivetrain.intake(0);
             }
-            if (gamepad2.x){servo1speed=1;} else{servo1speed=0;}
-            if (gamepad2.y && toggleOvertake2)
-            {
-                overtakePosition2 = -overtakePosition2 + 0.4;
-                toggleOvertake2 = false;
-            }
-            if (!gamepad2.y)
-            {
-                toggleOvertake2 = true;
-            }
-            if (gamepad2.b && toggleOvertake3)
-            {
-                overtakePosition3 = -overtakePosition3 + 0.6;
-                toggleOvertake3 = false;
-            }
-            if (!gamepad2.b)
-            {
-                toggleOvertake3 = true;
-            }
-            drivetrain.setServo1(servo1speed);
-            drivetrain.setServo2pos(overtakePosition2);
-            drivetrain.setServo3pos(overtakePosition3);
+            if (gamepad2.x){overtakeSpeed=1;} else{overtakeSpeed=0;}
+            drivetrain.overtake(overtakeSpeed);
             drivetrain.drive0(y, x, rotate, 1);
             telemetry.addData("flywheelVelocity", flywheelVelocity);
             telemetry.addData("overtakePosition2", overtakePosition2);

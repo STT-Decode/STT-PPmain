@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode.RobotParts;
 
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 public class Drivetrain
 {
@@ -14,13 +12,9 @@ public class Drivetrain
     private DcMotorEx rb;
     private DcMotorEx flywheel1;
     private DcMotorEx flywheel2;
-
     private DcMotorEx intake;
-    private CRServo overtake_1;
-    private Servo overtake_2;
-    private Servo overtake_3;
+    private DcMotorEx overtake;
 
-    private CRServo servo2;
     public void init(HardwareMap map)
     {
         lf = map.get(DcMotorEx.class, "left_front");
@@ -30,9 +24,7 @@ public class Drivetrain
         flywheel1 = map.get(DcMotorEx.class, "flywheel1");
         flywheel2 = map.get(DcMotorEx.class, "flywheel2");
         intake = map.get(DcMotorEx.class, "intake");
-        overtake_1 = map.get(CRServo.class, "overtake_1");
-        overtake_2 = map.get(Servo.class, "overtake_2");
-        overtake_3 = map.get(Servo.class, "overtake_3");
+        overtake = map.get(DcMotorEx.class, "overtake_1");
 
         rf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -65,13 +57,7 @@ public class Drivetrain
     {
         intake.setPower(power);
     }
-    public void setServo1(double power){
-        overtake_1.setPower(power);
-    }
-    public void setServo2pos(double pos){overtake_2.setPosition(pos);}
+    public void overtake(double power){overtake.setPower(power);}
 
-    public void setServo3pos(double pos){
-        overtake_3.setPosition(pos);
-    }
 
 }
