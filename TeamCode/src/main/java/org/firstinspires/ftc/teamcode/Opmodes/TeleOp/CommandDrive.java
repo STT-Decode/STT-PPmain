@@ -50,7 +50,7 @@ public class CommandDrive extends rootOpMode
                 .whenBecomesFalse(Overtake.INSTANCE.turnOff());
 
         Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, -1, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
-        Gamepads.gamepad1().a().whenBecomesTrue(alignWithAprilTag);
+        Gamepads.gamepad1().y().whenBecomesTrue(alignWithAprilTag);
     }
 
 }

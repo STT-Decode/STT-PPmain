@@ -65,11 +65,11 @@ public class AlignWithAprilTag extends Command
 
         for (AprilTagDetection detection : currentDetections)
         {
-            double rotation = (detection.center.x - ((double) camSize.getWidth() / 2)) / camSize.getWidth();
-            backLeft.setPower(0.3 * rotation);
-            frontLeft.setPower(0.3 * rotation);
-            frontRight.setPower(-0.3 * rotation);
-            backRight.setPower(-0.3 * rotation);
+            double rotation = (detection.center.x - ((double) camSize.getWidth() / 2)) / camSize.getWidth() * 2;
+            backLeft.setPower(0.7 * rotation);
+            frontLeft.setPower(0.7 * rotation);
+            frontRight.setPower(-0.7 * rotation);
+            backRight.setPower(-0.7 * rotation);
             break;
         }
 
