@@ -28,10 +28,10 @@ public class CommandDrive extends rootOpMode
                 backRightMotor,
                 Gamepads.gamepad1().leftStickY(),
                 Gamepads.gamepad1().leftStickX().negate(),
-                Gamepads.gamepad1().rightStickX()
+                Gamepads.gamepad1().rightStickX().negate()
         );
 
-        driverControlled.schedule();;
+        driverControlled.schedule();
         BindingManager.update();
 
         /**Toggles the flywheels between on and off.*/
