@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
 import android.util.Size;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -24,8 +22,8 @@ public class AlignWithAprilTag extends Command
     private final MotorEx frontLeft;
     private final MotorEx backRight;
     private final MotorEx frontRight;
-    private VisionPortal visionPortal;
-    private int id;
+    private final VisionPortal visionPortal;
+    private final int id;
     Size camSize;
 
     /**

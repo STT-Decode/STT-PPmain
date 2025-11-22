@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import dev.nextftc.control.ControlSystem;
 import dev.nextftc.core.commands.groups.ParallelGroup;
 import dev.nextftc.core.subsystems.Subsystem;
+import dev.nextftc.hardware.controllable.RunToVelocity;
 import dev.nextftc.hardware.impl.MotorEx;
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.hardware.powerable.SetPower;
@@ -9,25 +11,32 @@ import dev.nextftc.hardware.powerable.SetPower;
 public class Flywheel implements Subsystem
 {
     public static final Flywheel INSTANCE = new Flywheel();
-    private Flywheel() { }
 
-    private MotorEx flywheel1 = new MotorEx("flywheel1");
-    private MotorEx flywheel2 = new MotorEx("flywheel2").reversed();
+    private Flywheel()
+    {
+    }
+
+    private final MotorEx flywheel1 = new MotorEx("flywheel1");
+    private final MotorEx flywheel2 = new MotorEx("flywheel2").reversed();
+    private final ControlSystem controlSystem = ControlSystem.builder().build();
+
+    @Override
+    public void periodic()
+    {
+        flywheel1.setPower(controlSystem.calculate(flywheel1.getState()));
+        flywheel2.setPower(controlSystem.calculate(flywheel2.getState()));
+    }
 
     public Command turnOn()
     {
-        return new ParallelGroup(
-                new SetPower(flywheel2, -1),
-                new SetPower(flywheel1, -1)
-        ).requires(this);
+        return new RunToVelocity(controlSystem, 2400)
+                .requires(this);
     }
 
     public Command turnOff()
     {
-        return new ParallelGroup(
-                new SetPower(flywheel1, 0),
-                new SetPower(flywheel2, 0)
-        ).requires(this);
+        return new RunToVelocity(controlSystem, 0)
+                .requires(this);
     }
 
     public Command setCustomPower(double power)

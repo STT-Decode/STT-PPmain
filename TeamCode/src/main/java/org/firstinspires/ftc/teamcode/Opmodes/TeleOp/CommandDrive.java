@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.Overtake;
 
 import dev.nextftc.core.commands.Command;
-import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.ftc.Gamepads;
 import dev.nextftc.hardware.driving.MecanumDriverControlled;
 import dev.nextftc.bindings.BindingManager;
@@ -34,17 +33,17 @@ public class CommandDrive extends rootOpMode
         driverControlled.schedule();
         BindingManager.update();
 
-        /**Toggles the flywheels between on and off.*/
+        /*Toggles the flywheels between on and off.*/
         Gamepads.gamepad1().b().toggleOnBecomesTrue()
                 .whenBecomesTrue(Flywheel.INSTANCE.turnOn())
                 .whenBecomesFalse(Flywheel.INSTANCE.turnOff());
 
-        /**Toggles the intake*/
+        /*Toggles the intake*/
         Gamepads.gamepad1().a().toggleOnBecomesTrue()
                 .whenBecomesTrue(Intake.INSTANCE.turnOn())
                 .whenBecomesFalse(Intake.INSTANCE.turnOff());
 
-        /**Toggles the overtake*/
+        /*Toggles the overtake*/
         Gamepads.gamepad1().x().toggleOnBecomesTrue()
                 .whenBecomesTrue(Overtake.INSTANCE.turnOn())
                 .whenBecomesFalse(Overtake.INSTANCE.turnOff());
