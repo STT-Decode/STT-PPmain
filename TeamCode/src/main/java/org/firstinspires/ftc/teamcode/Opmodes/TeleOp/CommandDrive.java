@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Opmodes.TeleOp;
 
+import android.util.Range;
+
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Opmodes.rootOpMode;
@@ -7,6 +9,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.AlignWithAprilTag;
 import org.firstinspires.ftc.teamcode.Subsystems.Flywheel;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.Overtake;
+
+import java.util.Map;
 
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.ftc.Gamepads;
@@ -27,7 +31,7 @@ public class CommandDrive extends rootOpMode
                 backRightMotor,
                 Gamepads.gamepad1().leftStickY(),
                 Gamepads.gamepad1().leftStickX().negate(),
-                Gamepads.gamepad1().rightStickX().negate()
+                Gamepads.gamepad1().rightStickX().negate().mapToRange(value -> value * 0.7)
         );
 
         driverControlled.schedule();
