@@ -2,7 +2,9 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import dev.nextftc.control.ControlSystem;
 import dev.nextftc.core.commands.groups.ParallelGroup;
+import dev.nextftc.core.commands.utility.LambdaCommand;
 import dev.nextftc.core.subsystems.Subsystem;
+import dev.nextftc.ftc.ActiveOpMode;
 import dev.nextftc.hardware.controllable.RunToVelocity;
 import dev.nextftc.hardware.impl.MotorEx;
 import dev.nextftc.core.commands.Command;
@@ -19,18 +21,27 @@ public class Flywheel implements Subsystem
     private final MotorEx flywheel1 = new MotorEx("flywheel1");
     private final MotorEx flywheel2 = new MotorEx("flywheel2").reversed();
     private final ControlSystem controlSystem = ControlSystem.builder().build();
+    double FlyWheelVelocity = 2400;
 
     @Override
     public void periodic()
     {
         flywheel1.setPower(controlSystem.calculate(flywheel1.getState()));
         flywheel2.setPower(controlSystem.calculate(flywheel2.getState()));
+        ActiveOpMode.telemetry().addData("FlyWheelVelocity", FlyWheelVelocity);
     }
 
     public Command turnOn()
     {
-        return new RunToVelocity(controlSystem, 2400)
+        return new RunToVelocity(controlSystem, FlyWheelVelocity)
                 .requires(this);
+    }
+
+    public Command ChangeFlyWheelVelocity(double Change)
+    {
+        return new LambdaCommand()
+                .setStart (() -> FlyWheelVelocity += Change
+        );
     }
 
     public Command turnOff()

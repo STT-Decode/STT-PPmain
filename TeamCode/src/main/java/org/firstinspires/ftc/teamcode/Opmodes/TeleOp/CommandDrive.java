@@ -37,20 +37,24 @@ public class CommandDrive extends rootOpMode
         driverControlled.schedule();
         BindingManager.update();
 
-        /*Toggles the flywheels between on and off.*/
+        //Toggles the flywheels
         Gamepads.gamepad1().b().toggleOnBecomesTrue()
                 .whenBecomesTrue(Flywheel.INSTANCE.turnOn())
                 .whenBecomesFalse(Flywheel.INSTANCE.turnOff());
 
-        /*Toggles the intake*/
+        //Toggles the intake
         Gamepads.gamepad1().a().toggleOnBecomesTrue()
                 .whenBecomesTrue(Intake.INSTANCE.turnOn())
                 .whenBecomesFalse(Intake.INSTANCE.turnOff());
 
-        /*Toggles the overtake*/
+        //Toggles the Overtake
         Gamepads.gamepad1().x().toggleOnBecomesTrue()
                 .whenBecomesTrue(Overtake.INSTANCE.turnOn())
                 .whenBecomesFalse(Overtake.INSTANCE.turnOff());
+
+        //Used for tuning the flywheelVelocity
+        Gamepads.gamepad1().rightBumper().whenBecomesTrue(Flywheel.INSTANCE.ChangeFlyWheelVelocity(50));
+        Gamepads.gamepad1().rightBumper().whenBecomesTrue(Flywheel.INSTANCE.ChangeFlyWheelVelocity(-50));
 
         Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, -1, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
         Gamepads.gamepad1().y().whenBecomesTrue(alignWithAprilTag);
