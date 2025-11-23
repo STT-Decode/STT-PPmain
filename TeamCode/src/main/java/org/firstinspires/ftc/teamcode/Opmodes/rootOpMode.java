@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Opmodes;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.teamcode.Subsystems.Overtake;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.Subsystems.Feeder;
@@ -30,6 +32,7 @@ public class rootOpMode extends NextFTCOpMode
     protected final MotorEx backLeftMotor = new MotorEx("left_back").reversed();
     protected final MotorEx backRightMotor = new MotorEx("right_back").reversed();
 
+    protected ElapsedTime runtime = new ElapsedTime();
 
 
 }
