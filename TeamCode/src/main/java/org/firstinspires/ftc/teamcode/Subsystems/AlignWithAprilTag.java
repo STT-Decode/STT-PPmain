@@ -64,10 +64,19 @@ public class AlignWithAprilTag extends Command
         for (AprilTagDetection detection : currentDetections)
         {
             double rotation = (detection.center.x - ((double) camSize.getWidth() / 2)) / camSize.getWidth() * 2;
-            backLeft.setPower(0.7 * rotation);
-            frontLeft.setPower(0.7 * rotation);
-            frontRight.setPower(-0.7 * rotation);
-            backRight.setPower(-0.7 * rotation);
+            if (rotation > 0.1)
+            {
+                backLeft.setPower(0.7 * rotation);
+                frontLeft.setPower(0.7 * rotation);
+                frontRight.setPower(-0.7 * rotation);
+                backRight.setPower(-0.7 * rotation);
+            } else
+            {
+                backLeft.setPower(0);
+                backRight.setPower(0);
+                frontRight.setPower(0);
+                frontLeft.setPower(0);
+            }
             break;
         }
 
@@ -88,7 +97,7 @@ public class AlignWithAprilTag extends Command
 
         for (AprilTagDetection detection : currentDetections)
         {
-            if ((Math.abs(detection.center.x - ((double) camSize.getWidth() / 2)) < 30) && ((detection.id == this.id) || (this.id == -1)))
+            if ((Math.abs(detection.center.x - ((double) camSize.getWidth() / 2)) < 20) && ((detection.id == this.id) || (this.id == -1)))
             {
                 return true;
             }
