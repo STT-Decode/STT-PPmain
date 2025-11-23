@@ -21,7 +21,7 @@ public class Overtake implements Subsystem
     {
         return new ParallelGroup(
                 new SetPower(overtakeMotor, -1),
-                new SetPower(overtakeServo, -1));
+                new SetPower(overtakeServo, 1));
     }
 
     public Command turnOff()

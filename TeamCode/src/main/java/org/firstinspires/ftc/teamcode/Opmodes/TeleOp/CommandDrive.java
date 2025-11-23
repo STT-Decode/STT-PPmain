@@ -34,6 +34,7 @@ public class CommandDrive extends rootOpMode
                 Gamepads.gamepad1().rightStickX().negate().mapToRange(value -> value * 0.7)
         );
 
+        BindingManager.update();
         driverControlled.schedule();
         BindingManager.update();
 
@@ -51,10 +52,6 @@ public class CommandDrive extends rootOpMode
         Gamepads.gamepad1().x().toggleOnBecomesTrue()
                 .whenBecomesTrue(Overtake.INSTANCE.turnOn())
                 .whenBecomesFalse(Overtake.INSTANCE.turnOff());
-
-        //Used for tuning the flywheelVelocity
-        Gamepads.gamepad1().rightBumper().whenBecomesTrue(Flywheel.INSTANCE.ChangeFlyWheelVelocity(50));
-        Gamepads.gamepad1().rightBumper().whenBecomesTrue(Flywheel.INSTANCE.ChangeFlyWheelVelocity(-50));
 
         Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, -1, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
         Gamepads.gamepad1().b().whenBecomesTrue(alignWithAprilTag);

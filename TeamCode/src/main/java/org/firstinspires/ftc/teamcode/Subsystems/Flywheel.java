@@ -23,31 +23,19 @@ public class Flywheel implements Subsystem
     private final ControlSystem controlSystem = ControlSystem.builder().build();
     double FlyWheelVelocity = 2400;
 
-    @Override
-    public void periodic()
-    {
-        flywheel1.setPower(controlSystem.calculate(flywheel1.getState()));
-        flywheel2.setPower(controlSystem.calculate(flywheel2.getState()));
-        ActiveOpMode.telemetry().addData("FlyWheelVelocity", FlyWheelVelocity);
-    }
-
     public Command turnOn()
     {
-        return new RunToVelocity(controlSystem, FlyWheelVelocity)
-                .requires(this);
+        return new ParallelGroup(
+                new SetPower(flywheel1, -0.975).requires(this),
+                new SetPower(flywheel2, -0.975).requires(this));
     }
 
-    public Command ChangeFlyWheelVelocity(double Change)
-    {
-        return new LambdaCommand()
-                .setStart (() -> FlyWheelVelocity += Change
-        );
-    }
 
     public Command turnOff()
     {
-        return new RunToVelocity(controlSystem, 0)
-                .requires(this);
+        return new ParallelGroup(
+                new SetPower(flywheel1, 0).requires(this),
+                new SetPower(flywheel2, 0).requires(this));
     }
 
     public Command setCustomPower(double power)

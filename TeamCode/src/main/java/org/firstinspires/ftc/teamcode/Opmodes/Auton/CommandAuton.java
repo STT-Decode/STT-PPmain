@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.Opmodes.Auton;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
 import org.firstinspires.ftc.teamcode.Opmodes.rootOpMode;
 
+@Autonomous(name = "CommandAuton")
 public class CommandAuton extends rootOpMode
 {
     @Override
@@ -15,8 +18,8 @@ public class CommandAuton extends rootOpMode
 
             if (time < 700)
             {
-                backLeftMotor.setPower(-0.6);
-                frontLeftMotor.setPower(-0.6);
+                backLeftMotor.setPower(0.6);
+                frontLeftMotor.setPower(0.6);
                 frontRightMotor.setPower(0.6);
                 backRightMotor.setPower(0.6);
             } else
