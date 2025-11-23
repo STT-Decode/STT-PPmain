@@ -20,14 +20,12 @@ public class Flywheel implements Subsystem
 
     private final MotorEx flywheel1 = new MotorEx("flywheel1");
     private final MotorEx flywheel2 = new MotorEx("flywheel2").reversed();
-    private final ControlSystem controlSystem = ControlSystem.builder().build();
-    double FlyWheelVelocity = 2400;
 
     public Command turnOn()
     {
         return new ParallelGroup(
-                new SetPower(flywheel1, -0.975).requires(this),
-                new SetPower(flywheel2, -0.975).requires(this));
+                new SetPower(flywheel1, -0.965).requires(this),
+                new SetPower(flywheel2, -0.965).requires(this));
     }
 
 

@@ -20,7 +20,7 @@ public class ScrimmageAutonomous extends LinearOpMode
         while (opModeIsActive())
         {
             passedTime = runtime.milliseconds() - startuptime;
-            if (passedTime > 3000 && passedTime < 3500)
+            if (passedTime > 4000 && passedTime < 4500)
             {
                 Drivetrain.drive0(1,0,0,1);
             }
@@ -30,24 +30,29 @@ public class ScrimmageAutonomous extends LinearOpMode
             }
             if (passedTime < 2500)
             {
-                Drivetrain.flywheels(0.98);
+                Drivetrain.flywheels(0.96);
             }
             else
             {
                 Drivetrain.flywheels(0);
             }
-            if (passedTime < 1250 && passedTime > 500)
+            if (passedTime < 2000 && passedTime > 500)
             {
-                //Drivetrain.setServo3pos(0);
+                Drivetrain.servoOvertake(1);
+                Drivetrain.overtake(-1);
+                Drivetrain.intake(1);
             }
-            else if (passedTime < 2000)
+            else if (passedTime < 4000)
             {
-                //Drivetrain.setServo2pos(0.4);
+                Drivetrain.servoOvertake(1);
+                Drivetrain.overtake(-1);
+                Drivetrain.intake(0);
             }
-            else if (passedTime < 3750)
+            else
             {
-                //Drivetrain.setServo3pos(0.6);
-                //Drivetrain.setServo2pos(0);
+                Drivetrain.servoOvertake(0);
+                Drivetrain.overtake(0);
+                Drivetrain.intake(0);
             }
         }
     }

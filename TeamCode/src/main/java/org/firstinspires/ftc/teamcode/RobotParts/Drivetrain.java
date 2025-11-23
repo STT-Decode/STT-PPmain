@@ -1,8 +1,12 @@
 package org.firstinspires.ftc.teamcode.RobotParts;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import dev.nextftc.hardware.impl.CRServoEx;
+import dev.nextftc.hardware.impl.MotorEx;
 
 public class Drivetrain
 {
@@ -14,6 +18,7 @@ public class Drivetrain
     private DcMotorEx flywheel2;
     private DcMotorEx intake;
     private DcMotorEx overtake;
+    private CRServo servoOvertake;
 
     public void init(HardwareMap map)
     {
@@ -24,14 +29,16 @@ public class Drivetrain
         flywheel1 = map.get(DcMotorEx.class, "flywheel1");
         flywheel2 = map.get(DcMotorEx.class, "flywheel2");
         intake = map.get(DcMotorEx.class, "intake");
-        overtake = map.get(DcMotorEx.class, "overtake" + "");
+        overtake = map.get(DcMotorEx.class, "overtake_motor");
+        servoOvertake = map.get(CRServo.class, "overtake_servo");
+
 
         rf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        flywheel1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        flywheel2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //flywheel1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //flywheel2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void drive0(double forward, double right, double rotate, double power)
@@ -49,15 +56,17 @@ public class Drivetrain
 
     public void flywheels(double velocity)
     {
-        flywheel1.setVelocity(-velocity);
-        flywheel2.setVelocity(velocity);
+        flywheel1.setPower(-velocity);
+        flywheel2.setPower(velocity);
     }
 
     public void intake(double power)
     {
         intake.setPower(power);
     }
-    public void overtake(double power){overtake.setPower(-power);}
+    public void overtake(double power){overtake.setPower(power);}
+    public void servoOvertake(double power){servoOvertake.setPower(power);}
+
 
 
 }

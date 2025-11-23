@@ -22,11 +22,11 @@ public class temporaryOpMode extends LinearOpMode
         double y;
         double x;
         double rotate;
-        double flywheelVelocity = 2400;
+        double flywheelVelocity = 0.96;
         boolean speedChangeAllowed = true;
-        double overtakePosition2 = 0;
-        double overtakePosition3 = 0.6;
         double overtakeSpeed = 0;
+        double overtakeServoSpeed;
+        double rightTriggertime = 0;
 
 
         waitForStart();
@@ -48,12 +48,12 @@ public class temporaryOpMode extends LinearOpMode
 
             if (gamepad1.right_bumper && speedChangeAllowed)
             {
-                flywheelVelocity += 100;
+                flywheelVelocity += 0.02;
                 speedChangeAllowed = false;
             }
             if (gamepad1.left_bumper && speedChangeAllowed)
             {
-                flywheelVelocity -= 100;
+                flywheelVelocity -= 0.02;
                 speedChangeAllowed = false;
             }
             if (!gamepad1.left_bumper && !gamepad1.right_bumper)
@@ -69,7 +69,7 @@ public class temporaryOpMode extends LinearOpMode
             {
                 drivetrain.flywheels(0);
             }
-            if (gamepad1.dpad_down)
+            if (gamepad1.right_trigger>0.3)
             {
                 drivetrain.intake(1);
             }
@@ -77,11 +77,45 @@ public class temporaryOpMode extends LinearOpMode
             {
                 drivetrain.intake(0);
             }
-            if (gamepad1.x){overtakeSpeed=1;} else{overtakeSpeed=0;}
+            if (gamepad1.x){
+                overtakeServoSpeed = 1;
+            }
+            else{
+                overtakeServoSpeed = 0;
+            }
+            if (gamepad1.y)
+            {
+                overtakeSpeed=-1;
+                overtakeServoSpeed = 1;
+
+            } else
+            {
+                overtakeSpeed=0;
+            }
+            if (gamepad1.left_trigger > 0.1)
+            {
+                if (rightTriggertime == 0)
+                {
+                    rightTriggertime = runtime.milliseconds();
+                }
+                if (rightTriggertime + 1000 < runtime.milliseconds())
+                {
+                    overtakeSpeed = -1;
+                    overtakeServoSpeed = 1;
+                }
+                drivetrain.flywheels(flywheelVelocity);
+            }
+            if (gamepad1.left_trigger < 0.1 && !gamepad1.y && !gamepad1.x && !gamepad1.dpad_up)
+            {
+                overtakeSpeed = 0;
+                overtakeServoSpeed = 0;
+                drivetrain.flywheels(flywheelVelocity);
+                rightTriggertime = 0;
+            }
             drivetrain.overtake(overtakeSpeed);
+            drivetrain.servoOvertake(overtakeServoSpeed);
             drivetrain.drive0(y, x, rotate, 1);
             telemetry.addData("flywheelVelocity", flywheelVelocity);
-
             telemetry.update();
         }
 
