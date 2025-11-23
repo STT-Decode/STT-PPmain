@@ -38,7 +38,7 @@ public class CommandDrive extends rootOpMode
         BindingManager.update();
 
         //Toggles the flywheels
-        Gamepads.gamepad1().b().toggleOnBecomesTrue()
+        Gamepads.gamepad1().y().toggleOnBecomesTrue()
                 .whenBecomesTrue(Flywheel.INSTANCE.turnOn())
                 .whenBecomesFalse(Flywheel.INSTANCE.turnOff());
 
@@ -57,7 +57,7 @@ public class CommandDrive extends rootOpMode
         Gamepads.gamepad1().rightBumper().whenBecomesTrue(Flywheel.INSTANCE.ChangeFlyWheelVelocity(-50));
 
         Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, -1, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
-        Gamepads.gamepad1().y().whenBecomesTrue(alignWithAprilTag);
+        Gamepads.gamepad1().b().whenBecomesTrue(alignWithAprilTag);
     }
 
 }
