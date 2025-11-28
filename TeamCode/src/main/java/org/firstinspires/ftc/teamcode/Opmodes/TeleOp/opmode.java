@@ -56,7 +56,7 @@ public class opmode extends LinearOpMode
 
             if (gamepad1.dpad_up)
             {
-                allParts.setLfPower(flyWheelSpeed_2);
+                allParts.setLfPower(-flyWheelSpeed_2);
             } else if (gamepad1.dpad_down)
             {
                 allParts.ninjitsu(flyWheelSpeed_2);
@@ -67,21 +67,16 @@ public class opmode extends LinearOpMode
 
             if (gamepad1.dpad_left && !toggleServoPos)
             {
-                servoPos -= 0.02;
-                allParts.setServo2pos(servoPos);
-                toggleServoPos = true;
-            }
-            else if (gamepad1.dpad_right && !toggleServoPos)
-            {
-                servoPos += 0.02;
-                allParts.setServo2pos(servoPos);
+                servoPos = 0;
+
                 toggleServoPos = true;
             }
             if (!gamepad1.dpad_right && !gamepad1.dpad_left)
             {
                 toggleServoPos = false;
+                servoPos=0.32;
             }
-
+            allParts.setServo2pos(servoPos);
             //telemetry.addData("pos", flywheelFeederPos);
             telemetry.addData("pos", servoPos);
             telemetry.addData("flyWheelSpeed", flyWheelSpeed_2);

@@ -18,27 +18,36 @@ public class Flywheel implements Subsystem
     private MotorEx flywheel1 = new MotorEx("flywheel1");
     private MotorEx flywheel2 = new MotorEx("flywheel2").reversed();
 
-    private ControlSystem controlSystem = ControlSystem.builder().posPid(0, 0, 0)
-        .build();
+
+    double flywheelVelocityGoal;
+    double flywheelPower;
 
 
     @Override
     public void periodic()
     {
-        flywheel1.setPower(controlSystem.calculate(flywheel1.getState()));
-        flywheel2.setPower(controlSystem.calculate(flywheel2.getState()));
-        ActiveOpMode.telemetry().addData("debug", controlSystem.calculate(flywheel2.getState()));
+        flywheelPower += ((flywheelVelocityGoal + flywheel1.getVelocity()) / 1000);
+
+        flywheel1.setPower(flywheelPower);
+        flywheel2.setPower(flywheelPower);
+        ActiveOpMode.telemetry().addData("debug", flywheel1.getVelocity());
         ActiveOpMode.updateTelemetry(ActiveOpMode.telemetry());
     }
 
     public Command turnOn()
     {
-        return new RunToVelocity(controlSystem, 2400, 100).requires(this);
+        return new ParallelGroup(
+                new SetPower(flywheel1, 0.9),
+                new SetPower(flywheel2, 0.9)
+        );
     }
 
     public Command turnOff()
     {
-        return new RunToVelocity(controlSystem, 0).requires(this);
+        return new ParallelGroup(
+                new SetPower(flywheel1, 0),
+                new SetPower(flywheel2, 0)
+        );
     }
 
     public Command setCustomPower(double power)

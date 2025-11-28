@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import android.app.ActionBar;
 import android.util.Size;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import java.util.List;
 
 import dev.nextftc.core.commands.Command;
+import dev.nextftc.ftc.ActiveOpMode;
 import dev.nextftc.hardware.impl.MotorEx;
 
 
@@ -64,12 +66,17 @@ public class AlignWithAprilTag extends Command
         for (AprilTagDetection detection : currentDetections)
         {
             double rotation = (detection.center.x - ((double) camSize.getWidth() / 2)) / camSize.getWidth() * 2;
-            if (rotation > 0.1)
+            ActiveOpMode.telemetry().addData("Rotation", rotation);
+            ActiveOpMode.updateTelemetry(ActiveOpMode.telemetry());
+
+            //TODO: min rotation speed
+
+            if (Math.abs(rotation) > 0.1)
             {
-                backLeft.setPower(0.7 * rotation);
-                frontLeft.setPower(0.7 * rotation);
-                frontRight.setPower(-0.7 * rotation);
-                backRight.setPower(-0.7 * rotation);
+                backLeft.setPower(-rotation);
+                backRight.setPower(rotation);
+                frontRight.setPower(rotation);
+                frontLeft.setPower(-rotation);
             } else
             {
                 backLeft.setPower(0);

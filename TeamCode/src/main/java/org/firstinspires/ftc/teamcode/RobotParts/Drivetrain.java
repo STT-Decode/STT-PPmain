@@ -4,9 +4,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import dev.nextftc.hardware.impl.CRServoEx;
-import dev.nextftc.hardware.impl.MotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class Drivetrain
 {
@@ -18,7 +16,7 @@ public class Drivetrain
     private DcMotorEx flywheel2;
     private DcMotorEx intake;
     private DcMotorEx overtake;
-    private CRServo servoOvertake;
+    private Servo feeder;
 
     public void init(HardwareMap map)
     {
@@ -30,8 +28,7 @@ public class Drivetrain
         flywheel2 = map.get(DcMotorEx.class, "flywheel2");
         intake = map.get(DcMotorEx.class, "intake");
         overtake = map.get(DcMotorEx.class, "overtake_motor");
-        servoOvertake = map.get(CRServo.class, "overtake_servo");
-
+        feeder = map.get(Servo.class, "feeder");
 
         rf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -65,7 +62,7 @@ public class Drivetrain
         intake.setPower(power);
     }
     public void overtake(double power){overtake.setPower(power);}
-    public void servoOvertake(double power){servoOvertake.setPower(power);}
+    public void feeder(double position){feeder.setPosition(position);}
 
 
 

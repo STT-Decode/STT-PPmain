@@ -22,9 +22,9 @@ public class All_Parts
 
     public void init(HardwareMap map)
     {
-        overtake_1 = map.get(CRServo.class, "overtake_1");
-        overtake_2 = map.get(Servo.class, "overtake_2");
-        overtake_3 = map.get(Servo.class, "overtake_3");
+        overtake_2 = map.get(Servo.class, "feeder");
+        /*overtake_2 = map.get(Servo.class, "overtake_2");
+        overtake_3 = map.get(Servo.class, "overtake_3");*/
         lf = map.get(DcMotorEx.class, "left_front");
         rf = map.get(DcMotorEx.class, "right_front");
         lb = map.get(DcMotorEx.class, "left_back");

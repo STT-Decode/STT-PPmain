@@ -15,20 +15,15 @@ public class Overtake implements Subsystem
     private Overtake() { }
 
     private MotorEx overtakeMotor = new MotorEx("overtake_motor");
-    private CRServoEx overtakeServo = new CRServoEx("overtake_servo");
 
     public Command turnOn()
     {
-        return new ParallelGroup(
-                new SetPower(overtakeMotor, -1),
-                new SetPower(overtakeServo, 1));
+        return new SetPower(overtakeMotor, -1);
     }
 
     public Command turnOff()
     {
-        return new ParallelGroup(
-                new SetPower(overtakeMotor, 0),
-                new SetPower(overtakeServo, 0));
+        return new SetPower(overtakeMotor, 0);
     }
 
 }

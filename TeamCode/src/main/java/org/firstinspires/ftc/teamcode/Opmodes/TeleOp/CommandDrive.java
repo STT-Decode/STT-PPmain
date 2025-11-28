@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Overtake;
 import java.util.Map;
 
 import dev.nextftc.core.commands.Command;
+import dev.nextftc.core.commands.groups.ParallelGroup;
 import dev.nextftc.ftc.Gamepads;
 import dev.nextftc.hardware.driving.MecanumDriverControlled;
 import dev.nextftc.bindings.BindingManager;
@@ -54,7 +55,7 @@ public class CommandDrive extends rootOpMode
                 .whenBecomesFalse(Overtake.INSTANCE.turnOff());
 
         Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, -1, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
-        Gamepads.gamepad1().b().whenBecomesTrue(alignWithAprilTag);
+        Gamepads.gamepad1().b().whenBecomesTrue(alignWithAprilTag.requires(driverControlled));
     }
 
 }
