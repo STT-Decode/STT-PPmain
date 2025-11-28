@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Opmodes.rootOpMode;
 import org.firstinspires.ftc.teamcode.Subsystems.AlignWithAprilTag;
+import org.firstinspires.ftc.teamcode.Subsystems.Feeder;
 import org.firstinspires.ftc.teamcode.Subsystems.Flywheel;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.Overtake;
@@ -56,6 +57,10 @@ public class CommandDrive extends rootOpMode
 
         Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, -1, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
         Gamepads.gamepad1().b().whenBecomesTrue(alignWithAprilTag.requires(driverControlled));
+
+        Gamepads.gamepad1().rightBumper().toggleOnBecomesTrue()
+                .whenBecomesTrue(Feeder.INSTANCE.fire())
+                .whenBecomesFalse(Feeder.INSTANCE.open());
     }
 
 }

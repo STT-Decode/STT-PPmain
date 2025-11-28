@@ -128,7 +128,7 @@ public class AprilTagTest extends LinearOpMode {
                 allParts.drive0(0, 0, -(detection.center.x - 320) / 320, 1);
             }else{
                 allParts.drive0(0, 0, 0, 0);
-                drivetrain.flywheels(1);
+                drivetrain.flywheels(1,0,0);
             }
         }
         if (currentDetections.isEmpty()){

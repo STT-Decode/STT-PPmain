@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+
 public class Drivetrain
 {
     private DcMotorEx lf;
@@ -34,8 +36,8 @@ public class Drivetrain
         rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //flywheel1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //flywheel2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        flywheel1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        flywheel2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void drive0(double forward, double right, double rotate, double power)
@@ -51,10 +53,24 @@ public class Drivetrain
         lb.setPower(leftRearPower);
     }
 
-    public void flywheels(double velocity)
+    public void flywheels(double velocity,double f1v,double f2v)
     {
-        flywheel1.setPower(-velocity);
-        flywheel2.setPower(velocity);
+        if(velocity==0){
+            flywheel1.setPower(0);
+            flywheel2.setPower(0);
+        }
+        else{
+            if(velocity<f1v){
+                flywheel1.setPower(0.7);
+            } else if (velocity>=f1v) {
+                flywheel1.setPower(0.98);
+            }
+            if(velocity<f2v){
+                flywheel2.setPower(-0.7);
+            } else if (velocity>=f2v) {
+                flywheel2.setPower(-0.98);
+            }
+        }
     }
 
     public void intake(double power)
@@ -63,6 +79,13 @@ public class Drivetrain
     }
     public void overtake(double power){overtake.setPower(power);}
     public void feeder(double position){feeder.setPosition(position);}
+    public double getvelocity1(){
+        return flywheel1.getVelocity();
+    }
+    public double getvelocity2(){
+        return flywheel2.getVelocity();
+    }
+
 
 
 

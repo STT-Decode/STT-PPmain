@@ -30,11 +30,11 @@ public class ScrimmageAutonomous extends LinearOpMode
             }
             if (passedTime < 2500)
             {
-                Drivetrain.flywheels(0.96);
+                //Drivetrain.flywheels(0.96);
             }
             else
             {
-                Drivetrain.flywheels(0);
+                //Drivetrain.flywheels(0);
             }
             if (passedTime < 2000 && passedTime > 500)
             {

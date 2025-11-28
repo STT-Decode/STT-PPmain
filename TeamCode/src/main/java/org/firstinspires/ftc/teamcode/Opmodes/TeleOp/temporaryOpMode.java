@@ -22,11 +22,11 @@ public class temporaryOpMode extends LinearOpMode
         double y;
         double x;
         double rotate;
-        double flywheelVelocity = 0.96;
+        double flywheelVelocity = 10;
         boolean speedChangeAllowed = true;
         double feederPosition = 0.5;
         boolean toggleServoPos = true;
-
+        double CPWR = 1;
         waitForStart();
         if (isStopRequested()) return;
         while (opModeIsActive())
@@ -62,29 +62,25 @@ public class temporaryOpMode extends LinearOpMode
                 drivetrain.overtake(0);
             }
 
-            if (gamepad2.right_bumper && toggleServoPos)
+            if (gamepad1.left_trigger>0.1 && toggleServoPos)
             {
-                feederPosition += 0.02;
-                toggleServoPos = false;
+                feederPosition = 0;
+
             }
-            if (gamepad2.left_bumper && toggleServoPos)
+            if (!(gamepad1.left_trigger>0.1))
             {
-                feederPosition -= 0.02;
-                toggleServoPos = false;
-            }
-            if (!gamepad2.left_bumper && !gamepad2.right_bumper)
-            {
-                toggleServoPos = true;
+
+                feederPosition=0.32;
             }
 
             if (gamepad2.right_bumper && speedChangeAllowed)
             {
-                flywheelVelocity += 0.02;
+                flywheelVelocity += 1;
                 speedChangeAllowed = false;
             }
             if (gamepad2.left_bumper && speedChangeAllowed)
             {
-                flywheelVelocity -= 0.02;
+                flywheelVelocity -= 1;
                 speedChangeAllowed = false;
             }
             if (!gamepad2.left_bumper && !gamepad2.right_bumper)
@@ -94,17 +90,19 @@ public class temporaryOpMode extends LinearOpMode
 
             if (gamepad2.dpad_up)
             {
-                drivetrain.flywheels(flywheelVelocity);
+                drivetrain.flywheels(flywheelVelocity*100,drivetrain.getvelocity1(),-drivetrain.getvelocity2());
             }
             else
             {
-                drivetrain.flywheels(0);
+                drivetrain.flywheels(0,drivetrain.getvelocity1(),-drivetrain.getvelocity2());
             }
 
             drivetrain.feeder(feederPosition);
             drivetrain.drive0(y, x, rotate, 1);
             telemetry.addData("flywheelVelocity", flywheelVelocity);
             telemetry.addData("feederPosition", feederPosition);
+            telemetry.addData("flywheel1velocity",drivetrain.getvelocity1());
+            telemetry.addData("flywheel2velocity",drivetrain.getvelocity2());
             telemetry.update();
         }
 
