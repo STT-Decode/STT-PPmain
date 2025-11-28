@@ -21,33 +21,39 @@ public class Flywheel implements Subsystem
 
     double flywheelVelocityGoal;
     double flywheelPower;
+    boolean state;
 
 
     @Override
     public void periodic()
     {
-        flywheelPower += ((flywheelVelocityGoal + flywheel1.getVelocity()) / 1000);
+        flywheelPower += ((flywheelVelocityGoal - Math.abs(flywheel1.getVelocity())) / 1000);
+        if (state)
+        {
+            flywheel1.setPower(-flywheelPower);
+            flywheel2.setPower(-flywheelPower);
+        } else
+        {
+            flywheel1.setPower(0);
+            flywheel2.setPower(0);
+        }
 
-        flywheel1.setPower(flywheelPower);
-        flywheel2.setPower(flywheelPower);
         ActiveOpMode.telemetry().addData("debug", flywheel1.getVelocity());
         ActiveOpMode.updateTelemetry(ActiveOpMode.telemetry());
     }
 
-    public Command turnOn()
+    public void turnOn()
     {
-        return new ParallelGroup(
-                new SetPower(flywheel1, 0.9),
-                new SetPower(flywheel2, 0.9)
-        );
+        state = true;
+        flywheel1.setPower(0.9);
+        flywheel2.setPower(0.9);
     }
 
-    public Command turnOff()
+    public void turnOff()
     {
-        return new ParallelGroup(
-                new SetPower(flywheel1, 0),
-                new SetPower(flywheel2, 0)
-        );
+        state = false;
+        flywheel1.setPower(0);
+        flywheel2.setPower(0);
     }
 
     public Command setCustomPower(double power)

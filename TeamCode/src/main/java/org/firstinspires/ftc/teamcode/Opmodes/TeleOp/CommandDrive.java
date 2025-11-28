@@ -41,8 +41,8 @@ public class CommandDrive extends rootOpMode
 
         //Toggles the flywheels
         Gamepads.gamepad1().y().toggleOnBecomesTrue()
-                .whenBecomesTrue(Flywheel.INSTANCE.turnOn())
-                .whenBecomesFalse(Flywheel.INSTANCE.turnOff());
+                .whenBecomesTrue(Flywheel.INSTANCE::turnOn)
+                .whenBecomesFalse(Flywheel.INSTANCE::turnOff);
 
         //Toggles the intake
         Gamepads.gamepad1().a().toggleOnBecomesTrue()
