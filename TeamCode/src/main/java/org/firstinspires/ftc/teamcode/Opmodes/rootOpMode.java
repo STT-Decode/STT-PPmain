@@ -34,5 +34,4 @@ public class rootOpMode extends NextFTCOpMode
 
     protected ElapsedTime runtime = new ElapsedTime();
 
-
 }

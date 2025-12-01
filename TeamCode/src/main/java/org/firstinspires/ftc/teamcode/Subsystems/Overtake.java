@@ -26,4 +26,9 @@ public class Overtake implements Subsystem
         return new SetPower(overtakeMotor, 0);
     }
 
+    public Command setCustomPower(double Power)
+    {
+        return new SetPower(overtakeMotor, -Power);
+    }
+
 }

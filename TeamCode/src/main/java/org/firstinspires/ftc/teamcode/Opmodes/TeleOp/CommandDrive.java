@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Overtake;
 import java.util.Map;
 
 import dev.nextftc.core.commands.Command;
+import dev.nextftc.core.commands.CommandManager;
 import dev.nextftc.core.commands.groups.ParallelGroup;
 import dev.nextftc.ftc.Gamepads;
 import dev.nextftc.hardware.driving.MecanumDriverControlled;
@@ -40,20 +41,17 @@ public class CommandDrive extends rootOpMode
         driverControlled.schedule();
         BindingManager.update();
 
-        //Toggles the flywheels
-        Gamepads.gamepad1().y().toggleOnBecomesTrue()
+        //Flywheels
+        Gamepads.gamepad2().leftTrigger().greaterThan(0.3)
                 .whenBecomesTrue(Flywheel.INSTANCE::turnOn)
+
                 .whenBecomesFalse(Flywheel.INSTANCE::turnOff);
 
-        //Toggles the intake
-        Gamepads.gamepad1().a().toggleOnBecomesTrue()
-                .whenBecomesTrue(Intake.INSTANCE.turnOn())
-                .whenBecomesFalse(Intake.INSTANCE.turnOff());
+        //Intake
+        Gamepads.gamepad2().rightTrigger().greaterThan(-1).whenTrue(() -> Intake.INSTANCE.setCustomPower(Gamepads.gamepad2().rightTrigger().get()).schedule());
 
-        //Toggles the Overtake
-        Gamepads.gamepad1().x().toggleOnBecomesTrue()
-                .whenBecomesTrue(Overtake.INSTANCE.turnOn())
-                .whenBecomesFalse(Overtake.INSTANCE.turnOff());
+        //Overtake
+        Gamepads.gamepad2().rightTrigger().greaterThan(-1).whenTrue(() -> Overtake.INSTANCE.setCustomPower(Gamepads.gamepad2().rightTrigger().get()).schedule());
 
         Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, -1, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
         Gamepads.gamepad1().b().whenBecomesTrue(alignWithAprilTag.requires(driverControlled));

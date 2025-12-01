@@ -104,7 +104,7 @@ public class AlignWithAprilTag extends Command
 
         for (AprilTagDetection detection : currentDetections)
         {
-            if ((Math.abs(detection.center.x - ((double) camSize.getWidth() / 2)) < 20) && ((detection.id == this.id) || (this.id == -1)))
+            if ((Math.abs(detection.center.x - ((double) camSize.getWidth() / 2)) < 40) && ((detection.id == this.id) || (this.id == -1)))
             {
                 return true;
             }
