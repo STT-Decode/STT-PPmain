@@ -65,26 +65,27 @@ public class AlignWithAprilTag extends Command
 
         for (AprilTagDetection detection : currentDetections)
         {
-            double rotation = (detection.center.x - ((double) camSize.getWidth() / 2)) / camSize.getWidth() * 2;
-            ActiveOpMode.telemetry().addData("Rotation", rotation);
-            ActiveOpMode.updateTelemetry(ActiveOpMode.telemetry());
-
-            //TODO: min rotation speed
-
-            if (Math.abs(rotation) > 0.1)
+            if (detection.id == this.id)
             {
-                backLeft.setPower(-rotation);
-                backRight.setPower(rotation);
-                frontRight.setPower(rotation);
-                frontLeft.setPower(-rotation);
-            } else
-            {
-                backLeft.setPower(0);
-                backRight.setPower(0);
-                frontRight.setPower(0);
-                frontLeft.setPower(0);
+                double rotation = (detection.center.x - ((double) camSize.getWidth() / 2)) / camSize.getWidth() * 2;
+                ActiveOpMode.telemetry().addData("Rotation", rotation);
+                ActiveOpMode.updateTelemetry(ActiveOpMode.telemetry());
+
+                if (Math.abs(rotation) > 0.1)
+                {
+                    backLeft.setPower(-rotation);
+                    backRight.setPower(rotation);
+                    frontRight.setPower(rotation);
+                    frontLeft.setPower(-rotation);
+                } else
+                {
+                    backLeft.setPower(0);
+                    backRight.setPower(0);
+                    frontRight.setPower(0);
+                    frontLeft.setPower(0);
+                }
+                break;
             }
-            break;
         }
 
         if (currentDetections.isEmpty())

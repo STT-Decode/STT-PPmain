@@ -27,9 +27,9 @@ public class Auton extends rootOpMode
 {
 
 
-    Pose farScoringZone = new Pose(80, 8, 90);
+    Pose farScoringZone = new Pose(80, 8, Math.toRadians(90));
 
-    Pose closeArtifacts = new Pose(90, 35, 180);
+    Pose closeArtifacts = new Pose(90, 35, Math.toRadians(180));
 
     boolean isRed = true;
 
@@ -66,8 +66,19 @@ public class Auton extends rootOpMode
                 Intake.INSTANCE.turnOn(),
                 new FollowPath(builder.addPath(
                                 new BezierCurve(PedroComponent.follower().getPose(), PedroComponent.follower().getPose().plus(new Pose(40, 0))))
+                        .setConstantHeadingInterpolation(180)
                         .build(), false, 0.5),
-                Intake.INSTANCE.turnOff()
+                Intake.INSTANCE.turnOff(),
+
+                //Drive back to far shooting zone
+                new FollowPath(builder.addPath(
+                                new BezierCurve(PedroComponent.follower().getPose(), farScoringZone))
+                        .setLinearHeadingInterpolation(PedroComponent.follower().getHeading(), farScoringZone.getHeading())
+                        .build(), false, 0.5),
+
+                new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor),
+
+                shootThree
                 );
     }
 
