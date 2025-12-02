@@ -19,13 +19,13 @@ public class Feeder implements Subsystem
     /**Opens the feeder to a position where artifacts can get loaded*/
     public Command open()
     {
-        return new SetPosition(feeder, 0);
+        return new SetPosition(feeder, 0).requires(this);
     }
 
     /**Turns the feeder give artifacts to the flywheels to fire them*/
     public Command fire()
     {
-        return new SetPosition(feeder, 0.32);
+        return new SetPosition(feeder, 0.8).requires(this);
     }
 
 }

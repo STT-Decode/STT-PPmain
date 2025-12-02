@@ -34,7 +34,7 @@ public class CommandDrive extends rootOpMode
                 backRightMotor,
                 Gamepads.gamepad1().leftStickY(),
                 Gamepads.gamepad1().leftStickX().negate(),
-                Gamepads.gamepad1().rightStickX().negate().mapToRange(value -> value * 0.7)
+                Gamepads.gamepad1().rightStickX().negate().mapToRange(value -> value * 0.8)
         );
 
         BindingManager.update();

@@ -27,10 +27,10 @@ public class rootOpMode extends NextFTCOpMode
         );
     }
 
-    protected final MotorEx frontLeftMotor = new MotorEx("left_front").reversed();
-    protected final MotorEx frontRightMotor = new MotorEx("right_front").reversed();
-    protected final MotorEx backLeftMotor = new MotorEx("left_back").reversed();
-    protected final MotorEx backRightMotor = new MotorEx("right_back").reversed();
+    protected final MotorEx frontLeftMotor = new MotorEx("left_front").reversed().brakeMode();
+    protected final MotorEx frontRightMotor = new MotorEx("right_front").reversed().brakeMode();
+    protected final MotorEx backLeftMotor = new MotorEx("left_back").reversed().brakeMode();
+    protected final MotorEx backRightMotor = new MotorEx("right_back").reversed().brakeMode();
 
     protected ElapsedTime runtime = new ElapsedTime();
 

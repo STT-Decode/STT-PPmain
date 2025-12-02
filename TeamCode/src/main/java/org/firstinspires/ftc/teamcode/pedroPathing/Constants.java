@@ -24,7 +24,9 @@ public class Constants {
             .useSecondaryDrivePIDF(false)
             .translationalPIDFCoefficients(new PIDFCoefficients(0.1, 0, 0.01, 0))
             .headingPIDFCoefficients(new PIDFCoefficients(2, 0, 0.1, 0))
-            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.1, 0, 0, 0.6, 0));
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.1, 0, 0, 0.6, 0))
+            .forwardZeroPowerAcceleration(-31)
+            .lateralZeroPowerAcceleration(-66);
 
     public static MecanumConstants driveConstants = new MecanumConstants()
             .leftFrontMotorName("left_front")
@@ -35,8 +37,8 @@ public class Constants {
             .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
-            .xVelocity(53)
-            .yVelocity(52.295);
+            .xVelocity(54.52)
+            .yVelocity(72.55);
 
     public static OTOSConstants localizerConstants = new OTOSConstants()
             .hardwareMapName("sensor_otos")
@@ -44,7 +46,7 @@ public class Constants {
             .angleUnit(AngleUnit.RADIANS)
             .offset(new SparkFunOTOS.Pose2D(0, 13, Math.PI / 2))
             .linearScalar(1.07)
-            .angularScalar(0.9);
+            .angularScalar(0.95);
 
     public static PathConstraints pathConstraints = new PathConstraints(
             0.99,

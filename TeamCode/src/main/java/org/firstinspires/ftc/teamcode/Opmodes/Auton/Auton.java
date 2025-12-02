@@ -27,11 +27,15 @@ public class Auton extends rootOpMode
 {
 
 
-    Pose farScoringZone = new Pose(80, 8, Math.toRadians(90));
+    Pose farScoringZone = new Pose(80, 8, Math.PI * 0.5);
 
-    Pose closeArtifacts = new Pose(90, 35, Math.toRadians(180));
+    Pose closeArtifacts = new Pose(90, 35, 0);
 
     boolean isRed = true;
+
+    double alianceXfactor;
+
+    AlignWithAprilTag alignWithAprilTag;
 
     SequentialGroup load = new SequentialGroup(
             Overtake.INSTANCE.turnOn(),
@@ -52,17 +56,20 @@ public class Auton extends rootOpMode
         PathBuilder builder = new PathBuilder(PedroComponent.follower());
         int id = isRed ? 24 : 20;
 
+        alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
+
         return new SequentialGroup(
-                new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor),
+                alignWithAprilTag,
                 shootThree,
 
                 //Drive to close artifacts
                 new FollowPath(builder.addPath(
                                 new BezierCurve(PedroComponent.follower().getPose(), closeArtifacts))
                         .setLinearHeadingInterpolation(PedroComponent.follower().getHeading(), closeArtifacts.getHeading())
-                        .build(), false, 0.5),
+                        .build(), false, 0.5)
 
                 //Take close artifacts in
+                /*
                 Intake.INSTANCE.turnOn(),
                 new FollowPath(builder.addPath(
                                 new BezierCurve(PedroComponent.follower().getPose(), PedroComponent.follower().getPose().plus(new Pose(40, 0))))
@@ -76,14 +83,17 @@ public class Auton extends rootOpMode
                         .setLinearHeadingInterpolation(PedroComponent.follower().getHeading(), farScoringZone.getHeading())
                         .build(), false, 0.5),
 
-                new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor),
+
+                alignWithAprilTag,
 
                 shootThree
+                 */
                 );
     }
 
     @Override
     public void onStartButtonPressed() {
+        alianceXfactor = isRed ? 1 : -1;
         PedroComponent.follower().setPose(farScoringZone);
         autonomousRoutine().schedule();
     }
@@ -91,22 +101,18 @@ public class Auton extends rootOpMode
     @Override
     public void onInit()
     {
-        Gamepads.gamepad1().a().whenBecomesTrue(new Command()
-        {
-            @Override
-            public boolean isDone()
-            {
-                isRed = true;
-                return true;
-            }
-        });
-
+        ActiveOpMode.telemetry().addData("Aliance", "Red");
+        ActiveOpMode.updateTelemetry(ActiveOpMode.telemetry());
         Gamepads.gamepad1().b().whenBecomesTrue(new Command()
         {
             @Override
             public boolean isDone()
             {
+                ActiveOpMode.telemetry().addData("Aliance", "Blue");
+                ActiveOpMode.updateTelemetry(ActiveOpMode.telemetry());
                 isRed = false;
+                farScoringZone = farScoringZone.mirror();
+                closeArtifacts = closeArtifacts.mirror();
                 return false;
             }
         });

@@ -67,7 +67,18 @@ public class AlignWithAprilTag extends Command
         {
             if (detection.id == this.id)
             {
-                double rotation = (detection.center.x - ((double) camSize.getWidth() / 2)) / camSize.getWidth() * 2;
+                double offset = 0;
+
+                if (detection.id == 24)
+                {
+                    offset = 10;
+                }
+                else if (detection.id == 20)
+                {
+                    offset = -10;
+                }
+
+                double rotation = (detection.center.x - ((double) camSize.getWidth() / 2) - offset) / camSize.getWidth() * 2;
                 ActiveOpMode.telemetry().addData("Rotation", rotation);
                 ActiveOpMode.updateTelemetry(ActiveOpMode.telemetry());
 
@@ -105,7 +116,18 @@ public class AlignWithAprilTag extends Command
 
         for (AprilTagDetection detection : currentDetections)
         {
-            if ((Math.abs(detection.center.x - ((double) camSize.getWidth() / 2)) < 40) && ((detection.id == this.id) || (this.id == -1)))
+            double offset = 0;
+
+            if (detection.id == 24)
+            {
+                offset = 10;
+            }
+            else if (detection.id == 20)
+            {
+                offset = -10;
+            }
+
+            if ((Math.abs(detection.center.x - ((double) camSize.getWidth() / 2) - offset) < 30) && ((detection.id == this.id) || (this.id == -1)))
             {
                 return true;
             }
