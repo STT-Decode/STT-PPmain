@@ -39,7 +39,7 @@ public class PPtest extends rootOpMode
     {
         paths = builder.addPath(
                         // Line 1
-                        new BezierCurve(startPose, new Pose(122, 140), new Pose(30, 120))
+                        new BezierCurve(startPose, new Pose(30, 120))
                 )
                 .setTangentHeadingInterpolation()
                 .build();

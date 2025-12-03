@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 import android.app.ActionBar;
 import android.util.Size;
 
+import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -28,17 +29,20 @@ public class AlignWithAprilTag extends Command
     private final int id;
     Size camSize;
 
+    Follower follower;
+
     /**
      * Aims the robot to a April Tag, used for scoring for example
      *
      * @param id the ID of the April Tag to aim at. -1 works if there is only one April Tag visible, else it will return exit code 1
      */
-    public AlignWithAprilTag(HardwareMap hardwareMap, int id, MotorEx bl, MotorEx fl, MotorEx br, MotorEx fr)
+    public AlignWithAprilTag(HardwareMap hardwareMap, int id, MotorEx bl, MotorEx fl, MotorEx br, MotorEx fr, Follower follower)
     {
         this.backLeft = bl;
         this.frontLeft = fl;
         this.backRight = br;
         this.frontRight = fr;
+        this.follower = follower;
 
         // Create the AprilTag processor the easy way.
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();
@@ -84,12 +88,15 @@ public class AlignWithAprilTag extends Command
 
                 if (Math.abs(rotation) > 0.1)
                 {
+
                     backLeft.setPower(-rotation);
                     backRight.setPower(rotation);
                     frontRight.setPower(rotation);
                     frontLeft.setPower(-rotation);
+
                 } else
                 {
+
                     backLeft.setPower(0);
                     backRight.setPower(0);
                     frontRight.setPower(0);

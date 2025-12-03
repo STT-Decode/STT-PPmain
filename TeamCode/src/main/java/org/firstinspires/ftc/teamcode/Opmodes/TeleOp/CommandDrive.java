@@ -16,6 +16,7 @@ import java.util.Map;
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.commands.CommandManager;
 import dev.nextftc.core.commands.groups.ParallelGroup;
+import dev.nextftc.extensions.pedro.PedroComponent;
 import dev.nextftc.ftc.Gamepads;
 import dev.nextftc.hardware.driving.MecanumDriverControlled;
 import dev.nextftc.bindings.BindingManager;
@@ -53,7 +54,7 @@ public class CommandDrive extends rootOpMode
         //Overtake
         Gamepads.gamepad2().rightTrigger().greaterThan(-1).whenTrue(() -> Overtake.INSTANCE.setCustomPower(Gamepads.gamepad2().rightTrigger().get()).schedule());
 
-        Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, -1, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
+        Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, -1, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, PedroComponent.follower());
         Gamepads.gamepad1().b().whenBecomesTrue(alignWithAprilTag.requires(driverControlled));
 
         Gamepads.gamepad1().rightBumper().toggleOnBecomesTrue()

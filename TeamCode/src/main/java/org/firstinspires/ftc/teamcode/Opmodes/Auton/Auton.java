@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Opmodes.Auton;
 
+import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathBuilder;
@@ -25,11 +26,9 @@ import dev.nextftc.ftc.Gamepads;
 @Autonomous(name = "auton")
 public class Auton extends rootOpMode
 {
+    Pose farScoringZone = new Pose(80, 8, 90);
 
-
-    Pose farScoringZone = new Pose(80, 8, Math.PI * 0.5);
-
-    Pose closeArtifacts = new Pose(90, 35, 0);
+    Pose closeArtifacts = new Pose(100, 36, 180);
 
     boolean isRed = true;
 
@@ -56,12 +55,11 @@ public class Auton extends rootOpMode
         PathBuilder builder = new PathBuilder(PedroComponent.follower());
         int id = isRed ? 24 : 20;
 
-        alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
+        alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, PedroComponent.follower());
 
         return new SequentialGroup(
                 alignWithAprilTag,
                 shootThree,
-
                 //Drive to close artifacts
                 new FollowPath(builder.addPath(
                                 new BezierCurve(PedroComponent.follower().getPose(), closeArtifacts))
@@ -102,7 +100,6 @@ public class Auton extends rootOpMode
     public void onInit()
     {
         ActiveOpMode.telemetry().addData("Aliance", "Red");
-        ActiveOpMode.updateTelemetry(ActiveOpMode.telemetry());
         Gamepads.gamepad1().b().whenBecomesTrue(new Command()
         {
             @Override
