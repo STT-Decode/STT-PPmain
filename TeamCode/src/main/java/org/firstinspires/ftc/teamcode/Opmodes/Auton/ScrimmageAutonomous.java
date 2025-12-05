@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.RobotParts.Drivetrain;
 
-@Autonomous(name = "autonomous")
+@Autonomous(name = "ScrimmageAutono")
 public class ScrimmageAutonomous extends LinearOpMode
 {
     private ElapsedTime runtime = new ElapsedTime();

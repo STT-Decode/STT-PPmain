@@ -36,13 +36,12 @@ public class AlignWithAprilTag extends Command
      *
      * @param id the ID of the April Tag to aim at. -1 works if there is only one April Tag visible, else it will return exit code 1
      */
-    public AlignWithAprilTag(HardwareMap hardwareMap, int id, MotorEx bl, MotorEx fl, MotorEx br, MotorEx fr, Follower follower)
+    public AlignWithAprilTag(HardwareMap hardwareMap, int id, MotorEx bl, MotorEx fl, MotorEx br, MotorEx fr)
     {
         this.backLeft = bl;
         this.frontLeft = fl;
         this.backRight = br;
         this.frontRight = fr;
-        this.follower = follower;
 
         // Create the AprilTag processor the easy way.
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();
@@ -58,7 +57,6 @@ public class AlignWithAprilTag extends Command
                 .setStreamFormat(VisionPortal.StreamFormat.YUY2)
                 .setAutoStopLiveView(true)
                 .build();
-
         this.id = id;
     }
 
@@ -69,26 +67,24 @@ public class AlignWithAprilTag extends Command
 
         for (AprilTagDetection detection : currentDetections)
         {
-            if (detection.id == this.id)
+            if (detection.id == this.id || this.id == -1)
             {
                 double offset = 0;
 
                 if (detection.id == 24)
                 {
-                    offset = 10;
+                    offset = 20;
                 }
                 else if (detection.id == 20)
                 {
-                    offset = -10;
+                    offset = -20;
                 }
 
-                double rotation = (detection.center.x - ((double) camSize.getWidth() / 2) - offset) / camSize.getWidth() * 2;
+                double rotation = (detection.center.x - ((double) camSize.getWidth() / 2) - offset) / camSize.getWidth() * 2 * 1.5;
                 ActiveOpMode.telemetry().addData("Rotation", rotation);
-                ActiveOpMode.updateTelemetry(ActiveOpMode.telemetry());
 
                 if (Math.abs(rotation) > 0.1)
                 {
-
                     backLeft.setPower(-rotation);
                     backRight.setPower(rotation);
                     frontRight.setPower(rotation);
@@ -106,13 +102,13 @@ public class AlignWithAprilTag extends Command
             }
         }
 
-        if (currentDetections.isEmpty())
+        /*if (currentDetections.isEmpty())
         {
             backLeft.setPower(0);
             backRight.setPower(0);
             frontRight.setPower(0);
             frontLeft.setPower(0);
-        }
+        }*/
 
     }
 
@@ -152,14 +148,4 @@ public class AlignWithAprilTag extends Command
         backRight.setPower(0);
     }
 
-    @Override
-    public void start()
-    {
-        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-
-        if (currentDetections.isEmpty())
-        {
-            stop(false);
-        }
-    }
 }

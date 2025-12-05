@@ -50,7 +50,9 @@ public class All_Parts
         rb.setPower(-rightRearPower);
         lb.setPower(leftRearPower);
     }
-
+    public double getflyvel(){
+        return flywheel1.getVelocity();
+    }
     public void setLfPower(double power)
     {
         flywheel1.setPower(power);

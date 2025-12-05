@@ -19,6 +19,8 @@ public class Drivetrain
     private DcMotorEx intake;
     private DcMotorEx overtake;
     private Servo feeder;
+    double additionalPower1=0;
+    double additionalPower2=0;
 
     public void init(HardwareMap map)
     {
@@ -36,8 +38,6 @@ public class Drivetrain
         rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        flywheel1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        flywheel2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void drive0(double forward, double right, double rotate, double power)
@@ -60,25 +60,38 @@ public class Drivetrain
             flywheel2.setPower(0);
         }
         else{
-            if(velocity<f1v){
-                flywheel1.setPower(0.7);
-            } else if (velocity>=f1v) {
-                flywheel1.setPower(0.98);
+            if(velocity<f1v-50){
+                additionalPower1 -=0.01;
+            } else if (velocity>=f1v+50&&additionalPower1 < 0.4) {
+                additionalPower1 +=0.01;
             }
-            if(velocity<f2v){
-                flywheel2.setPower(-0.7);
-            } else if (velocity>=f2v) {
-                flywheel2.setPower(-0.98);
+            if(velocity<f2v-50 ){
+                additionalPower2-=0.01;
+            } else if (velocity>=f2v-50 && additionalPower2 < 0.4) {
+                additionalPower2+=0.01;
             }
+            flywheel1.setPower(0.6+additionalPower1);
+            flywheel2.setPower(-(0.6+additionalPower2));
         }
     }
-
+    public  void backkupflywheels(double power){
+        flywheel2.setPower(-power);
+        flywheel1.setPower(power);
+    }
+    public double getAdditionalPower1(){
+        return additionalPower1;
+    }
+    public double getAdditionalPower2(){
+        return additionalPower2;
+    }
     public void intake(double power)
     {
         intake.setPower(power);
     }
     public void overtake(double power){overtake.setPower(power);}
     public void feeder(double position){feeder.setPosition(position);}
+
+    public double getFeederPosition(){return feeder.getPosition();}
     public double getvelocity1(){
         return flywheel1.getVelocity();
     }

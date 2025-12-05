@@ -15,11 +15,11 @@ public class Flywheel implements Subsystem
     public static final Flywheel INSTANCE = new Flywheel();
     private Flywheel() { }
 
-    private MotorEx flywheel1 = new MotorEx("flywheel1");
-    private MotorEx flywheel2 = new MotorEx("flywheel2").reversed();
+    private MotorEx flywheel1 = new MotorEx("flywheel1").reversed();
+    private MotorEx flywheel2 = new MotorEx("flywheel2");
 
 
-    double flywheelVelocityGoal;
+    double flywheelVelocityGoal = 2400;
     double flywheelPower;
     boolean state;
 
@@ -27,9 +27,9 @@ public class Flywheel implements Subsystem
     @Override
     public void periodic()
     {
-        flywheelPower += ((flywheelVelocityGoal - Math.abs(flywheel1.getVelocity())) / 1000);
         if (state)
         {
+            flywheelPower += ((flywheelVelocityGoal - Math.abs(flywheel1.getVelocity())) / 5000);
             flywheel1.setPower(-flywheelPower);
             flywheel2.setPower(-flywheelPower);
         } else
@@ -38,13 +38,17 @@ public class Flywheel implements Subsystem
             flywheel2.setPower(0);
         }
 
-        ActiveOpMode.telemetry().addData("debug", flywheel1.getVelocity());
+        flywheelPower = Math.min(flywheelPower, 0.95);
+        ActiveOpMode.telemetry().addData("flywheelPower", flywheelPower);
+        ActiveOpMode.telemetry().addData("goalVelocity", flywheelVelocityGoal);
+        ActiveOpMode.telemetry().addData("current Velocity", flywheel1.getVelocity());
         ActiveOpMode.updateTelemetry(ActiveOpMode.telemetry());
     }
 
     public void turnOn()
     {
         state = true;
+        flywheelPower = 0.9;
         flywheel1.setPower(0.9);
         flywheel2.setPower(0.9);
     }
@@ -62,5 +66,18 @@ public class Flywheel implements Subsystem
                 new SetPower(flywheel1, power),
                 new SetPower(flywheel2, power)
         ).requires(this);
+    }
+
+    public Command increaseFlywheelSpeed(double increase)
+    {
+        return new Command()
+        {
+            @Override
+            public boolean isDone()
+            {
+                flywheelVelocityGoal += increase;
+                return true;
+            }
+        };
     }
 }

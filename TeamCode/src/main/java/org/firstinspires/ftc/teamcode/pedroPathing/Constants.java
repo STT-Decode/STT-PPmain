@@ -37,14 +37,14 @@ public class Constants {
             .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
-            .xVelocity(54.52)
-            .yVelocity(72.55);
+            .xVelocity(24.4)
+            .yVelocity(51.3);
 
     public static OTOSConstants localizerConstants = new OTOSConstants()
             .hardwareMapName("sensor_otos")
             .linearUnit(DistanceUnit.INCH)
             .angleUnit(AngleUnit.RADIANS)
-            .offset(new SparkFunOTOS.Pose2D(0, 5.1, 0.5 * Math.PI))
+            .offset(new SparkFunOTOS.Pose2D(0, 5.1, 90))
             .linearScalar(1.07)
             .angularScalar(0.95);
 

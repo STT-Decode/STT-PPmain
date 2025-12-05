@@ -1,17 +1,15 @@
 package org.firstinspires.ftc.teamcode.Opmodes.Auton;
 
-import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.Pose;
+import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathBuilder;
-import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Opmodes.rootOpMode;
 import org.firstinspires.ftc.teamcode.Subsystems.AlignWithAprilTag;
 import org.firstinspires.ftc.teamcode.Subsystems.Feeder;
 import org.firstinspires.ftc.teamcode.Subsystems.Flywheel;
-import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.Overtake;
 
 import dev.nextftc.core.commands.Command;
@@ -20,10 +18,11 @@ import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.commands.utility.LambdaCommand;
 import dev.nextftc.extensions.pedro.FollowPath;
 import dev.nextftc.extensions.pedro.PedroComponent;
+import dev.nextftc.extensions.pedro.TurnTo;
 import dev.nextftc.ftc.ActiveOpMode;
 import dev.nextftc.ftc.Gamepads;
 
-@Autonomous(name = "auton")
+@Autonomous(name = "PedroAuton")
 public class Auton extends rootOpMode
 {
     Pose farScoringZone = new Pose(80, 8, 90);
@@ -32,8 +31,6 @@ public class Auton extends rootOpMode
 
     boolean isRed = true;
 
-    double alianceXfactor;
-
     AlignWithAprilTag alignWithAprilTag;
 
     SequentialGroup load = new SequentialGroup(
@@ -41,13 +38,20 @@ public class Auton extends rootOpMode
             new Delay(0.7),
             Overtake.INSTANCE.turnOff());
 
+    SequentialGroup shoot = new SequentialGroup(
+            Feeder.INSTANCE.fire(),
+            new Delay(0.2),
+            Feeder.INSTANCE.open(),
+            new Delay(0.2)
+    );
+
     SequentialGroup shootThree = new SequentialGroup(
             new LambdaCommand().setStart(Flywheel.INSTANCE::turnOn),
-            Feeder.INSTANCE.fire(),
+            shoot,
             load,
-            Feeder.INSTANCE.fire(),
+            shoot,
             load,
-            Feeder.INSTANCE.fire(),
+            shoot,
             new LambdaCommand().setStart(Flywheel.INSTANCE::turnOff)
     );
 
@@ -55,16 +59,29 @@ public class Auton extends rootOpMode
         PathBuilder builder = new PathBuilder(PedroComponent.follower());
         int id = isRed ? 24 : 20;
 
-        alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, PedroComponent.follower());
+        alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
 
         return new SequentialGroup(
-                alignWithAprilTag,
+                alignWithAprilTag/*,
+                new Command()
+                {
+                    @Override
+                    public boolean isDone()
+                    {
+                        PedroComponent.follower().setPose(farScoringZone.getPose().minus(new Pose(0,0, 12)));
+                        return true;
+                    }
+                }*/,
                 shootThree,
                 //Drive to close artifacts
                 new FollowPath(builder.addPath(
-                                new BezierCurve(PedroComponent.follower().getPose(), closeArtifacts))
+                                new BezierCurve(PedroComponent.follower().getPose(),
+                                        new Pose(85, 39),
+                                        closeArtifacts))
                         .setLinearHeadingInterpolation(PedroComponent.follower().getHeading(), closeArtifacts.getHeading())
                         .build(), false, 0.5)
+
+
 
                 //Take close artifacts in
                 /*
@@ -86,12 +103,11 @@ public class Auton extends rootOpMode
 
                 shootThree
                  */
-                );
+        );
     }
 
     @Override
     public void onStartButtonPressed() {
-        alianceXfactor = isRed ? 1 : -1;
         PedroComponent.follower().setPose(farScoringZone);
         autonomousRoutine().schedule();
     }

@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Opmodes.TeleOp;
 
-import static java.lang.Math.abs;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -9,8 +7,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.RobotParts.Drivetrain;
 
 //the name is how this Opmode will show up on the driver-hub
-@TeleOp(name = "temporaryOpMode", group = "TeleOp")
-public class temporaryOpMode extends LinearOpMode
+@TeleOp(name = "singlePlayerOpMode", group = "TeleOp")
+public class singlePlayerOpMode extends LinearOpMode
 {
     private ElapsedTime runtime = new ElapsedTime();
     Drivetrain drivetrain = new Drivetrain();
@@ -32,7 +30,7 @@ public class temporaryOpMode extends LinearOpMode
         if (isStopRequested()) return;
         while (opModeIsActive())
         {
-            if (gamepad1.right_bumper)
+            if (gamepad1.b)
             {
                 y = -gamepad1.left_stick_y * 0.5;
                 x = gamepad1.left_stick_x * 0.5;
@@ -42,10 +40,10 @@ public class temporaryOpMode extends LinearOpMode
             {
                 y = -gamepad1.left_stick_y;
                 x = gamepad1.left_stick_x;
-                rotate = -gamepad1.right_stick_x * 0.7;
+                rotate = -gamepad1.right_stick_x;
             }
 
-            if (gamepad1.right_trigger > 0.2 || gamepad2.left_trigger > 0.2)
+            if (gamepad1.left_trigger > 0.2)
             {
                 drivetrain.intake(1);
             }
@@ -54,7 +52,7 @@ public class temporaryOpMode extends LinearOpMode
                 drivetrain.intake(0);
             }
 
-            if (gamepad2.dpad_right)
+            if (gamepad1.a)
             {
                 drivetrain.overtake(-1);
             }
@@ -63,43 +61,39 @@ public class temporaryOpMode extends LinearOpMode
                 drivetrain.overtake(0);
             }
 
-            if (gamepad2.x)
+            if (gamepad1.x)
             {
                 feederPosition = 0.5;
             }
-            if (!gamepad2.x && drivetrain.getFeederPosition() > 0.48)
+            if (!gamepad1.x && drivetrain.getFeederPosition() > 0.48)
             {
                 feederPosition = 0;
             }
 
-            if (gamepad2.right_bumper && speedChangeAllowed)
+            if (gamepad1.right_bumper && speedChangeAllowed)
             {
                 flywheelVelocity += 1;
                 speedChangeAllowed = false;
             }
-            if (gamepad2.left_bumper && speedChangeAllowed)
+            if (gamepad1.left_bumper && speedChangeAllowed)
             {
                 flywheelVelocity -= 1;
                 speedChangeAllowed = false;
             }
-            if (!gamepad2.left_bumper && !gamepad2.right_bumper)
+            if (!gamepad1.left_bumper && !gamepad1.right_bumper)
             {
                 speedChangeAllowed = true;
             }
 
-            if (gamepad2.right_trigger > 0.2)
+            if (gamepad1.right_trigger > 0.2)
             {
                 drivetrain.flywheels(flywheelVelocity*100,drivetrain.getvelocity1(),-drivetrain.getvelocity2());
             }
-            else if (Math.abs(gamepad2.left_stick_y) < 0.2)
+            else
             {
                 drivetrain.flywheels(0,drivetrain.getvelocity1(),-drivetrain.getvelocity2());
             }
-            power=gamepad2.left_stick_y;
-            if(Math.abs(power)>0.5)
-            {
-                drivetrain.backkupflywheels(1);
-            }
+
 
 
             drivetrain.feeder(feederPosition);

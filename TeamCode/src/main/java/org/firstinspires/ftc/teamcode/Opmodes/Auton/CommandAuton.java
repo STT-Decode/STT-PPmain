@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Opmodes.rootOpMode;
 
-@Autonomous(name = "CommandAuton")
+//@Autonomous(name = "CommandAuton")
 public class CommandAuton extends rootOpMode
 {
     @Override

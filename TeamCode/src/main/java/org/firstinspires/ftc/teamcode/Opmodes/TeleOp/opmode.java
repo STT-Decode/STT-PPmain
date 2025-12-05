@@ -78,6 +78,7 @@ public class opmode extends LinearOpMode
             }
             allParts.setServo2pos(servoPos);
             //telemetry.addData("pos", flywheelFeederPos);
+            telemetry.addData("speed",allParts.getflyvel());
             telemetry.addData("pos", servoPos);
             telemetry.addData("flyWheelSpeed", flyWheelSpeed_2);
             //telemetry.addData("flyWheelSpeed", flyWheelSpeed);

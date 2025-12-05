@@ -13,7 +13,6 @@ public class Feeder implements Subsystem
 {
     public static final Feeder INSTANCE = new Feeder();
     private Feeder() { }
-
     private ServoEx feeder = new ServoEx("feeder");
 
     /**Opens the feeder to a position where artifacts can get loaded*/
@@ -25,7 +24,7 @@ public class Feeder implements Subsystem
     /**Turns the feeder give artifacts to the flywheels to fire them*/
     public Command fire()
     {
-        return new SetPosition(feeder, 0.8).requires(this);
+        return new SetPosition(feeder, 0.3).requires(this);
     }
 
 }

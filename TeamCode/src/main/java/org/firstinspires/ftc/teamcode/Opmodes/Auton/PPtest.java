@@ -28,7 +28,7 @@ import com.pedropathing.paths.Path;
 import com.pedropathing.follower.*;
 import static dev.nextftc.extensions.pedro.PedroComponent.follower;
 
-@Autonomous(name = "HOLYSHITWILLITWORKCHAT??")
+//@Autonomous(name = "HOLYSHITWILLITWORKCHAT??")
 public class PPtest extends rootOpMode
 {
     //public static PathBuilder builder = new PathBuilder(PedroComponent.follower());
