@@ -70,6 +70,9 @@ public class CommandDrive extends rootOpMode
         Gamepads.gamepad2().leftBumper()
                 .whenBecomesTrue(Flywheel.INSTANCE.increaseFlywheelSpeed(-20));
 
+        Gamepads.gamepad2().dpadRight()
+                .whenTrue(Overtake.INSTANCE.setCustomPower(-1));
+
     }
 
 }

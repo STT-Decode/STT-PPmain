@@ -51,10 +51,14 @@ public class singlePlayerOpMode extends LinearOpMode
             {
                 drivetrain.intake(0);
             }
-
             if (gamepad1.a)
             {
                 drivetrain.overtake(-1);
+            }
+            else if (gamepad1.dpad_left)
+            {
+                drivetrain.overtake(1);
+                drivetrain.intake(-1);
             }
             else
             {

@@ -44,7 +44,10 @@ public class temporaryOpMode extends LinearOpMode
                 x = gamepad1.left_stick_x;
                 rotate = -gamepad1.right_stick_x * 0.7;
             }
-
+            if (abs(x)+abs(y)<0.1){
+                x=0;
+                y=0;
+            }
             if (gamepad1.right_trigger > 0.2 || gamepad2.left_trigger > 0.2)
             {
                 drivetrain.intake(1);
@@ -54,9 +57,14 @@ public class temporaryOpMode extends LinearOpMode
                 drivetrain.intake(0);
             }
 
-            if (gamepad2.dpad_right)
+            if (gamepad2.dpad_right && !gamepad2.x)
             {
                 drivetrain.overtake(-1);
+            }
+            else if (gamepad2.dpad_left && !gamepad2.x)
+            {
+                drivetrain.overtake(1);
+                drivetrain.intake(-1);
             }
             else
             {
