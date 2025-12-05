@@ -20,12 +20,16 @@ public class Intake implements Subsystem
 
     public Command turnOff()
     {
-        return
-                new SetPower(intake, 0).requires(this);
+        return new SetPower(intake, 0).requires(this);
     }
 
     public Command setCustomPower(double power)
     {
         return new SetPower(intake, power).requires(this);
+    }
+
+    public Command reverse()
+    {
+        return new SetPower(intake, -1).requires(this);
     }
 }

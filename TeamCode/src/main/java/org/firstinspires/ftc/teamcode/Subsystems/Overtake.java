@@ -14,21 +14,25 @@ public class Overtake implements Subsystem
     public static final Overtake INSTANCE = new Overtake();
     private Overtake() { }
 
-    private MotorEx overtakeMotor = new MotorEx("overtake_motor");
+    private MotorEx overtakeMotor = new MotorEx("overtake_motor").reversed();
 
     public Command turnOn()
     {
-        return new SetPower(overtakeMotor, -1);
+        return new SetPower(overtakeMotor, 1).requires(this);
+    }
+    public Command reverse()
+    {
+        return new SetPower(overtakeMotor, -1).requires(this);
     }
 
     public Command turnOff()
     {
-        return new SetPower(overtakeMotor, 0);
+        return new SetPower(overtakeMotor, 0).requires(this);
     }
 
     public Command setCustomPower(double Power)
     {
-        return new SetPower(overtakeMotor, -Power);
+        return new SetPower(overtakeMotor, -Power).requires(this);
     }
 
 }
