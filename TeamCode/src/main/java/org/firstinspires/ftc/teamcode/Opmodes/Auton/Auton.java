@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Opmodes.rootOpMode;
 import org.firstinspires.ftc.teamcode.Subsystems.AlignWithAprilTag;
 import org.firstinspires.ftc.teamcode.Subsystems.Feeder;
 import org.firstinspires.ftc.teamcode.Subsystems.Flywheel;
+import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.Overtake;
 
 import dev.nextftc.core.commands.Command;
@@ -79,12 +80,9 @@ public class Auton extends rootOpMode
                                         new Pose(85, 39),
                                         closeArtifacts))
                         .setLinearHeadingInterpolation(PedroComponent.follower().getHeading(), closeArtifacts.getHeading())
-                        .build(), false, 0.5)
-
-
+                        .build(), false, 0.5),
 
                 //Take close artifacts in
-                /*
                 Intake.INSTANCE.turnOn(),
                 new FollowPath(builder.addPath(
                                 new BezierCurve(PedroComponent.follower().getPose(), PedroComponent.follower().getPose().plus(new Pose(40, 0))))
@@ -102,7 +100,6 @@ public class Auton extends rootOpMode
                 alignWithAprilTag,
 
                 shootThree
-                 */
         );
     }
 

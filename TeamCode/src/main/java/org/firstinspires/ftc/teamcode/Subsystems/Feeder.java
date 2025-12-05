@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import dev.nextftc.core.commands.Command;
+import dev.nextftc.core.commands.delays.Delay;
 import dev.nextftc.core.commands.groups.ParallelGroup;
+import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.subsystems.Subsystem;
 import dev.nextftc.hardware.impl.MotorEx;
 import dev.nextftc.hardware.positionable.SetPosition;
@@ -24,7 +26,11 @@ public class Feeder implements Subsystem
     /**Turns the feeder give artifacts to the flywheels to fire them*/
     public Command fire()
     {
-        return new SetPosition(feeder, 0.3).requires(this);
+        return new SequentialGroup(
+                new SetPosition(feeder, 0.3).requires(this),
+                new Delay(0.2),
+                new SetPosition(feeder, 0).requires(this));
+
     }
 
 }

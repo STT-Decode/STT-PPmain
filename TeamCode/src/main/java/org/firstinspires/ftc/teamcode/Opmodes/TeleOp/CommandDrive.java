@@ -54,11 +54,11 @@ public class CommandDrive extends rootOpMode
         //Intake
         Gamepads.gamepad2().leftTrigger().greaterThan(-1).whenTrue(() -> Intake.INSTANCE.setCustomPower(Gamepads.gamepad2().leftTrigger().get()).schedule());
 
-        //Intake
-        Gamepads.gamepad1().leftTrigger().greaterThan(-1).whenTrue(() -> Intake.INSTANCE.setCustomPower(Gamepads.gamepad1().leftTrigger().get()).schedule());
-
         //Overtake
         Gamepads.gamepad2().leftTrigger().greaterThan(-1).whenTrue(() -> Overtake.INSTANCE.setCustomPower(Gamepads.gamepad2().leftTrigger().get()).schedule());
+
+        Gamepads.gamepad2().a().whenBecomesTrue(Intake.INSTANCE.reverse());
+        Gamepads.gamepad2().a().whenBecomesTrue(Overtake.INSTANCE.reverse());
 
         Gamepads.gamepad2().x().toggleOnBecomesTrue()
                 .whenBecomesTrue(Feeder.INSTANCE.fire())
