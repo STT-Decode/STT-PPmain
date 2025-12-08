@@ -19,7 +19,7 @@ public class Flywheel implements Subsystem
     private MotorEx flywheel2 = new MotorEx("flywheel2");
 
 
-    double flywheelVelocityGoal = 2400;
+    double flywheelVelocityGoal = 2300;
     double flywheelPower;
     boolean state;
 
@@ -38,7 +38,7 @@ public class Flywheel implements Subsystem
             flywheel2.setPower(0);
         }
 
-        flywheelPower = Math.min(flywheelPower, 0.95);
+        flywheelPower = Math.min(flywheelPower, 0.93);
         ActiveOpMode.telemetry().addData("flywheelPower", flywheelPower);
         ActiveOpMode.telemetry().addData("goalVelocity", flywheelVelocityGoal);
         ActiveOpMode.telemetry().addData("current Velocity", flywheel1.getVelocity());
@@ -49,8 +49,8 @@ public class Flywheel implements Subsystem
     {
         state = true;
         flywheelPower = 0.9;
-        flywheel1.setPower(0.9);
-        flywheel2.setPower(0.9);
+        flywheel1.setPower(0.85);
+        flywheel2.setPower(0.85);
     }
 
     public void turnOff()

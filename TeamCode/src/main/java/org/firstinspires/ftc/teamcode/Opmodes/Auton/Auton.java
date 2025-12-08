@@ -41,16 +41,17 @@ public class Auton extends rootOpMode
 
     SequentialGroup shoot = new SequentialGroup(
             Feeder.INSTANCE.fire(),
-            new Delay(0.2),
-            Feeder.INSTANCE.open(),
             new Delay(0.2)
     );
 
     SequentialGroup shootThree = new SequentialGroup(
             new LambdaCommand().setStart(Flywheel.INSTANCE::turnOn),
+            new Delay(3),
             shoot,
             load,
             shoot,
+            Intake.INSTANCE.turnOn(),
+            new Delay(2),
             load,
             shoot,
             new LambdaCommand().setStart(Flywheel.INSTANCE::turnOff)
@@ -63,7 +64,7 @@ public class Auton extends rootOpMode
         alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
 
         return new SequentialGroup(
-                alignWithAprilTag/*,
+                /*,
                 new Command()
                 {
                     @Override
@@ -72,7 +73,7 @@ public class Auton extends rootOpMode
                         PedroComponent.follower().setPose(farScoringZone.getPose().minus(new Pose(0,0, 12)));
                         return true;
                     }
-                }*/,
+                }*/
                 shootThree,
                 //Drive to close artifacts
                 new FollowPath(builder.addPath(
@@ -123,7 +124,7 @@ public class Auton extends rootOpMode
                 isRed = false;
                 farScoringZone = farScoringZone.mirror();
                 closeArtifacts = closeArtifacts.mirror();
-                return false;
+                return true;
             }
         });
     }

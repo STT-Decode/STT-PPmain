@@ -17,6 +17,7 @@ import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.commands.CommandManager;
 import dev.nextftc.core.commands.groups.ParallelGroup;
 import dev.nextftc.extensions.pedro.PedroComponent;
+import dev.nextftc.ftc.ActiveOpMode;
 import dev.nextftc.ftc.Gamepads;
 import dev.nextftc.hardware.driving.MecanumDriverControlled;
 import dev.nextftc.bindings.BindingManager;
@@ -24,6 +25,8 @@ import dev.nextftc.bindings.BindingManager;
 @TeleOp(name = "Drive")
 public class CommandDrive extends rootOpMode
 {
+    boolean isRed = true;
+
     @Override
     public void onStartButtonPressed()
     {
@@ -33,9 +36,9 @@ public class CommandDrive extends rootOpMode
                 frontRightMotor,
                 backLeftMotor,
                 backRightMotor,
-                Gamepads.gamepad1().leftStickY(),
-                Gamepads.gamepad1().leftStickX().negate(),
-                Gamepads.gamepad1().rightStickX().negate().mapToRange(value -> value * 0.8)
+                Gamepads.gamepad1().leftStickY().deadZone(0.05),
+                Gamepads.gamepad1().leftStickX().negate().deadZone(0.05),
+                Gamepads.gamepad1().rightStickX().negate().deadZone(0.05).mapToRange(value -> value * 0.8)
         );
 
 
@@ -43,8 +46,9 @@ public class CommandDrive extends rootOpMode
         driverControlled.schedule();
         BindingManager.update();
 
-        Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, -1, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
-        Gamepads.gamepad1().rightBumper().whenBecomesTrue(alignWithAprilTag);
+        int id = isRed ? 24 : 20;
+        Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
+        Gamepads.gamepad1().rightBumper().whenBecomesTrue(alignWithAprilTag.endAfter(1));
 
         //Flywheels
         Gamepads.gamepad2().rightTrigger().greaterThan(0.3)
@@ -52,24 +56,45 @@ public class CommandDrive extends rootOpMode
                 .whenBecomesFalse(Flywheel.INSTANCE::turnOff);
 
         //Intake
-        Gamepads.gamepad2().leftTrigger().greaterThan(-1).whenTrue(() -> Intake.INSTANCE.setCustomPower(Gamepads.gamepad2().leftTrigger().get()).schedule());
+        Gamepads.gamepad2().leftTrigger().greaterThan(0.1).whenTrue(() -> Intake.INSTANCE.setCustomPower(Gamepads.gamepad2().leftTrigger().get()).schedule())
+                .whenFalse(Intake.INSTANCE.setCustomPower(Gamepads.gamepad2().dpadLeft().get() ? -1 : 0));
 
         //Overtake
-        Gamepads.gamepad2().leftTrigger().greaterThan(-1).whenTrue(() -> Overtake.INSTANCE.setCustomPower(Gamepads.gamepad2().leftTrigger().get()).schedule());
+        Gamepads.gamepad2().a().whenBecomesTrue(Overtake.INSTANCE.turnOn())
+                .whenBecomesFalse(Overtake.INSTANCE.turnOff());
 
-        Gamepads.gamepad2().a().whenBecomesTrue(Intake.INSTANCE.reverse());
-        Gamepads.gamepad2().a().whenBecomesTrue(Overtake.INSTANCE.reverse());
+        Gamepads.gamepad2().dpadLeft().whenBecomesTrue(Overtake.INSTANCE.reverse())
+                                        .whenBecomesFalse(Overtake.INSTANCE.turnOff());
 
-        Gamepads.gamepad2().x().toggleOnBecomesTrue()
-                .whenBecomesTrue(Feeder.INSTANCE.fire())
-                .whenBecomesFalse(Feeder.INSTANCE.open());
+        Gamepads.gamepad2().dpadLeft().whenBecomesTrue(Intake.INSTANCE.reverse())
+                                        .whenBecomesFalse(Intake.INSTANCE.turnOff());
+
+        Gamepads.gamepad2().x()
+                .whenBecomesTrue(Feeder.INSTANCE.fire());
 
         Gamepads.gamepad2().rightBumper()
-                .whenBecomesTrue(Flywheel.INSTANCE.increaseFlywheelSpeed(20));
+                .whenBecomesTrue(Flywheel.INSTANCE.increaseFlywheelSpeed(50));
 
         Gamepads.gamepad2().leftBumper()
-                .whenBecomesTrue(Flywheel.INSTANCE.increaseFlywheelSpeed(-20));
+                .whenBecomesTrue(Flywheel.INSTANCE.increaseFlywheelSpeed(-50));
 
+    }
+
+    @Override
+    public void onInit()
+    {
+        ActiveOpMode.telemetry().addData("Aliance", "Red");
+        Gamepads.gamepad1().b().whenBecomesTrue(new Command()
+        {
+            @Override
+            public boolean isDone()
+            {
+                ActiveOpMode.telemetry().addData("Aliance", "Blue");
+                ActiveOpMode.updateTelemetry(ActiveOpMode.telemetry());
+                isRed = false;
+                return true;
+            }
+        });
     }
 
 }
