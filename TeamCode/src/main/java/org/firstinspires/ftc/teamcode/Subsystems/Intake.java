@@ -13,6 +13,13 @@ public class Intake implements Subsystem
 
     private MotorEx intake = new MotorEx("intake");
 
+    @Override
+    public void initialize()
+    {
+        intake = new MotorEx("intake");
+        intake.setPower(0);
+    }
+
     public Command turnOn()
     {
         return new SetPower(intake, 1).requires(this);

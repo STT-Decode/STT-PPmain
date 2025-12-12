@@ -29,12 +29,15 @@ public class AlignWithAprilTag extends Command
     private final int id;
     Size camSize;
 
+
+    private final double OFFSET = 25;
+
     Follower follower;
 
     /**
      * Aims the robot to a April Tag, used for scoring for example
      *
-     * @param id the ID of the April Tag to aim at. -1 works if there is only one April Tag visible, else it will return exit code 1
+     * @param id the ID of the April Tag to aim at. -1 works if there is only one April Tag visible
      */
     public AlignWithAprilTag(HardwareMap hardwareMap, int id, MotorEx bl, MotorEx fl, MotorEx br, MotorEx fr)
     {
@@ -73,11 +76,11 @@ public class AlignWithAprilTag extends Command
 
                 if (detection.id == 24)
                 {
-                    offset = -109;
+                    offset = -OFFSET;
                 }
                 else if (detection.id == 20)
                 {
-                    offset = 109;
+                    offset = OFFSET;
                 }
 
                 double rotation = (detection.center.x - ((double) camSize.getWidth() / 2) - offset) / camSize.getWidth() * 2 * 1.7;
@@ -123,11 +126,11 @@ public class AlignWithAprilTag extends Command
 
             if (detection.id == 24)
             {
-                offset = 10;
+                offset = -OFFSET;
             }
             else if (detection.id == 20)
             {
-                offset = -10;
+                offset = OFFSET;
             }
 
             if ((Math.abs(detection.center.x - ((double) camSize.getWidth() / 2) - offset) < 40) && ((detection.id == this.id) || (this.id == -1)))

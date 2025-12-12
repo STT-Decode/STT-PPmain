@@ -64,6 +64,7 @@ public class Auton extends rootOpMode
         alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
 
         return new SequentialGroup(
+                alignWithAprilTag,
                 /*,
                 new Command()
                 {

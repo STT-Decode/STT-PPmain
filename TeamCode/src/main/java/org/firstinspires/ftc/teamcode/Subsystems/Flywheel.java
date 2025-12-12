@@ -13,15 +13,27 @@ import dev.nextftc.hardware.powerable.SetPower;
 public class Flywheel implements Subsystem
 {
     public static final Flywheel INSTANCE = new Flywheel();
-    private Flywheel() { }
+    private Flywheel() {}
 
     private MotorEx flywheel1 = new MotorEx("flywheel1").reversed();
     private MotorEx flywheel2 = new MotorEx("flywheel2");
 
-
     double flywheelVelocityGoal = 2300;
     double flywheelPower;
     boolean state;
+
+    @Override
+    public void initialize()
+    {
+        flywheel1 = new MotorEx("flywheel1").reversed();
+        flywheel2 = new MotorEx("flywheel2");
+
+        flywheelVelocityGoal = 2300;
+        flywheelPower = 0;
+        state = false;
+    }
+
+
 
 
     @Override
