@@ -48,7 +48,7 @@ public class CommandDrive extends rootOpMode
 
         int id = isRed ? 24 : 20;
         Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
-        Gamepads.gamepad1().rightBumper().whenBecomesTrue(alignWithAprilTag.endAfter(1));
+        Gamepads.gamepad1().rightBumper().whenBecomesTrue(alignWithAprilTag);
 
         //Flywheels
         Gamepads.gamepad2().rightTrigger().greaterThan(0.3)

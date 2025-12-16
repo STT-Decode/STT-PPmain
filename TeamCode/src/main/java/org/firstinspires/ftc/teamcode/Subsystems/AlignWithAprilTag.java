@@ -133,7 +133,7 @@ public class AlignWithAprilTag extends Command
                 offset = OFFSET;
             }
 
-            if ((Math.abs(detection.center.x - ((double) camSize.getWidth() / 2) - offset) < 40) && ((detection.id == this.id) || (this.id == -1)))
+            if ((Math.abs(detection.center.x - ((double) camSize.getWidth() / 2) - offset) < 20) && ((detection.id == this.id) || (this.id == -1)))
             {
                 return true;
             }
