@@ -25,7 +25,7 @@ public class AlignWithAprilTag extends Command
     private final MotorEx frontLeft;
     private final MotorEx backRight;
     private final MotorEx frontRight;
-    private final VisionPortal visionPortal;
+    private VisionPortal visionPortal;
     private final int id;
     Size camSize;
 
@@ -39,27 +39,14 @@ public class AlignWithAprilTag extends Command
      *
      * @param id the ID of the April Tag to aim at. -1 works if there is only one April Tag visible
      */
-    public AlignWithAprilTag(HardwareMap hardwareMap, int id, MotorEx bl, MotorEx fl, MotorEx br, MotorEx fr)
+    public AlignWithAprilTag(HardwareMap hardwareMap, int id, MotorEx bl, MotorEx fl, MotorEx br, MotorEx fr, VisionPortal vision)
     {
         this.backLeft = bl;
         this.frontLeft = fl;
         this.backRight = br;
         this.frontRight = fr;
 
-        // Create the AprilTag processor the easy way.
-        aprilTag = AprilTagProcessor.easyCreateWithDefaults();
-
-        // Create the vision portal the easy way.
-
-        camSize = new Size(640, 480);
-
-        visionPortal = new VisionPortal.Builder()
-                .setCamera(hardwareMap.get(WebcamName.class, "webcam"))
-                .addProcessor(aprilTag)
-                .setCameraResolution(camSize)
-                .setStreamFormat(VisionPortal.StreamFormat.YUY2)
-                .setAutoStopLiveView(true)
-                .build();
+        visionPortal = vision;
         this.id = id;
     }
 

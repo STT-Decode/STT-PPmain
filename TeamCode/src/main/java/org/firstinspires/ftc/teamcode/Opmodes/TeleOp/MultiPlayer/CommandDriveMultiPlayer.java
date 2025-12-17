@@ -1,29 +1,24 @@
-package org.firstinspires.ftc.teamcode.Opmodes.TeleOp;
-
-import android.util.Range;
+package org.firstinspires.ftc.teamcode.Opmodes.TeleOp.MultiPlayer;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Opmodes.rootOpMode;
 import org.firstinspires.ftc.teamcode.Subsystems.AlignWithAprilTag;
 import org.firstinspires.ftc.teamcode.Subsystems.Feeder;
 import org.firstinspires.ftc.teamcode.Subsystems.Flywheel;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.Overtake;
-
-import java.util.Map;
+import org.firstinspires.ftc.vision.VisionPortal;
 
 import dev.nextftc.core.commands.Command;
-import dev.nextftc.core.commands.CommandManager;
-import dev.nextftc.core.commands.groups.ParallelGroup;
-import dev.nextftc.extensions.pedro.PedroComponent;
 import dev.nextftc.ftc.ActiveOpMode;
 import dev.nextftc.ftc.Gamepads;
 import dev.nextftc.hardware.driving.MecanumDriverControlled;
 import dev.nextftc.bindings.BindingManager;
 
-@TeleOp(name = "Drive")
-public class CommandDrive extends rootOpMode
+@TeleOp(name = "DriveMulti")
+public class CommandDriveMultiPlayer extends rootOpMode
 {
     boolean isRed = true;
 
@@ -47,7 +42,7 @@ public class CommandDrive extends rootOpMode
         BindingManager.update();
 
         int id = isRed ? 24 : 20;
-        Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
+        Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, visionPortal);
         Gamepads.gamepad1().rightBumper().whenBecomesTrue(alignWithAprilTag);
 
         //Flywheels
@@ -95,6 +90,20 @@ public class CommandDrive extends rootOpMode
                 return true;
             }
         });
+
+        visionPortal = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "webcam"))
+                .addProcessor(aprilTag)
+                .setCameraResolution(camSize)
+                .setStreamFormat(VisionPortal.StreamFormat.YUY2)
+                .setAutoStopLiveView(true)
+                .build();visionPortal = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "webcam"))
+                .addProcessor(aprilTag)
+                .setCameraResolution(camSize)
+                .setStreamFormat(VisionPortal.StreamFormat.YUY2)
+                .setAutoStopLiveView(true)
+                .build();
     }
 
 }

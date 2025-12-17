@@ -1,5 +1,11 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import static org.firstinspires.ftc.teamcode.Opmodes.rootOpMode.aprilTag;
+
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+
+import java.util.List;
+
 import dev.nextftc.control.ControlSystem;
 import dev.nextftc.control.KineticState;
 import dev.nextftc.core.commands.groups.ParallelGroup;
@@ -32,9 +38,6 @@ public class Flywheel implements Subsystem
         flywheelPower = 0;
         state = false;
     }
-
-
-
 
     @Override
     public void periodic()
@@ -91,5 +94,29 @@ public class Flywheel implements Subsystem
                 return true;
             }
         };
+    }
+
+    public Command autoSetFlywheelSpeed(int id)
+    {
+        return new Command()
+        {
+            @Override
+            public boolean isDone()
+            {
+                List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+
+                for (AprilTagDetection detection : currentDetections)
+                {
+                    if ((detection.id == id) || (id == -1))
+                    {
+                        double distance = detection.center.y;
+                        ActiveOpMode.telemetry().addData("Distance", distance);
+                        flywheelVelocityGoal = distance * 0.01;
+                    }
+                }
+                return true;
+            }
+        };
+
     }
 }

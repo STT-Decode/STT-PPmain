@@ -1,12 +1,17 @@
 package org.firstinspires.ftc.teamcode.Opmodes;
 
+import android.util.Size;
+
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Subsystems.Overtake;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.Subsystems.Feeder;
 import org.firstinspires.ftc.teamcode.Subsystems.Flywheel;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import dev.nextftc.core.components.BindingsComponent;
 import dev.nextftc.core.components.SubsystemComponent;
@@ -34,4 +39,12 @@ public class rootOpMode extends NextFTCOpMode
 
     protected ElapsedTime runtime = new ElapsedTime();
 
+    // Create the AprilTag processor the easy way.
+    public static AprilTagProcessor aprilTag = AprilTagProcessor.easyCreateWithDefaults();
+
+    // Create the vision portal the easy way.
+
+    public Size camSize = new Size(640, 480);
+
+    public VisionPortal visionPortal;
 }

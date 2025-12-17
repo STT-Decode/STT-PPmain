@@ -6,12 +6,14 @@ import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathBuilder;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Opmodes.rootOpMode;
 import org.firstinspires.ftc.teamcode.Subsystems.AlignWithAprilTag;
 import org.firstinspires.ftc.teamcode.Subsystems.Feeder;
 import org.firstinspires.ftc.teamcode.Subsystems.Flywheel;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.Overtake;
+import org.firstinspires.ftc.vision.VisionPortal;
 
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.commands.delays.Delay;
@@ -61,7 +63,7 @@ public class Auton extends rootOpMode
         PathBuilder builder = new PathBuilder(PedroComponent.follower());
         int id = isRed ? 24 : 20;
 
-        alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
+        alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, visionPortal);
 
         return new SequentialGroup(
                 alignWithAprilTag,
@@ -128,5 +130,19 @@ public class Auton extends rootOpMode
                 return true;
             }
         });
+
+        visionPortal = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "webcam"))
+                .addProcessor(aprilTag)
+                .setCameraResolution(camSize)
+                .setStreamFormat(VisionPortal.StreamFormat.YUY2)
+                .setAutoStopLiveView(true)
+                .build();visionPortal = new VisionPortal.Builder()
+            .setCamera(hardwareMap.get(WebcamName.class, "webcam"))
+            .addProcessor(aprilTag)
+            .setCameraResolution(camSize)
+            .setStreamFormat(VisionPortal.StreamFormat.YUY2)
+            .setAutoStopLiveView(true)
+            .build();
     }
 }
