@@ -54,7 +54,6 @@ public class CommandDriveMultiPlayer extends rootOpMode
         //Intake
         Gamepads.gamepad2().leftTrigger().greaterThan(-1).whenTrue(() -> Intake.INSTANCE.setCustomPower(Gamepads.gamepad2().leftTrigger().get()).schedule());
 
-
         //Overtake
         Gamepads.gamepad2().a().whenBecomesTrue(Overtake.INSTANCE.turnOn())
                 .whenBecomesFalse(Overtake.INSTANCE.turnOff());
