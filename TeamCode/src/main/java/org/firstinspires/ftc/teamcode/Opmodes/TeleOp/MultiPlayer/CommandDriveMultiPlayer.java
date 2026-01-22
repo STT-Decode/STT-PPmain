@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Flywheel;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.Overtake;
 import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.ftc.ActiveOpMode;
@@ -51,8 +52,8 @@ public class CommandDriveMultiPlayer extends rootOpMode
                 .whenBecomesFalse(Flywheel.INSTANCE::turnOff);
 
         //Intake
-        Gamepads.gamepad2().leftTrigger().greaterThan(0.1).whenTrue(() -> Intake.INSTANCE.setCustomPower(Gamepads.gamepad2().leftTrigger().get()).schedule())
-                .whenFalse(Intake.INSTANCE.setCustomPower(Gamepads.gamepad2().dpadLeft().get() ? -1 : 0));
+        Gamepads.gamepad2().leftTrigger().greaterThan(-1).whenTrue(() -> Intake.INSTANCE.setCustomPower(Gamepads.gamepad2().leftTrigger().get()).schedule());
+
 
         //Overtake
         Gamepads.gamepad2().a().whenBecomesTrue(Overtake.INSTANCE.turnOn())
@@ -90,14 +91,9 @@ public class CommandDriveMultiPlayer extends rootOpMode
                 return true;
             }
         });
+        AprilTagProcessor aprilTag = AprilTagProcessor.easyCreateWithDefaults();
 
         visionPortal = new VisionPortal.Builder()
-                .setCamera(hardwareMap.get(WebcamName.class, "webcam"))
-                .addProcessor(aprilTag)
-                .setCameraResolution(camSize)
-                .setStreamFormat(VisionPortal.StreamFormat.YUY2)
-                .setAutoStopLiveView(true)
-                .build();visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "webcam"))
                 .addProcessor(aprilTag)
                 .setCameraResolution(camSize)

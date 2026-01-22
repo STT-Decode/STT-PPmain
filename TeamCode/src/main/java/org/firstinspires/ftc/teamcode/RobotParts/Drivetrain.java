@@ -18,7 +18,7 @@ public class Drivetrain
     private DcMotorEx flywheel2;
     private DcMotorEx intake;
     private DcMotorEx overtake;
-    private Servo feeder;
+
     double additionalPower1=0;
     double additionalPower2=0;
 
@@ -31,8 +31,8 @@ public class Drivetrain
         flywheel1 = map.get(DcMotorEx.class, "flywheel1");
         flywheel2 = map.get(DcMotorEx.class, "flywheel2");
         intake = map.get(DcMotorEx.class, "intake");
-        overtake = map.get(DcMotorEx.class, "overtake_motor");
-        feeder = map.get(Servo.class, "feeder");
+        overtake = map.get(DcMotorEx.class, "overtake");
+
 
         rf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -50,7 +50,7 @@ public class Drivetrain
         lf.setPower(leftFrontPower);
         rf.setPower(-rightFrontPower);
         rb.setPower(-rightRearPower);
-        lb.setPower(leftRearPower);
+        lb.setPower(-leftRearPower);
     }
 
     public void flywheels(double velocity,double f1v,double f2v)
@@ -76,7 +76,7 @@ public class Drivetrain
     }
     public  void backkupflywheels(double power){
         flywheel2.setPower(-power);
-        flywheel1.setPower(power);
+        flywheel1.setPower(-power);
     }
     public double getAdditionalPower1(){
         return additionalPower1;
@@ -89,9 +89,8 @@ public class Drivetrain
         intake.setPower(power);
     }
     public void overtake(double power){overtake.setPower(power);}
-    public void feeder(double position){feeder.setPosition(position);}
 
-    public double getFeederPosition(){return feeder.getPosition();}
+
     public double getvelocity1(){
         return flywheel1.getVelocity();
     }

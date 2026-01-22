@@ -11,7 +11,7 @@ public class Intake implements Subsystem
     public static final Intake INSTANCE = new Intake();
     private Intake() { }
 
-    private MotorEx intake = new MotorEx("intake");
+    private MotorEx intake = new MotorEx("intake").reversed();
 
     @Override
     public void initialize()

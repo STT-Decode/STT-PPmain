@@ -21,8 +21,8 @@ public class Flywheel implements Subsystem
     public static final Flywheel INSTANCE = new Flywheel();
     private Flywheel() {}
 
-    private MotorEx flywheel1 = new MotorEx("flywheel1").reversed();
-    private MotorEx flywheel2 = new MotorEx("flywheel2");
+    private MotorEx flywheel1 = new MotorEx("flywheel1").reversed().brakeMode();
+    private MotorEx flywheel2 = new MotorEx("flywheel2").reversed().brakeMode();
 
     double flywheelVelocityGoal = 2300;
     double flywheelPower;

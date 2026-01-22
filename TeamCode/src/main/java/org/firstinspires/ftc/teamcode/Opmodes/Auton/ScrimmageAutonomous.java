@@ -38,19 +38,19 @@ public class ScrimmageAutonomous extends LinearOpMode
             }
             if (passedTime < 2000 && passedTime > 500)
             {
-                Drivetrain.feeder(1);
+                //Drivetrain.feeder(1);
                 Drivetrain.overtake(-1);
                 Drivetrain.intake(1);
             }
             else if (passedTime < 4000)
             {
-                Drivetrain.feeder(1);
+               // Drivetrain.feeder(1);
                 Drivetrain.overtake(-1);
                 Drivetrain.intake(0);
             }
             else
             {
-                Drivetrain.feeder(0);
+                //Drivetrain.feeder(0);
                 Drivetrain.overtake(0);
                 Drivetrain.intake(0);
             }

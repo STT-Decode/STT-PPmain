@@ -23,7 +23,7 @@ public class temporaryOpMode extends LinearOpMode
         double y;
         double x;
         double rotate;
-        double flywheelVelocity = 25;
+        double flywheelVelocity = 0.96;
         boolean speedChangeAllowed = true;
         double feederPosition = 0;
         boolean toggleServoPos = true;
@@ -50,7 +50,7 @@ public class temporaryOpMode extends LinearOpMode
             }
             if (gamepad1.right_trigger > 0.2 || gamepad2.left_trigger > 0.2)
             {
-                drivetrain.intake(1);
+                drivetrain.intake(-1);
             }
             else
             {
@@ -71,23 +71,15 @@ public class temporaryOpMode extends LinearOpMode
                 drivetrain.overtake(0);
             }
 
-            if (gamepad2.x)
-            {
-                feederPosition = 0.5;
-            }
-            if (!gamepad2.x && drivetrain.getFeederPosition() > 0.48)
-            {
-                feederPosition = 0;
-            }
 
             if (gamepad2.right_bumper && speedChangeAllowed)
             {
-                flywheelVelocity += 0.5;
+                flywheelVelocity += 0.02;
                 speedChangeAllowed = false;
             }
             if (gamepad2.left_bumper && speedChangeAllowed)
             {
-                flywheelVelocity -= 1;
+                flywheelVelocity -= 0.02;
                 speedChangeAllowed = false;
             }
             if (!gamepad2.left_bumper && !gamepad2.right_bumper)
@@ -97,22 +89,19 @@ public class temporaryOpMode extends LinearOpMode
 
             if (gamepad2.right_trigger > 0.2)
             {
-                drivetrain.flywheels(flywheelVelocity*100,drivetrain.getvelocity1(),-drivetrain.getvelocity2());
+                drivetrain.backkupflywheels(flywheelVelocity);
             }
             else if (Math.abs(gamepad2.left_stick_y) < 0.2)
             {
-                drivetrain.flywheels(0,drivetrain.getvelocity1(),-drivetrain.getvelocity2());
+                drivetrain.backkupflywheels(0);
             }
             power=gamepad2.left_stick_y;
-            if(Math.abs(power)>0.5)
-            {
-                drivetrain.backkupflywheels(1);
-            }
 
 
-            drivetrain.feeder(feederPosition);
+
+
             drivetrain.drive0(y, x, rotate, 1);
-            telemetry.addData("flywheelVelocity", flywheelVelocity*100);
+            telemetry.addData("flywheelVelocity", flywheelVelocity*100+"%");
             telemetry.addData("feederPosition", feederPosition);
             telemetry.addData("flywheel1velocity",drivetrain.getvelocity1());
             telemetry.addData("flywheel2velocity",drivetrain.getvelocity2());

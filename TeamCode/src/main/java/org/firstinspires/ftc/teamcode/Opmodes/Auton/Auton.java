@@ -137,12 +137,6 @@ public class Auton extends rootOpMode
                 .setCameraResolution(camSize)
                 .setStreamFormat(VisionPortal.StreamFormat.YUY2)
                 .setAutoStopLiveView(true)
-                .build();visionPortal = new VisionPortal.Builder()
-            .setCamera(hardwareMap.get(WebcamName.class, "webcam"))
-            .addProcessor(aprilTag)
-            .setCameraResolution(camSize)
-            .setStreamFormat(VisionPortal.StreamFormat.YUY2)
-            .setAutoStopLiveView(true)
-            .build();
+                .build();
     }
 }

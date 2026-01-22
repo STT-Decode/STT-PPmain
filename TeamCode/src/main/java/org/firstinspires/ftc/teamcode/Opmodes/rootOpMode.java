@@ -32,7 +32,7 @@ public class rootOpMode extends NextFTCOpMode
         );
     }
 
-    protected final MotorEx frontLeftMotor = new MotorEx("left_front").reversed().brakeMode();
+    protected final MotorEx frontLeftMotor = new MotorEx("left_front").brakeMode();
     protected final MotorEx frontRightMotor = new MotorEx("right_front").reversed().brakeMode();
     protected final MotorEx backLeftMotor = new MotorEx("left_back").reversed().brakeMode();
     protected final MotorEx backRightMotor = new MotorEx("right_back").reversed().brakeMode();
@@ -40,7 +40,7 @@ public class rootOpMode extends NextFTCOpMode
     protected ElapsedTime runtime = new ElapsedTime();
 
     // Create the AprilTag processor the easy way.
-    public static AprilTagProcessor aprilTag = AprilTagProcessor.easyCreateWithDefaults();
+    public static AprilTagProcessor aprilTag;
 
     // Create the vision portal the easy way.
 

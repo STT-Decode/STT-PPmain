@@ -69,19 +69,19 @@ public class singlePlayerOpMode extends LinearOpMode
             {
                 feederPosition = 0.5;
             }
-            if (!gamepad1.x && drivetrain.getFeederPosition() > 0.48)
+            /*if (!gamepad1.x && drivetrain.getFeederPosition() > 0.48)
             {
                 feederPosition = 0;
-            }
+            }*/
 
             if (gamepad1.right_bumper && speedChangeAllowed)
             {
-                flywheelVelocity += 1;
+                flywheelVelocity += 0.02;
                 speedChangeAllowed = false;
             }
             if (gamepad1.left_bumper && speedChangeAllowed)
             {
-                flywheelVelocity -= 1;
+                flywheelVelocity -= 0.02;
                 speedChangeAllowed = false;
             }
             if (!gamepad1.left_bumper && !gamepad1.right_bumper)
@@ -91,16 +91,14 @@ public class singlePlayerOpMode extends LinearOpMode
 
             if (gamepad1.right_trigger > 0.2)
             {
-                drivetrain.flywheels(flywheelVelocity*100,drivetrain.getvelocity1(),-drivetrain.getvelocity2());
+                drivetrain.backkupflywheels(flywheelVelocity);
             }
             else
             {
-                drivetrain.flywheels(0,drivetrain.getvelocity1(),-drivetrain.getvelocity2());
+                drivetrain.backkupflywheels(0);
             }
 
-
-
-            drivetrain.feeder(feederPosition);
+            //drivetrain.feeder(feederPosition);
             drivetrain.drive0(y, x, rotate, 1);
             telemetry.addData("flywheelVelocity", flywheelVelocity*100);
             telemetry.addData("feederPosition", feederPosition);
