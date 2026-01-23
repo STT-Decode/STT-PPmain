@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Flywheel;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.Overtake;
 import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import dev.nextftc.bindings.BindingManager;
 import dev.nextftc.core.commands.Command;
@@ -42,7 +43,7 @@ public class CommandDriveSinglePlayer extends rootOpMode
         BindingManager.update();
 
         int id = isRed ? 24 : 20;
-        Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, visionPortal);
+        Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize);
         Gamepads.gamepad1().rightBumper().whenBecomesTrue(alignWithAprilTag);
 
         //Flywheels
@@ -93,6 +94,8 @@ public class CommandDriveSinglePlayer extends rootOpMode
                 return true;
             }
         });
+
+        aprilTag = AprilTagProcessor.easyCreateWithDefaults();
 
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "webcam"))

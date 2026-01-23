@@ -43,7 +43,7 @@ public class CommandDriveMultiPlayer extends rootOpMode
         BindingManager.update();
 
         int id = isRed ? 24 : 20;
-        Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, visionPortal);
+        Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize);
         Gamepads.gamepad1().rightBumper().whenBecomesTrue(alignWithAprilTag);
 
         //Flywheels
@@ -90,7 +90,8 @@ public class CommandDriveMultiPlayer extends rootOpMode
                 return true;
             }
         });
-        AprilTagProcessor aprilTag = AprilTagProcessor.easyCreateWithDefaults();
+
+        aprilTag = AprilTagProcessor.easyCreateWithDefaults();
 
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "webcam"))

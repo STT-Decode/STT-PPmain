@@ -6,7 +6,6 @@ import android.util.Size;
 import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -20,15 +19,15 @@ import dev.nextftc.hardware.impl.MotorEx;
 
 public class AlignWithAprilTag extends Command
 {
-    private static AprilTagProcessor aprilTag;
-    private final MotorEx backLeft;
-    private final MotorEx frontLeft;
-    private final MotorEx backRight;
-    private final MotorEx frontRight;
+    private AprilTagProcessor aprilTag;
+    private MotorEx backLeft;
+    private MotorEx frontLeft;
+    private MotorEx backRight;
+    private MotorEx frontRight;
     private VisionPortal visionPortal;
-    private final int id;
-    Size camSize;
+    private int id;
 
+    private Size camSize;
 
     private final double OFFSET = 25;
 
@@ -39,14 +38,15 @@ public class AlignWithAprilTag extends Command
      *
      * @param id the ID of the April Tag to aim at. -1 works if there is only one April Tag visible
      */
-    public AlignWithAprilTag(HardwareMap hardwareMap, int id, MotorEx bl, MotorEx fl, MotorEx br, MotorEx fr, VisionPortal vision)
+    public AlignWithAprilTag(HardwareMap hardwareMap, int id, MotorEx bl, MotorEx fl, MotorEx br, MotorEx fr, AprilTagProcessor aprilVision, Size camSize)
     {
         this.backLeft = bl;
         this.frontLeft = fl;
         this.backRight = br;
         this.frontRight = fr;
+        this.camSize = camSize;
 
-        visionPortal = vision;
+        this.aprilTag = aprilVision;
         this.id = id;
     }
 

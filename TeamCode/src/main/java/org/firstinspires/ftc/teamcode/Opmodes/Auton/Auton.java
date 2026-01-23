@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Flywheel;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.Overtake;
 import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.commands.delays.Delay;
@@ -63,7 +64,7 @@ public class Auton extends rootOpMode
         PathBuilder builder = new PathBuilder(PedroComponent.follower());
         int id = isRed ? 24 : 20;
 
-        alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, visionPortal);
+        alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize);
 
         return new SequentialGroup(
                 alignWithAprilTag,
@@ -130,6 +131,8 @@ public class Auton extends rootOpMode
                 return true;
             }
         });
+
+        aprilTag = AprilTagProcessor.easyCreateWithDefaults();
 
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "webcam"))
