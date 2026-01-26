@@ -68,43 +68,14 @@ public class Auton extends rootOpMode
 
         return new SequentialGroup(
                 alignWithAprilTag,
-                /*,
-                new Command()
-                {
-                    @Override
-                    public boolean isDone()
-                    {
-                        PedroComponent.follower().setPose(farScoringZone.getPose().minus(new Pose(0,0, 12)));
-                        return true;
-                    }
-                }*/
                 shootThree,
-                //Drive to close artifacts
-                new FollowPath(builder.addPath(
-                                new BezierCurve(PedroComponent.follower().getPose(),
-                                        new Pose(85, 39),
-                                        closeArtifacts))
-                        .setLinearHeadingInterpolation(PedroComponent.follower().getHeading(), closeArtifacts.getHeading())
-                        .build(), false, 0.5),
-
-                //Take close artifacts in
-                Intake.INSTANCE.turnOn(),
-                new FollowPath(builder.addPath(
-                                new BezierCurve(PedroComponent.follower().getPose(), PedroComponent.follower().getPose().plus(new Pose(40, 0))))
-                        .setConstantHeadingInterpolation(180)
-                        .build(), false, 0.5),
-                Intake.INSTANCE.turnOff(),
-
-                //Drive back to far shooting zone
+                //Align with close artifacts
                 new FollowPath(builder.addPath(
                                 new BezierCurve(PedroComponent.follower().getPose(), farScoringZone))
-                        .setLinearHeadingInterpolation(PedroComponent.follower().getHeading(), farScoringZone.getHeading())
-                        .build(), false, 0.5),
-
-
-                alignWithAprilTag,
-
-                shootThree
+                        .addPath(new BezierCurve(farScoringZone, new Pose(80, 36, 90)))
+                        .addPath(new BezierCurve(PedroComponent.follower().getPose(), PedroComponent.follower().getPose().plus(new Pose(0,-90))))
+                        .setTangentHeadingInterpolation()
+                        .build(), false, 0.5)
         );
     }
 

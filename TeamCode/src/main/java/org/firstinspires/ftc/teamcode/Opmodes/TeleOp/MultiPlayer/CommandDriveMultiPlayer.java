@@ -64,9 +64,6 @@ public class CommandDriveMultiPlayer extends rootOpMode
         Gamepads.gamepad2().dpadLeft().whenBecomesTrue(Intake.INSTANCE.reverse())
                                         .whenBecomesFalse(Intake.INSTANCE.turnOff());
 
-        Gamepads.gamepad2().x()
-                .whenBecomesTrue(Feeder.INSTANCE.fire());
-
         Gamepads.gamepad2().rightBumper()
                 .whenBecomesTrue(Flywheel.INSTANCE.increaseFlywheelSpeed(50));
 

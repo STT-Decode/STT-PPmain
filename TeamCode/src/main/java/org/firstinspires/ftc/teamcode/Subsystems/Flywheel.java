@@ -45,7 +45,7 @@ public class Flywheel implements Subsystem
     {
         if (state)
         {
-            flywheelPower += ((flywheelVelocityGoal - Math.abs(flywheel1.getVelocity())) / 5000);
+            flywheelPower += ((flywheelVelocityGoal - Math.abs(flywheel2.getVelocity())) / 5000);
             new SetPower(flywheel1, flywheelPower).schedule();
             new SetPower(flywheel2, flywheelPower).schedule();
         } else
@@ -57,7 +57,7 @@ public class Flywheel implements Subsystem
         flywheelPower = Math.min(flywheelPower, 0.93);
         ActiveOpMode.telemetry().addData("flywheelPower", flywheelPower);
         ActiveOpMode.telemetry().addData("goalVelocity", flywheelVelocityGoal);
-        ActiveOpMode.telemetry().addData("current Velocity", flywheel1.getVelocity());
+        ActiveOpMode.telemetry().addData("current Velocity", flywheel2.getVelocity());
         ActiveOpMode.updateTelemetry(ActiveOpMode.telemetry());
     }
 

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Opmodes;
 
 import android.util.Size;
 
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
