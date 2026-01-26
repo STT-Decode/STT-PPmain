@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Opmodes.rootOpMode;
 import org.firstinspires.ftc.teamcode.Subsystems.AlignWithAprilTag;
+import org.firstinspires.ftc.teamcode.Subsystems.Drivetrain;
 import org.firstinspires.ftc.teamcode.Subsystems.Feeder;
 import org.firstinspires.ftc.teamcode.Subsystems.Flywheel;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
@@ -70,12 +71,7 @@ public class Auton extends rootOpMode
                 alignWithAprilTag,
                 shootThree,
                 //Align with close artifacts
-                new FollowPath(builder.addPath(
-                                new BezierCurve(PedroComponent.follower().getPose(), farScoringZone))
-                        .addPath(new BezierCurve(farScoringZone, new Pose(80, 36, 90)))
-                        .addPath(new BezierCurve(PedroComponent.follower().getPose(), PedroComponent.follower().getPose().plus(new Pose(0,-90))))
-                        .setTangentHeadingInterpolation()
-                        .build(), false, 0.5)
+                Drivetrain.INSTANCE.drive(24, 0.6)
         );
     }
 
@@ -88,6 +84,7 @@ public class Auton extends rootOpMode
     @Override
     public void onInit()
     {
+        Drivetrain.INSTANCE.configureOtos();
         ActiveOpMode.telemetry().addData("Aliance", "Red");
         Gamepads.gamepad1().b().whenBecomesTrue(new Command()
         {
