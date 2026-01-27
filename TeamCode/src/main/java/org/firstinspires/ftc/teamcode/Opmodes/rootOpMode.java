@@ -4,6 +4,7 @@ import android.util.Size;
 
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -22,6 +23,8 @@ import dev.nextftc.core.components.SubsystemComponent;
 import dev.nextftc.extensions.pedro.PedroComponent;
 import dev.nextftc.ftc.NextFTCOpMode;
 import dev.nextftc.ftc.components.BulkReadComponent;
+import dev.nextftc.hardware.impl.Direction;
+import dev.nextftc.hardware.impl.IMUEx;
 import dev.nextftc.hardware.impl.MotorEx;
 
 @TeleOp(name = "test")
@@ -43,6 +46,10 @@ public class rootOpMode extends NextFTCOpMode
     public final MotorEx backRightMotor = new MotorEx("right_back").reversed().brakeMode();
 
     protected ElapsedTime runtime = new ElapsedTime();
+
+    public double offset = 0;
+
+    public IMUEx imu = new IMUEx("imu", Direction.UP, Direction.FORWARD).zeroed();
 
     // Create the AprilTag processor the easy way.
     public static AprilTagProcessor aprilTag;

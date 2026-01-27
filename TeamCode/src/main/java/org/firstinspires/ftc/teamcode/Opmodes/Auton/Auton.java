@@ -65,7 +65,7 @@ public class Auton extends rootOpMode
         PathBuilder builder = new PathBuilder(PedroComponent.follower());
         int id = isRed ? 24 : 20;
 
-        alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize);
+        alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize, offset);
 
         return new SequentialGroup(
                 alignWithAprilTag,
@@ -84,7 +84,6 @@ public class Auton extends rootOpMode
     @Override
     public void onInit()
     {
-        Drivetrain.INSTANCE.configureOtos();
         ActiveOpMode.telemetry().addData("Aliance", "Red");
         Gamepads.gamepad1().b().whenBecomesTrue(new Command()
         {

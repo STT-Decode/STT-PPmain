@@ -26,19 +26,18 @@ public class AlignWithAprilTag extends Command
     private MotorEx frontRight;
     private VisionPortal visionPortal;
     private int id;
+    private double offset;
 
     private Size camSize;
 
-    private final double OFFSET = 25;
-
-    Follower follower;
+    private final double OFFSET = 50;
 
     /**
      * Aims the robot to a April Tag, used for scoring for example
      *
      * @param id the ID of the April Tag to aim at. -1 works if there is only one April Tag visible
      */
-    public AlignWithAprilTag(HardwareMap hardwareMap, int id, MotorEx bl, MotorEx fl, MotorEx br, MotorEx fr, AprilTagProcessor aprilVision, Size camSize)
+    public AlignWithAprilTag(HardwareMap hardwareMap, int id, MotorEx bl, MotorEx fl, MotorEx br, MotorEx fr, AprilTagProcessor aprilVision, Size camSize, double offset)
     {
         this.backLeft = bl;
         this.frontLeft = fl;
@@ -48,6 +47,7 @@ public class AlignWithAprilTag extends Command
 
         this.aprilTag = aprilVision;
         this.id = id;
+        this.offset = offset;
     }
 
     @Override
@@ -63,15 +63,16 @@ public class AlignWithAprilTag extends Command
 
                 if (detection.id == 24)
                 {
-                    offset = -OFFSET;
+                    offset = -this.offset;
                 }
                 else if (detection.id == 20)
                 {
-                    offset = OFFSET;
+                    offset = this.offset;
                 }
 
                 double rotation = (detection.center.x - ((double) camSize.getWidth() / 2) - offset) / camSize.getWidth() * 2 * 1.7;
                 ActiveOpMode.telemetry().addData("Rotation", rotation);
+                ActiveOpMode.telemetry().addData("offset", offset);
 
                 if (Math.abs(rotation) > 0.1)
                 {
@@ -79,10 +80,8 @@ public class AlignWithAprilTag extends Command
                     backRight.setPower(rotation);
                     frontRight.setPower(rotation);
                     frontLeft.setPower(-rotation);
-
                 } else
                 {
-
                     backLeft.setPower(0);
                     backRight.setPower(0);
                     frontRight.setPower(0);
@@ -113,11 +112,11 @@ public class AlignWithAprilTag extends Command
 
             if (detection.id == 24)
             {
-                offset = -OFFSET;
+                offset = -this.offset;
             }
             else if (detection.id == 20)
             {
-                offset = OFFSET;
+                offset = this.offset;
             }
 
             if ((Math.abs(detection.center.x - ((double) camSize.getWidth() / 2) - offset) < 20) && ((detection.id == this.id) || (this.id == -1)))
