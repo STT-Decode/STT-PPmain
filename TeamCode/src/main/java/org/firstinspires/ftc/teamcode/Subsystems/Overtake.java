@@ -14,7 +14,7 @@ public class Overtake implements Subsystem
     public static final Overtake INSTANCE = new Overtake();
     private Overtake() { }
 
-    private MotorEx overtakeMotor = new MotorEx("overtake").reversed();
+    private MotorEx overtakeMotor = new MotorEx("overtake").reversed().brakeMode();
 
     public Command turnOn()
     {

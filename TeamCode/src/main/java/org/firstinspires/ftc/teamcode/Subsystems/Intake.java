@@ -16,7 +16,7 @@ public class Intake implements Subsystem
     @Override
     public void initialize()
     {
-        intake = new MotorEx("intake").reversed();
+        intake = new MotorEx("intake").reversed().brakeMode();
         intake.setPower(0);
     }
 

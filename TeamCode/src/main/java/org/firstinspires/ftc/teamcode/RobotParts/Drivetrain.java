@@ -38,6 +38,8 @@ public class Drivetrain
         rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        overtake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     public void drive0(double forward, double right, double rotate, double power)
@@ -47,10 +49,10 @@ public class Drivetrain
         double rightRearPower = (-forward - right - rotate) * power;
         double leftRearPower = (-forward + right + rotate) * power;
 
-        lf.setPower(leftFrontPower);
+        lf.setPower(-leftFrontPower);
         rf.setPower(-rightFrontPower);
         rb.setPower(-rightRearPower);
-        lb.setPower(-leftRearPower);
+        lb.setPower(leftRearPower);
     }
 
     public void flywheels(double velocity,double f1v,double f2v)

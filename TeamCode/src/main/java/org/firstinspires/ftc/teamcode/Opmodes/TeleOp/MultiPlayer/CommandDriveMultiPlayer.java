@@ -13,6 +13,7 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import dev.nextftc.core.commands.Command;
+import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.ftc.ActiveOpMode;
 import dev.nextftc.ftc.Gamepads;
 import dev.nextftc.hardware.driving.MecanumDriverControlled;
@@ -32,9 +33,9 @@ public class CommandDriveMultiPlayer extends rootOpMode
                 frontRightMotor,
                 backLeftMotor,
                 backRightMotor,
-                Gamepads.gamepad1().leftStickY().deadZone(0.05),
-                Gamepads.gamepad1().leftStickX().negate().deadZone(0.05),
-                Gamepads.gamepad1().rightStickX().negate().deadZone(0.05).mapToRange(value -> value * 0.8)
+                Gamepads.gamepad1().leftStickY().deadZone(0.15),
+                Gamepads.gamepad1().leftStickX().negate().deadZone(0.15),
+                Gamepads.gamepad1().rightStickX().negate().deadZone(0.15).mapToRange(value -> value * 0.8)
         );
 
         BindingManager.update();
@@ -42,11 +43,10 @@ public class CommandDriveMultiPlayer extends rootOpMode
         BindingManager.update();
 
         int id = isRed ? 24 : 20;
-        Gamepads.gamepad1().rightBumper().whenBecomesTrue(AlignWithAprilTag.setOffset(50));
-        Gamepads.gamepad1().leftBumper().whenBecomesTrue(AlignWithAprilTag.setOffset(0));
+
         Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize);
-        Gamepads.gamepad1().rightBumper().whenBecomesTrue(alignWithAprilTag);
-        Gamepads.gamepad1().leftBumper().whenBecomesTrue(alignWithAprilTag);
+        Gamepads.gamepad1().rightBumper().whenBecomesTrue(new SequentialGroup(AlignWithAprilTag.setOffset(80), alignWithAprilTag));
+        Gamepads.gamepad1().leftBumper().whenBecomesTrue(new SequentialGroup(AlignWithAprilTag.setOffset(0), alignWithAprilTag));
 
         //Flywheels
         Gamepads.gamepad2().rightTrigger().greaterThan(0.3)
