@@ -26,6 +26,8 @@ import dev.nextftc.extensions.pedro.PedroComponent;
 import dev.nextftc.extensions.pedro.TurnTo;
 import dev.nextftc.ftc.ActiveOpMode;
 import dev.nextftc.ftc.Gamepads;
+import dev.nextftc.hardware.impl.Direction;
+import dev.nextftc.hardware.impl.IMUEx;
 
 @Autonomous(name = "PedroAuton")
 public class Auton extends rootOpMode
@@ -65,7 +67,7 @@ public class Auton extends rootOpMode
         PathBuilder builder = new PathBuilder(PedroComponent.follower());
         int id = isRed ? 24 : 20;
 
-        alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize, offset);
+        alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize);
 
         return new SequentialGroup(
                 alignWithAprilTag,
@@ -108,5 +110,7 @@ public class Auton extends rootOpMode
                 .setStreamFormat(VisionPortal.StreamFormat.YUY2)
                 .setAutoStopLiveView(true)
                 .build();
+
+        imu = new IMUEx("imu", Direction.UP, Direction.FORWARD).zeroed();
     }
 }

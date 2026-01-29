@@ -22,7 +22,6 @@ import dev.nextftc.bindings.BindingManager;
 public class CommandDriveMultiPlayer extends rootOpMode
 {
     boolean isRed = true;
-    boolean shootingClose = false;
 
     @Override
     public void onStartButtonPressed()
@@ -43,25 +42,9 @@ public class CommandDriveMultiPlayer extends rootOpMode
         BindingManager.update();
 
         int id = isRed ? 24 : 20;
-        Gamepads.gamepad1().rightBumper().whenBecomesTrue(new Command(){
-            @Override
-            public boolean isDone()
-            {
-                shootingClose = true;
-                return true;
-            }
-        });
-        Gamepads.gamepad1().leftBumper().whenBecomesTrue(new Command(){
-            @Override
-            public boolean isDone()
-            {
-                shootingClose = false;
-                return true;
-            }
-        });
-        double offset = shootingClose ? 0 : 50;
-
-        Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize, offset);
+        Gamepads.gamepad1().rightBumper().whenBecomesTrue(AlignWithAprilTag.setOffset(50));
+        Gamepads.gamepad1().leftBumper().whenBecomesTrue(AlignWithAprilTag.setOffset(0));
+        Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize);
         Gamepads.gamepad1().rightBumper().whenBecomesTrue(alignWithAprilTag);
         Gamepads.gamepad1().leftBumper().whenBecomesTrue(alignWithAprilTag);
 

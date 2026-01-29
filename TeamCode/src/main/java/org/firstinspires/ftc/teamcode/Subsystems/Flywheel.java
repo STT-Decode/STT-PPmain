@@ -25,7 +25,7 @@ public class Flywheel implements Subsystem
     public MotorEx flywheel1;
     public MotorEx flywheel2;
 
-    double flywheelVelocityGoal = 2300;
+    double flywheelVelocityGoal;
     double flywheelPower;
     boolean state;
 
@@ -35,7 +35,7 @@ public class Flywheel implements Subsystem
         flywheel1 = new MotorEx("flywheel1").reversed().brakeMode();
         flywheel2 = new MotorEx("flywheel2").reversed().brakeMode();
 
-        flywheelVelocityGoal = 2300;
+        flywheelVelocityGoal = 1950;
         flywheelPower = 0;
         state = false;
     }
@@ -45,9 +45,12 @@ public class Flywheel implements Subsystem
     {
         if (state)
         {
-            flywheelPower += ((flywheelVelocityGoal - Math.abs(flywheel2.getVelocity())) / 5000);
-            new SetPower(flywheel1, flywheelPower).schedule();
-            new SetPower(flywheel2, flywheelPower).schedule();
+            if (flywheelVelocityGoal != flywheel2.getVelocity())
+            {
+                flywheelPower += ((flywheelVelocityGoal - Math.abs(flywheel2.getVelocity())) / 30000);
+                new SetPower(flywheel1, flywheelPower).schedule();
+                new SetPower(flywheel2, flywheelPower).schedule();
+            }
         } else
         {
             flywheel1.setPower(0);

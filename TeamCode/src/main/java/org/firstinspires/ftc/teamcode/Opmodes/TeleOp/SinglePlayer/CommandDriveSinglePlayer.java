@@ -43,7 +43,7 @@ public class CommandDriveSinglePlayer extends rootOpMode
         BindingManager.update();
 
         int id = isRed ? 24 : 20;
-        Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize, offset);
+        Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize);
         Gamepads.gamepad1().rightBumper().whenBecomesTrue(alignWithAprilTag);
 
         //Flywheels

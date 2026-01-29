@@ -40,16 +40,14 @@ public class rootOpMode extends NextFTCOpMode
         );
     }
 
-    public final MotorEx frontLeftMotor = new MotorEx("left_front").brakeMode();
-    public final MotorEx frontRightMotor = new MotorEx("right_front").reversed().brakeMode();
-    public final MotorEx backLeftMotor = new MotorEx("left_back").reversed().brakeMode();
-    public final MotorEx backRightMotor = new MotorEx("right_back").reversed().brakeMode();
+    public static final MotorEx frontLeftMotor = new MotorEx("left_front").brakeMode();
+    public static final MotorEx frontRightMotor = new MotorEx("right_front").reversed().brakeMode();
+    public static final MotorEx backLeftMotor = new MotorEx("left_back").reversed().brakeMode();
+    public static final MotorEx backRightMotor = new MotorEx("right_back").reversed().brakeMode();
 
     protected ElapsedTime runtime = new ElapsedTime();
 
-    public double offset = 0;
-
-    public IMUEx imu = new IMUEx("imu", Direction.UP, Direction.FORWARD).zeroed();
+    public static IMUEx imu;
 
     // Create the AprilTag processor the easy way.
     public static AprilTagProcessor aprilTag;

@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+import static org.firstinspires.ftc.teamcode.Opmodes.rootOpMode.*;
 
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
@@ -22,14 +22,11 @@ import dev.nextftc.hardware.impl.ServoEx;
 import dev.nextftc.hardware.positionable.SetPosition;
 import kotlin.text.CharDirectionality;
 
-public class Drivetrain extends rootOpMode implements Subsystem
+public class Drivetrain implements Subsystem
 {
     public static final Drivetrain INSTANCE = new Drivetrain();
     private Drivetrain() {
-        OTOS = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
     }
-
-    private SparkFunOTOS OTOS;
 
     public Command drive(double goalDistance, double power)
     {
