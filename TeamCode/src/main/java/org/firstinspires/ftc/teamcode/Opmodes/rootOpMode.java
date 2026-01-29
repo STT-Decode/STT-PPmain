@@ -18,9 +18,11 @@ import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
+import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.components.BindingsComponent;
 import dev.nextftc.core.components.SubsystemComponent;
 import dev.nextftc.extensions.pedro.PedroComponent;
+import dev.nextftc.ftc.ActiveOpMode;
 import dev.nextftc.ftc.NextFTCOpMode;
 import dev.nextftc.ftc.components.BulkReadComponent;
 import dev.nextftc.hardware.impl.Direction;
@@ -58,4 +60,14 @@ public class rootOpMode extends NextFTCOpMode
     public Size camSize = new Size(640, 480);
 
     public VisionPortal visionPortal;
+
+    public Command updateTelemetry(){
+        return new Command() {
+            @Override
+            public boolean isDone() {
+                ActiveOpMode.updateTelemetry(ActiveOpMode.telemetry());
+                return true;
+            }
+        };
+    }
 }

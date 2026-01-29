@@ -61,7 +61,6 @@ public class Flywheel implements Subsystem
         ActiveOpMode.telemetry().addData("flywheelPower", flywheelPower);
         ActiveOpMode.telemetry().addData("goalVelocity", flywheelVelocityGoal);
         ActiveOpMode.telemetry().addData("current Velocity", flywheel2.getVelocity());
-        ActiveOpMode.updateTelemetry(ActiveOpMode.telemetry());
     }
 
     public void turnOn()

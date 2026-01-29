@@ -77,19 +77,19 @@ public class CommandDriveMultiPlayer extends rootOpMode
     @Override
     public void onInit()
     {
-        ActiveOpMode.telemetry().addData("Aliance", "Red");
+        updateTelemetry().schedule();
+        ActiveOpMode.telemetry().addData("Aliance", isRed ? "Red" : "Blue");
         Gamepads.gamepad1().b().whenBecomesTrue(new Command()
         {
             @Override
             public boolean isDone()
             {
-                ActiveOpMode.telemetry().addData("Aliance", "Blue");
-                ActiveOpMode.updateTelemetry(ActiveOpMode.telemetry());
                 isRed = false;
                 return true;
             }
         });
 
+        ActiveOpMode.telemetry().addData("Aliance", "Blue");
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();
 
         visionPortal = new VisionPortal.Builder()
