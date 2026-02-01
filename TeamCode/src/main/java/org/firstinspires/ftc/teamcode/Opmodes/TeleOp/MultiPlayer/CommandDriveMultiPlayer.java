@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Opmodes.TeleOp.MultiPlayer;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Opmodes.rootOpMode;
@@ -45,8 +46,8 @@ public class CommandDriveMultiPlayer extends rootOpMode
         int id = isRed ? 24 : 20;
 
         Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize);
-        Gamepads.gamepad1().rightBumper().whenBecomesTrue(new SequentialGroup(AlignWithAprilTag.setOffset(80), alignWithAprilTag));
-        Gamepads.gamepad1().leftBumper().whenBecomesTrue(new SequentialGroup(AlignWithAprilTag.setOffset(0), alignWithAprilTag));
+        Gamepads.gamepad1().rightBumper().whenBecomesTrue(new SequentialGroup(setFarScoringZone(true), alignWithAprilTag.requires(alignWithAprilTag)));
+        Gamepads.gamepad1().leftBumper().whenBecomesTrue(new SequentialGroup(setFarScoringZone(false), alignWithAprilTag.requires(alignWithAprilTag)));
 
         //Flywheels
         Gamepads.gamepad2().rightTrigger().greaterThan(0.3)
@@ -66,12 +67,6 @@ public class CommandDriveMultiPlayer extends rootOpMode
         Gamepads.gamepad2().dpadLeft().whenBecomesTrue(Intake.INSTANCE.reverse())
                                         .whenBecomesFalse(Intake.INSTANCE.turnOff());
 
-        Gamepads.gamepad2().rightBumper()
-                .whenBecomesTrue(Flywheel.INSTANCE.increaseFlywheelSpeed(50));
-
-        Gamepads.gamepad2().leftBumper()
-                .whenBecomesTrue(Flywheel.INSTANCE.increaseFlywheelSpeed(-50));
-
     }
 
     @Override
@@ -89,7 +84,6 @@ public class CommandDriveMultiPlayer extends rootOpMode
             }
         });
 
-        ActiveOpMode.telemetry().addData("Aliance", "Blue");
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();
 
         visionPortal = new VisionPortal.Builder()
@@ -99,6 +93,8 @@ public class CommandDriveMultiPlayer extends rootOpMode
                 .setStreamFormat(VisionPortal.StreamFormat.YUY2)
                 .setAutoStopLiveView(true)
                 .build();
+
+
     }
 
 }

@@ -28,7 +28,7 @@ public class AlignWithAprilTag extends Command
 
     private Size camSize;
 
-    private static double OFFSET = 80;
+    private static double OFFSET = 0;
 
     /**
      * Aims the robot to a April Tag, used for scoring for example
@@ -67,7 +67,7 @@ public class AlignWithAprilTag extends Command
                     offset = OFFSET;
                 }
 
-                double rotation = (detection.center.x - ((double) camSize.getWidth() / 2) - offset) / camSize.getWidth() * 2 * 1.7;
+                double rotation = (detection.center.x - ((double) camSize.getWidth() / 2) - offset) / camSize.getWidth() * 2 * 2;
                 ActiveOpMode.telemetry().addData("Rotation", rotation);
                 ActiveOpMode.telemetry().addData("offset", offset);
 
@@ -116,13 +116,13 @@ public class AlignWithAprilTag extends Command
                 offset = OFFSET;
             }
 
-            if ((Math.abs(detection.center.x - ((double) camSize.getWidth() / 2) - offset) < 20) && ((detection.id == this.id) || (this.id == -1)))
+            if ((Math.abs(detection.center.x - ((double) camSize.getWidth() / 2) - offset) <= 7) && ((detection.id == this.id) || (this.id == -1)))
             {
                 return true;
             }
         }
 
-        return false;
+        return currentDetections.isEmpty();
     }
 
     @Override

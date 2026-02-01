@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.commands.groups.ParallelGroup;
+import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.subsystems.Subsystem;
 import dev.nextftc.hardware.impl.CRServoEx;
 import dev.nextftc.hardware.impl.MotorEx;
@@ -14,11 +15,18 @@ public class Overtake implements Subsystem
     public static final Overtake INSTANCE = new Overtake();
     private Overtake() { }
 
+    private boolean state = false;
     private MotorEx overtakeMotor = new MotorEx("overtake").reversed().brakeMode();
 
     public Command turnOn()
     {
-        return new SetPower(overtakeMotor, 1).requires(this);
+        return new SequentialGroup(new SetPower(overtakeMotor, 1), new Command() {
+            @Override
+            public boolean isDone() {
+                setState(true);
+                return true;
+            }
+        }).requires(this);
     }
     public Command reverse()
     {
@@ -27,12 +35,28 @@ public class Overtake implements Subsystem
 
     public Command turnOff()
     {
-        return new SetPower(overtakeMotor, 0).requires(this);
+        return new SequentialGroup(new SetPower(overtakeMotor, 0), new Command() {
+            @Override
+            public boolean isDone() {
+                setState(false);
+                return true;
+            }
+        }).requires(this);
     }
 
     public Command setCustomPower(double Power)
     {
         return new SetPower(overtakeMotor, -Power).requires(this);
+    }
+
+    public void setState(boolean newState)
+    {
+        state = newState;
+    }
+
+    public boolean getState()
+    {
+        return state;
     }
 
 }

@@ -28,6 +28,7 @@ import dev.nextftc.ftc.ActiveOpMode;
 import dev.nextftc.ftc.Gamepads;
 import dev.nextftc.hardware.impl.Direction;
 import dev.nextftc.hardware.impl.IMUEx;
+import dev.nextftc.hardware.powerable.SetPower;
 
 @Autonomous(name = "PedroAuton")
 public class Auton extends rootOpMode
@@ -64,7 +65,6 @@ public class Auton extends rootOpMode
     );
 
     private Command autonomousRoutine() {
-        PathBuilder builder = new PathBuilder(PedroComponent.follower());
         int id = isRed ? 24 : 20;
 
         alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize);
@@ -73,7 +73,7 @@ public class Auton extends rootOpMode
                 alignWithAprilTag,
                 shootThree,
                 //Align with close artifacts
-                Drivetrain.INSTANCE.drive(24, 0.6)
+                new SetPower(backLeftMotor, 1)
         );
     }
 

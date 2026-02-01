@@ -1,43 +1,35 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import static org.firstinspires.ftc.teamcode.Opmodes.TeleOp.Tests.rootOpmodetestytestyy.flywheel1;
+import static org.firstinspires.ftc.teamcode.Opmodes.TeleOp.Tests.rootOpmodetestytestyy.flywheel2;
 import static org.firstinspires.ftc.teamcode.Opmodes.rootOpMode.aprilTag;
 
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import java.util.List;
 
+import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.commands.groups.ParallelGroup;
 import dev.nextftc.core.subsystems.Subsystem;
 import dev.nextftc.ftc.ActiveOpMode;
 import dev.nextftc.hardware.impl.MotorEx;
-import dev.nextftc.core.commands.Command;
 import dev.nextftc.hardware.powerable.SetPower;
 
-public class Flywheel implements Subsystem
+public class FlywheelDcMotorEx implements Subsystem
 {
-    public static final Flywheel INSTANCE = new Flywheel();
-    private Flywheel() {}
-
-    public MotorEx flywheel1;
-    public MotorEx flywheel2;
+    public static final FlywheelDcMotorEx INSTANCE = new FlywheelDcMotorEx();
+    private FlywheelDcMotorEx() {}
 
     double flywheelVelocityGoal;
     double flywheelPower;
     boolean state;
 
-    double CLOSEVELOCITY = 1900;
-    double FARVELOCITY = 1950;
+    double CLOSEVELOCITY = 1700;
+    double FARVELOCITY = 2000;
 
     @Override
     public void initialize()
     {
-        //reverse both!!
-        flywheel1 = new MotorEx("flywheel1").reversed().brakeMode();
-        flywheel2 = new MotorEx("flywheel2").reversed().brakeMode();
-
         flywheelVelocityGoal = FARVELOCITY;
         flywheelPower = 0;
         state = false;
@@ -46,33 +38,14 @@ public class Flywheel implements Subsystem
     @Override
     public void periodic()
     {
-        if (state)
-        {
-            if (flywheelVelocityGoal != flywheel2.getVelocity())
-            {
-                flywheelPower += ((flywheelVelocityGoal - Math.abs(flywheel2.getVelocity())) / 50000);
-                new SetPower(flywheel1, flywheelPower).schedule();
-                new SetPower(flywheel2, flywheelPower).schedule();
-            }
-        } else
-        {
-            flywheel1.setPower(0);
-            flywheel2.setPower(0);
-        }
-
-        flywheelPower = Math.min(flywheelPower, 0.93);
-        ActiveOpMode.telemetry().addData("flywheelPower", flywheelPower);
-        ActiveOpMode.telemetry().addData("goalVelocity", flywheelVelocityGoal);
-        ActiveOpMode.telemetry().addData("current Velocity", flywheel2.getVelocity());
-        ActiveOpMode.updateTelemetry(ActiveOpMode.telemetry());
+        flywheel2.setPower(flywheel1.getPower());
     }
 
     public void turnOn()
     {
         state = true;
         flywheelPower = 0.80;
-        new SetPower(flywheel1, 0.80).schedule();
-        new SetPower(flywheel2, 0.80).schedule();
+        flywheel1.setVelocity(-flywheelVelocityGoal);
     }
 
     public void turnOff()
@@ -82,13 +55,6 @@ public class Flywheel implements Subsystem
         flywheel2.setPower(0);
     }
 
-    public Command setCustomPower(double power)
-    {
-        return new ParallelGroup(
-                new SetPower(flywheel1, power),
-                new SetPower(flywheel2, power)
-        ).requires(this);
-    }
 
     public Command setFarZone(boolean far)
     {
