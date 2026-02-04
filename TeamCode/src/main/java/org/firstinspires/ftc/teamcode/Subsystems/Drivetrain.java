@@ -31,15 +31,6 @@ public class Drivetrain implements Subsystem
     private Drivetrain() {
     }
 
-    private SparkFunOTOS OTOS;
-
-    @Override
-    public void initialize()
-    {
-        OTOS = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
-    }
-
-
     public Command drive(double goalDistance, double power)
     {
         return new Command()

@@ -4,6 +4,7 @@ import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathBuilder;
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -80,6 +81,8 @@ public class Auton extends rootOpMode
     @Override
     public void onInit()
     {
+        OTOS = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
+
         updateTelemetry().schedule();
         ActiveOpMode.telemetry().addData("Aliance", isRed ? "Red" : "Blue");
         Gamepads.gamepad1().b().whenBecomesTrue(new Command()

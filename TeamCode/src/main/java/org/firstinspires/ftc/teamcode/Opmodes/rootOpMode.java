@@ -58,6 +58,8 @@ public class rootOpMode extends NextFTCOpMode
     // Create the AprilTag processor the easy way.
     public static AprilTagProcessor aprilTag;
 
+    public static SparkFunOTOS OTOS;
+
 
     // Create the vision portal the easy way.
 
