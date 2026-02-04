@@ -52,7 +52,7 @@ public class Drivetrain implements Subsystem
             @Override
             public boolean isDone()
             {
-                return (Math.abs(distanceMoved) < Math.abs(goalDistance));
+                return (Math.abs(distanceMoved) > Math.abs(goalDistance));
             }
 
             @Override
@@ -95,7 +95,7 @@ public class Drivetrain implements Subsystem
             @Override
             public boolean isDone()
             {
-                return (Math.abs(distanceMoved) < Math.abs(goalDistance));
+                return (Math.abs(distanceMoved) > Math.abs(goalDistance));
             }
 
             @Override
