@@ -46,23 +46,17 @@ public class Auton extends rootOpMode
             new Delay(0.7),
             Overtake.INSTANCE.turnOff());
 
-    SequentialGroup shoot = new SequentialGroup(
-            Feeder.INSTANCE.fire(),
-            new Delay(0.2)
-    );
-
-    SequentialGroup shootThree = new SequentialGroup(
+    SequentialGroup shootAll = new SequentialGroup(
             new LambdaCommand().setStart(Flywheel.INSTANCE::turnOn),
-            new Delay(3),
-            shoot,
-            load,
-            shoot,
+            new Delay(1),
+            Overtake.INSTANCE.turnOn(),
             Intake.INSTANCE.turnOn(),
             new Delay(2),
-            load,
-            shoot,
-            new LambdaCommand().setStart(Flywheel.INSTANCE::turnOff)
+            new LambdaCommand().setStart(Flywheel.INSTANCE::turnOff),
+            Overtake.INSTANCE.turnOff(),
+            Intake.INSTANCE.turnOff()
     );
+
 
     private Command autonomousRoutine() {
         int id = isRed ? 24 : 20;
@@ -71,9 +65,9 @@ public class Auton extends rootOpMode
 
         return new SequentialGroup(
                 alignWithAprilTag,
-                shootThree,
-                //Align with close artifacts
-                new SetPower(backLeftMotor, 1)
+                shootAll,
+                Drivetrain.INSTANCE.turn(-20, 0.3),
+                Drivetrain.INSTANCE.drive(24, 0.7)
         );
     }
 

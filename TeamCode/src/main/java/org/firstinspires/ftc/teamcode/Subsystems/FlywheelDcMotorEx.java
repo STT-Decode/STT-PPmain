@@ -44,8 +44,8 @@ public class FlywheelDcMotorEx implements Subsystem
     public void turnOn()
     {
         state = true;
-        flywheelPower = 0.80;
         flywheel1.setVelocity(-flywheelVelocityGoal);
+        flywheel2.setVelocity(flywheelVelocityGoal);
     }
 
     public void turnOff()

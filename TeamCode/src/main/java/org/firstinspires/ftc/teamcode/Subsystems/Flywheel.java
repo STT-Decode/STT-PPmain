@@ -29,13 +29,12 @@ public class Flywheel implements Subsystem
     boolean state;
 
     double CLOSEVELOCITY = 1900;
-    double FARVELOCITY = 1950;
+    double FARVELOCITY = 2000;
 
     @Override
     public void initialize()
     {
-        //reverse both!!
-        flywheel1 = new MotorEx("flywheel1").reversed().brakeMode();
+        flywheel1 = new MotorEx("flywheel1").brakeMode();
         flywheel2 = new MotorEx("flywheel2").reversed().brakeMode();
 
         flywheelVelocityGoal = FARVELOCITY;

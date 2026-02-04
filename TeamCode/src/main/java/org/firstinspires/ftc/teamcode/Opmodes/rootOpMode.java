@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Opmodes;
 
 import android.util.Size;
 
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.Subsystems.Feeder;
 import org.firstinspires.ftc.teamcode.Subsystems.Flywheel;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
+import org.firstinspires.ftc.teamcode.Subsystems.imuTest;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
@@ -34,17 +36,20 @@ public class rootOpMode extends NextFTCOpMode
     public rootOpMode()
     {
         addComponents(
-            new SubsystemComponent(Flywheel.INSTANCE, Feeder.INSTANCE, Intake.INSTANCE, Overtake.INSTANCE, Drivetrain.INSTANCE),
+            new SubsystemComponent(Flywheel.INSTANCE, Feeder.INSTANCE, Intake.INSTANCE, Overtake.INSTANCE, Drivetrain.INSTANCE, imuTest.INSTANCE),
                 BulkReadComponent.INSTANCE,
                 BindingsComponent.INSTANCE,
                 new PedroComponent(Constants::createFollower)
         );
     }
 
-    public static final MotorEx frontLeftMotor = new MotorEx("left_front").brakeMode();
+    public static final MotorEx frontLeftMotor = new MotorEx("left_front").reversed().brakeMode();
     public static final MotorEx frontRightMotor = new MotorEx("right_front").reversed().brakeMode();
     public static final MotorEx backLeftMotor = new MotorEx("left_back").reversed().brakeMode();
     public static final MotorEx backRightMotor = new MotorEx("right_back").reversed().brakeMode();
+
+    public static DcMotorEx flywheel1;
+    public static DcMotorEx flywheel2;
 
     protected ElapsedTime runtime = new ElapsedTime();
 

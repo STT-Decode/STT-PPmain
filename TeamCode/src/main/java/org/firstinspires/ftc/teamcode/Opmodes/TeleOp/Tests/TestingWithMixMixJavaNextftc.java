@@ -7,6 +7,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Opmodes.rootOpMode;
 import org.firstinspires.ftc.teamcode.Subsystems.AlignWithAprilTag;
 import org.firstinspires.ftc.teamcode.Subsystems.Flywheel;
+import org.firstinspires.ftc.teamcode.Subsystems.FlywheelDcMotorEx;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.Overtake;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -50,8 +51,8 @@ public class TestingWithMixMixJavaNextftc extends rootOpmodetestytestyy
 
         //Flywheels
         Gamepads.gamepad2().rightTrigger().greaterThan(0.3)
-                .whenBecomesTrue(Flywheel.INSTANCE::turnOn)
-                .whenBecomesFalse(Flywheel.INSTANCE::turnOff);
+                .whenBecomesTrue(FlywheelDcMotorEx.INSTANCE::turnOn)
+                .whenBecomesFalse(FlywheelDcMotorEx.INSTANCE::turnOff);
 
         //Intake
         Gamepads.gamepad2().leftTrigger().greaterThan(-1).whenTrue(() -> Intake.INSTANCE.setCustomPower(Gamepads.gamepad2().leftTrigger().get()).schedule());

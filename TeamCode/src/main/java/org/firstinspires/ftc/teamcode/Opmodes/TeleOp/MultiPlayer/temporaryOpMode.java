@@ -19,11 +19,12 @@ public class temporaryOpMode extends LinearOpMode
     public void runOpMode() throws InterruptedException
     {
         drivetrain.init(hardwareMap);
-        double power;
+        double power1=0;
+        double power2=0;
         double y;
         double x;
         double rotate;
-        double flywheelVelocity = 0.96;
+        double flywheelVelocity = 1950;
         boolean speedChangeAllowed = true;
         boolean shootingsequence=false;
         boolean shoottoggle=false;
@@ -52,7 +53,7 @@ public class temporaryOpMode extends LinearOpMode
                 x=0;
                 y=0;
             }
-            shootingsequence=gamepad2.left_bumper;
+            shootingsequence=gamepad2.dpad_down;
             if(!shootingsequence)
             {
                 if (gamepad1.right_trigger > 0.2 || gamepad2.left_trigger > 0.2)
@@ -65,7 +66,7 @@ public class temporaryOpMode extends LinearOpMode
 
                 if (gamepad2.dpad_right && !gamepad2.x)
                 {
-                    drivetrain.overtake(-1);
+                    drivetrain.overtake(-0.8);
                 } else if (gamepad2.dpad_left && !gamepad2.x)
                 {
                     drivetrain.overtake(1);
@@ -77,12 +78,12 @@ public class temporaryOpMode extends LinearOpMode
 
                 if (gamepad2.right_bumper && speedChangeAllowed)
                 {
-                    flywheelVelocity += 0.02;
+                    flywheelVelocity += 50;
                     speedChangeAllowed = false;
                 }
                 if (gamepad2.left_bumper && speedChangeAllowed)
                 {
-                    flywheelVelocity -= 0.02;
+                    flywheelVelocity -= 50;
                     speedChangeAllowed = false;
                 }
                 if (!gamepad2.left_bumper && !gamepad2.right_bumper)
@@ -92,22 +93,28 @@ public class temporaryOpMode extends LinearOpMode
 
                 if (gamepad2.right_trigger > 0.2)
                 {
-                    drivetrain.backkupflywheels(flywheelVelocity);
+                    drivetrain.flywheels(flywheelVelocity/2500);
                 } else
                 {
-                    drivetrain.backkupflywheels(0);
+                    drivetrain.flywheels(0);
                 }
-                power = gamepad2.left_stick_y;
+
                 shoottoggle=false;
-            }else{
-            if(!shoottoggle){
-                starttime=ms;
+                }else{
+                if(!shoottoggle){
+                    starttime=ms;
+                }
+                shoottoggle=true;
+                if(ms-starttime<1500){
+                drivetrain.backkupflywheels(flywheelVelocity);
+                power1=drivetrain.getPower1();
+                power2=drivetrain.getPower2();
             }
-            shoottoggle=true;
-            drivetrain.backkupflywheels(flywheelVelocity);
-            drivetrain.intake(-1);
-            if(ms-starttime>3000){
-                drivetrain.overtake(-1);
+
+            if(ms-starttime>=1500){
+                drivetrain.flywheels((power2-power1)/2);
+                drivetrain.overtake(-0.8);
+                drivetrain.intake(-1);
             }else if(ms-starttime<500)
             {drivetrain.overtake(1);
             } else{drivetrain.overtake(0);}}
@@ -117,12 +124,12 @@ public class temporaryOpMode extends LinearOpMode
 
             drivetrain.drive0(y, x, rotate, 1);
             telemetry.addData("ms-starttinme",ms-starttime);
-            telemetry.addData("flywheelVelocity", flywheelVelocity*100+"%");
+            telemetry.addData("flywheelVelocity", flywheelVelocity/2500);
             telemetry.addData("feederPosition", feederPosition);
             telemetry.addData("flywheel1velocity",drivetrain.getvelocity1());
             telemetry.addData("flywheel2velocity",drivetrain.getvelocity2());
-            telemetry.addData("additionalpower1",drivetrain.getAdditionalPower1());
-            telemetry.addData("additionalpower2",drivetrain.getAdditionalPower2());
+            telemetry.addData("additionalpower1",drivetrain.getPower1());
+            telemetry.addData("additionalpower2",drivetrain.getPower2());
             telemetry.update();
         }
 

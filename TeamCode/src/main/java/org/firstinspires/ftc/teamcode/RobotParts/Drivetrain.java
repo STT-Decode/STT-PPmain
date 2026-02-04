@@ -49,36 +49,20 @@ public class Drivetrain
         double rightRearPower = (-forward - right - rotate) * power;
         double leftRearPower = (-forward + right + rotate) * power;
 
-        lf.setPower(-leftFrontPower);
+        lf.setPower(leftFrontPower);
         rf.setPower(-rightFrontPower);
         rb.setPower(-rightRearPower);
         lb.setPower(leftRearPower);
     }
 
-    public void flywheels(double velocity,double f1v,double f2v)
+    public void flywheels(double power)
     {
-        if(velocity==0){
-            flywheel1.setPower(0);
-            flywheel2.setPower(0);
-        }
-        else{
-            if(velocity<f1v-50){
-                additionalPower1 -=0.01;
-            } else if (velocity>=f1v+50&&additionalPower1 < 0.4) {
-                additionalPower1 +=0.01;
-            }
-            if(velocity<f2v-50 ){
-                additionalPower2-=0.01;
-            } else if (velocity>=f2v-50 && additionalPower2 < 0.4) {
-                additionalPower2+=0.01;
-            }
-            flywheel1.setPower(0.6+additionalPower1);
-            flywheel2.setPower(-(0.6+additionalPower2));
-        }
-    }
-    public  void backkupflywheels(double power){
+        flywheel1.setPower(power);
         flywheel2.setPower(-power);
-        flywheel1.setPower(-power);
+    }
+    public void backkupflywheels(double velocity){
+        flywheel2.setVelocity(-velocity);
+        flywheel1.setVelocity(velocity);
     }
     public double getAdditionalPower1(){
         return additionalPower1;
@@ -99,8 +83,8 @@ public class Drivetrain
     public double getvelocity2(){
         return flywheel2.getVelocity();
     }
-
-
+    public double getPower1(){return flywheel1.getPower();}
+    public double getPower2(){return flywheel2.getPower();}
 
 
 }

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import static org.firstinspires.ftc.teamcode.Opmodes.rootOpMode.imu;
+
 import android.util.Size;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -12,6 +14,8 @@ import java.util.List;
 
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.ftc.ActiveOpMode;
+import dev.nextftc.hardware.impl.Direction;
+import dev.nextftc.hardware.impl.IMUEx;
 import dev.nextftc.hardware.impl.MotorEx;
 
 
@@ -25,10 +29,13 @@ public class AlignWithAprilTag extends Command
     private VisionPortal visionPortal;
     private int id;
     private double offset;
+    private boolean alignedToApriltag = false;
+    private boolean doneWithCalculations = false;
+    private double targetAngle = 0;
 
     private Size camSize;
 
-    private static double OFFSET = 0;
+    private static double OFFSET = 50;
 
     /**
      * Aims the robot to a April Tag, used for scoring for example
@@ -45,57 +52,83 @@ public class AlignWithAprilTag extends Command
 
         this.aprilTag = aprilVision;
         this.id = id;
+        alignedToApriltag = false;
+        doneWithCalculations = false;
+        imu = new IMUEx("imu", Direction.BACKWARD, Direction.UP).zeroed();
     }
 
     @Override
     public void update()
     {
-        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        //if (!alignedToApriltag)
+        //{
+            List<AprilTagDetection> currentDetections = aprilTag.getDetections();
 
-        for (AprilTagDetection detection : currentDetections)
-        {
-            if ((detection.id == this.id) || (this.id == -1))
+            for (AprilTagDetection detection : currentDetections)
             {
-                double offset = 0;
+                if ((detection.id == this.id) || (this.id == -1))
+                {
+                    double rotation = (detection.center.x - ((double) camSize.getWidth() / 2)) / camSize.getWidth() * 2 * 2;
+                    ActiveOpMode.telemetry().addData("Rotation", rotation);
+                    ActiveOpMode.telemetry().update();
 
-                if (detection.id == 24)
-                {
-                    offset = -OFFSET;
+                    if (Math.abs(rotation) > 0.07)
+                    {
+                        backLeft.setPower(-rotation);
+                        backRight.setPower(rotation);
+                        frontRight.setPower(rotation);
+                        frontLeft.setPower(-rotation);
+                    } else
+                    {
+                        backLeft.setPower(0);
+                        backRight.setPower(0);
+                        frontRight.setPower(0);
+                        frontLeft.setPower(0);
+                    }
+                    if ((Math.abs(detection.center.x - ((double) camSize.getWidth() / 2)) <= 7) && ((detection.id == this.id) || (this.id == -1)))
+                    {
+                        alignedToApriltag = true;
+                    }
+                    break;
                 }
-                else if (detection.id == 20)
-                {
-                    offset = OFFSET;
-                }
-
-                double rotation = (detection.center.x - ((double) camSize.getWidth() / 2) - offset) / camSize.getWidth() * 2 * 2;
-                ActiveOpMode.telemetry().addData("Rotation", rotation);
-                ActiveOpMode.telemetry().addData("offset", offset);
-
-                if (Math.abs(rotation) > 0.1)
-                {
-                    backLeft.setPower(-rotation);
-                    backRight.setPower(rotation);
-                    frontRight.setPower(rotation);
-                    frontLeft.setPower(-rotation);
-                } else
-                {
-                    backLeft.setPower(0);
-                    backRight.setPower(0);
-                    frontRight.setPower(0);
-                    frontLeft.setPower(0);
-                }
-                break;
             }
-        }
-
-        if (currentDetections.isEmpty())
+            if (currentDetections.isEmpty())
+            {
+                backLeft.setPower(0);
+                backRight.setPower(0);
+                frontRight.setPower(0);
+                frontLeft.setPower(0);
+            }
+        /*} else
         {
-            backLeft.setPower(0);
-            backRight.setPower(0);
-            frontRight.setPower(0);
-            frontLeft.setPower(0);
-        }
+            List<AprilTagDetection> currentDetections = aprilTag.getDetections();
 
+            for (AprilTagDetection detection : currentDetections)
+            {
+                if (!doneWithCalculations)
+                {
+                    targetAngle = Math.atan((Math.sin(imu.get().inDeg) * detection.center.y * 0.0254 + 0.36) / (Math.cos(imu.get().inDeg) * detection.center.y * 0.0254 + 0.3));
+                    doneWithCalculations = true;
+                }
+            }
+            double rotation = (targetAngle - imu.get().inDeg) / 20;
+            ActiveOpMode.telemetry().addData("Rotation", rotation);
+            ActiveOpMode.telemetry().addData("targetAngle", targetAngle);
+            ActiveOpMode.telemetry().update();
+            if (Math.abs(rotation) > 0.1)
+            {
+                backLeft.setPower(-rotation);
+                backRight.setPower(rotation);
+                frontRight.setPower(rotation);
+                frontLeft.setPower(-rotation);
+            } else
+            {
+                backLeft.setPower(0);
+                backRight.setPower(0);
+                frontRight.setPower(0);
+                frontLeft.setPower(0);
+            }
+        }*/
     }
 
     @Override

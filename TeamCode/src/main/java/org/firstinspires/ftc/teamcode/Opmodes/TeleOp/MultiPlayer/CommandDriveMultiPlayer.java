@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Feeder;
 import org.firstinspires.ftc.teamcode.Subsystems.Flywheel;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.Overtake;
+import org.firstinspires.ftc.teamcode.Subsystems.imuTest;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
@@ -19,6 +20,8 @@ import dev.nextftc.ftc.ActiveOpMode;
 import dev.nextftc.ftc.Gamepads;
 import dev.nextftc.hardware.driving.MecanumDriverControlled;
 import dev.nextftc.bindings.BindingManager;
+import dev.nextftc.hardware.impl.Direction;
+import dev.nextftc.hardware.impl.IMUEx;
 
 @TeleOp(name = "DriveMulti")
 public class CommandDriveMultiPlayer extends rootOpMode
@@ -67,6 +70,7 @@ public class CommandDriveMultiPlayer extends rootOpMode
         Gamepads.gamepad2().dpadLeft().whenBecomesTrue(Intake.INSTANCE.reverse())
                                         .whenBecomesFalse(Intake.INSTANCE.turnOff());
 
+        Gamepads.gamepad1().dpadUp().whenBecomesTrue(imuTest.INSTANCE.getimu());
     }
 
     @Override
@@ -94,7 +98,8 @@ public class CommandDriveMultiPlayer extends rootOpMode
                 .setAutoStopLiveView(true)
                 .build();
 
-
+        flywheel1 = hardwareMap.get(DcMotorEx.class, "flywheel1");
+        flywheel2 = hardwareMap.get(DcMotorEx.class, "flywheel2");
     }
 
 }

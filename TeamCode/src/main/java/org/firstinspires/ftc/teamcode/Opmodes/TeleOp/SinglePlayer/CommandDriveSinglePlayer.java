@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Opmodes.TeleOp.SinglePlayer;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Opmodes.rootOpMode;
@@ -65,6 +66,7 @@ public class CommandDriveSinglePlayer extends rootOpMode
         Gamepads.gamepad1().dpadLeft().whenBecomesTrue(Intake.INSTANCE.reverse())
                                         .whenBecomesFalse(Intake.INSTANCE.turnOff());
 
+
         Gamepads.gamepad1().x()
                 .whenBecomesTrue(Feeder.INSTANCE.fire());
 
@@ -98,6 +100,9 @@ public class CommandDriveSinglePlayer extends rootOpMode
                 .setStreamFormat(VisionPortal.StreamFormat.YUY2)
                 .setAutoStopLiveView(true)
                 .build();
+
+        flywheel1 = hardwareMap.get(DcMotorEx.class, "flywheel1");
+        flywheel2 = hardwareMap.get(DcMotorEx.class, "flywheel2");
     }
 
 }

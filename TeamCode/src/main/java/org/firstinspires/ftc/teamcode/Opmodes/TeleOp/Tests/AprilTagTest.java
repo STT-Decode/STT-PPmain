@@ -1,18 +1,16 @@
-package org.firstinspires.ftc.teamcode.Opmodes;
+package org.firstinspires.ftc.teamcode.Opmodes.TeleOp.Tests;
 
 import android.util.Size;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.RobotParts.All_Parts;
 import org.firstinspires.ftc.teamcode.RobotParts.Drivetrain;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-import org.firstinspires.ftc.teamcode.RobotParts.All_Parts;
 
 import java.util.List;
 
@@ -128,7 +126,7 @@ public class AprilTagTest extends LinearOpMode {
                 allParts.drive0(0, 0, -(detection.center.x - 320) / 320, 1);
             }else{
                 allParts.drive0(0, 0, 0, 0);
-                drivetrain.flywheels(1,0,0);
+                drivetrain.flywheels(1);
             }
         }
         if (currentDetections.isEmpty()){
