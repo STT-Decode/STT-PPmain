@@ -48,7 +48,7 @@ public class CommandDriveMultiPlayer extends rootOpMode
 
         int id = isRed ? 24 : 20;
 
-        Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize);
+        Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize, true);
         Gamepads.gamepad1().rightBumper().whenBecomesTrue(new SequentialGroup(setFarScoringZone(true), alignWithAprilTag.requires(alignWithAprilTag)));
         Gamepads.gamepad1().leftBumper().whenBecomesTrue(new SequentialGroup(setFarScoringZone(false), alignWithAprilTag.requires(alignWithAprilTag)));
 
@@ -56,6 +56,12 @@ public class CommandDriveMultiPlayer extends rootOpMode
         Gamepads.gamepad2().rightTrigger().greaterThan(0.3)
                 .whenBecomesTrue(Flywheel.INSTANCE::turnOn)
                 .whenBecomesFalse(Flywheel.INSTANCE::turnOff);
+
+        Gamepads.gamepad2().leftBumper().whenBecomesTrue(Flywheel.INSTANCE.changeFlywheelPower(-0.02));
+        Gamepads.gamepad2().rightBumper().whenBecomesTrue(Flywheel.INSTANCE.changeFlywheelPower(0.02));
+
+        Gamepads.gamepad2().x()
+                .whenBecomesTrue(Flywheel.INSTANCE.bumpFlywheelSpeed());
 
         //Intake
         Gamepads.gamepad2().leftTrigger().greaterThan(-1).whenTrue(() -> Intake.INSTANCE.setCustomPower(Gamepads.gamepad2().leftTrigger().get()).schedule());

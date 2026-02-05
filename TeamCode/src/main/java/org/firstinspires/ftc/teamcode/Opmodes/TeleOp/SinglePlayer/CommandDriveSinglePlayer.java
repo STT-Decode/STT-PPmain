@@ -44,13 +44,16 @@ public class CommandDriveSinglePlayer extends rootOpMode
         BindingManager.update();
 
         int id = isRed ? 24 : 20;
-        Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize);
-        Gamepads.gamepad1().rightBumper().whenBecomesTrue(alignWithAprilTag);
+        Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize, true);
+        Gamepads.gamepad1().dpadUp().whenBecomesTrue(alignWithAprilTag);
 
         //Flywheels
         Gamepads.gamepad1().rightTrigger().greaterThan(0.3)
                 .whenBecomesTrue(Flywheel.INSTANCE::turnOn)
                 .whenBecomesFalse(Flywheel.INSTANCE::turnOff);
+
+        Gamepads.gamepad2().leftBumper().whenBecomesTrue(Flywheel.INSTANCE.changeFlywheelPower(-0.02));
+        Gamepads.gamepad2().rightBumper().whenBecomesTrue(Flywheel.INSTANCE.changeFlywheelPower(0.02));
 
         //Intake
         Gamepads.gamepad1().leftTrigger().greaterThan(0.1).whenTrue(() -> Intake.INSTANCE.setCustomPower(Gamepads.gamepad1().leftTrigger().get()).schedule())

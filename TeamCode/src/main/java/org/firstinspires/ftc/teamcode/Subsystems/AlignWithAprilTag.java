@@ -35,14 +35,14 @@ public class AlignWithAprilTag extends Command
 
     private Size camSize;
 
-    private static double OFFSET = 50;
+    private static double OFFSET;
 
     /**
      * Aims the robot to a April Tag, used for scoring for example
      *
      * @param id the ID of the April Tag to aim at. -1 works if there is only one April Tag visible
      */
-    public AlignWithAprilTag(HardwareMap hardwareMap, int id, MotorEx bl, MotorEx fl, MotorEx br, MotorEx fr, AprilTagProcessor aprilVision, Size camSize)
+    public AlignWithAprilTag(HardwareMap hardwareMap, int id, MotorEx bl, MotorEx fl, MotorEx br, MotorEx fr, AprilTagProcessor aprilVision, Size camSize, boolean useMatchOffset)
     {
         this.backLeft = bl;
         this.frontLeft = fl;
@@ -55,6 +55,8 @@ public class AlignWithAprilTag extends Command
         alignedToApriltag = false;
         doneWithCalculations = false;
         imu = new IMUEx("imu", Direction.BACKWARD, Direction.UP).zeroed();
+
+        OFFSET = useMatchOffset ? 50 : 70;
     }
 
     @Override
@@ -68,7 +70,17 @@ public class AlignWithAprilTag extends Command
             {
                 if ((detection.id == this.id) || (this.id == -1))
                 {
-                    double rotation = (detection.center.x - ((double) camSize.getWidth() / 2)) / camSize.getWidth() * 2 * 2;
+                    double offset = 0;
+
+                    if (detection.id == 24)
+                    {
+                        offset = -OFFSET;
+                    }
+                    else if (detection.id == 20)
+                    {
+                        offset = OFFSET;
+                    }
+                    double rotation = (detection.center.x - ((double) camSize.getWidth() / 2) - offset) / camSize.getWidth() * 2 * 1.3;
                     ActiveOpMode.telemetry().addData("Rotation", rotation);
                     ActiveOpMode.telemetry().update();
 
@@ -85,10 +97,10 @@ public class AlignWithAprilTag extends Command
                         frontRight.setPower(0);
                         frontLeft.setPower(0);
                     }
-                    if ((Math.abs(detection.center.x - ((double) camSize.getWidth() / 2)) <= 7) && ((detection.id == this.id) || (this.id == -1)))
+                    /*if ((Math.abs(detection.center.x - ((double) camSize.getWidth() / 2)) <= 7) && ((detection.id == this.id) || (this.id == -1)))
                     {
                         alignedToApriltag = true;
-                    }
+                    }*/
                     break;
                 }
             }
@@ -149,11 +161,15 @@ public class AlignWithAprilTag extends Command
                 offset = OFFSET;
             }
 
-            if ((Math.abs(detection.center.x - ((double) camSize.getWidth() / 2) - offset) <= 7) && ((detection.id == this.id) || (this.id == -1)))
+            ActiveOpMode.telemetry().addData("DetectionID", detection.id);
+
+            if ((Math.abs(detection.center.x - ((double) camSize.getWidth() / 2) - offset) <= 5) && ((detection.id == this.id) || (this.id == -1)))
             {
                 return true;
             }
         }
+
+
 
         return currentDetections.isEmpty();
     }

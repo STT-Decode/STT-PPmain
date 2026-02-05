@@ -45,7 +45,7 @@ public class TestingWithMixMixJavaNextftc extends rootOpmodetestytestyy
 
         int id = isRed ? 24 : 20;
 
-        Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize);
+        Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize, true);
         Gamepads.gamepad1().rightBumper().whenBecomesTrue(new SequentialGroup(setFarScoringZone(true), alignWithAprilTag));
         Gamepads.gamepad1().leftBumper().whenBecomesTrue(new SequentialGroup(setFarScoringZone(false), alignWithAprilTag));
 

@@ -7,12 +7,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Opmodes.rootOpMode;
 
 import org.firstinspires.ftc.teamcode.Opmodes.rootOpMode;
 
+import dev.nextftc.ftc.ActiveOpMode;
 import dev.nextftc.ftc.components.BulkReadComponent;
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.commands.delays.Delay;
@@ -42,11 +44,12 @@ public class Drivetrain implements Subsystem
             @Override
             public void start()
             {
+                double direction = (goalDistance > 0) ? 1 : -1;
                 startPos = OTOS.getPosition();
-                frontLeftMotor.setPower(power);
-                backLeftMotor.setPower(power);
-                frontRightMotor.setPower(power);
-                backRightMotor.setPower(power);
+                frontLeftMotor.setPower(-power * direction);
+                backLeftMotor.setPower(-power * direction);
+                frontRightMotor.setPower(-power * direction);
+                backRightMotor.setPower(-power * direction);
             }
 
             @Override
@@ -86,10 +89,11 @@ public class Drivetrain implements Subsystem
             public void start()
             {
                 startPos = OTOS.getPosition();
-                frontLeftMotor.setPower(power);
-                backLeftMotor.setPower(power);
-                frontRightMotor.setPower(-power);
-                backRightMotor.setPower(-power);
+                double direction = (goalDistance > 0) ? 1 : -1;
+                frontLeftMotor.setPower(-power * direction);
+                backLeftMotor.setPower(-power * direction);
+                frontRightMotor.setPower(power * direction);
+                backRightMotor.setPower(power * direction);
             }
 
             @Override
@@ -102,7 +106,15 @@ public class Drivetrain implements Subsystem
             public void update()
             {
                 currentPos = OTOS.getPosition();
-                distanceMoved = currentPos.h - startPos.h;
+                distanceMoved = (currentPos.h - startPos.h);
+                if (distanceMoved > 180)
+                {
+                    distanceMoved = 360 - distanceMoved;
+                }
+                ActiveOpMode.telemetry().addData("CurrentH", currentPos.h);
+                ActiveOpMode.telemetry().addData("StartH", startPos.h);
+                ActiveOpMode.telemetry().addData("DistanceMoved", distanceMoved);
+                ActiveOpMode.telemetry().update();
             }
 
             @Override
@@ -158,7 +170,7 @@ public class Drivetrain implements Subsystem
         // inverse of the error. For example, if you move the robot 100 inches and
         // the sensor reports 103 inches, set the linear scalar to 100/103 = 0.971
         OTOS.setLinearScalar(1.08);
-        OTOS.setAngularScalar(0.97);
+        //OTOS.setAngularScalar(1);
 
         // The IMU on the OTOS includes a gyroscope and accelerometer, which could
         // have an offset. Note that as of firmware version 1.0, the calibration

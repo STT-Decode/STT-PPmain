@@ -4,13 +4,11 @@ import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathBuilder;
-import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Opmodes.rootOpMode;
 import org.firstinspires.ftc.teamcode.Subsystems.AlignWithAprilTag;
-import org.firstinspires.ftc.teamcode.Subsystems.Drivetrain;
 import org.firstinspires.ftc.teamcode.Subsystems.Feeder;
 import org.firstinspires.ftc.teamcode.Subsystems.Flywheel;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
@@ -27,12 +25,9 @@ import dev.nextftc.extensions.pedro.PedroComponent;
 import dev.nextftc.extensions.pedro.TurnTo;
 import dev.nextftc.ftc.ActiveOpMode;
 import dev.nextftc.ftc.Gamepads;
-import dev.nextftc.hardware.impl.Direction;
-import dev.nextftc.hardware.impl.IMUEx;
-import dev.nextftc.hardware.powerable.SetPower;
 
-@Autonomous(name = "autono")
-public class Auton extends rootOpMode
+@Autonomous(name = "PedroAuton")
+public class PedroAuton extends rootOpMode
 {
     Pose farScoringZone = new Pose(80, 8, 90);
 
@@ -47,70 +42,82 @@ public class Auton extends rootOpMode
             new Delay(0.7),
             Overtake.INSTANCE.turnOff());
 
-    SequentialGroup shootAll = new SequentialGroup(
-            new LambdaCommand().setStart(Flywheel.INSTANCE::turnOn),
-            new Delay(2),
-            Overtake.INSTANCE.turnOn(),
-            new Delay(0.5),
-            Overtake.INSTANCE.turnOff(),
-            new Delay(1),
-            Overtake.INSTANCE.turnOn(),
-            new Delay(1),
-            Intake.INSTANCE.turnOn(),
-            new Delay(2),
-            new LambdaCommand().setStart(Flywheel.INSTANCE::turnOff),
-            Overtake.INSTANCE.turnOff(),
-            Intake.INSTANCE.turnOff()
+    SequentialGroup shoot = new SequentialGroup(
+            Feeder.INSTANCE.fire(),
+            new Delay(0.2),
+            Feeder.INSTANCE.open(),
+            new Delay(0.2)
     );
 
+    SequentialGroup shootThree = new SequentialGroup(
+            new LambdaCommand().setStart(Flywheel.INSTANCE::turnOn),
+            shoot,
+            load,
+            shoot,
+            load,
+            shoot,
+            new LambdaCommand().setStart(Flywheel.INSTANCE::turnOff)
+    );
 
     private Command autonomousRoutine() {
+        PathBuilder builder = new PathBuilder(PedroComponent.follower());
+        int id = isRed ? 24 : 20;
+
+        alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize, false);
 
         return new SequentialGroup(
                 alignWithAprilTag,
-                shootAll,
-                Drivetrain.INSTANCE.turn(-12, 0.3),
-                Drivetrain.INSTANCE.drive(10, 0.7),
-                Drivetrain.INSTANCE.turn(-70, 0.5),
+                shootThree,
+                //Drive to close artifacts
+                new FollowPath(builder.addPath(
+                                new BezierCurve(PedroComponent.follower().getPose(),
+                                        farScoringZone))
+                        .addPath(new BezierCurve(farScoringZone, farScoringZone.plus(new Pose(0, 24, 0))))
+                        .setConstantHeadingInterpolation(PedroComponent.follower().getHeading())
+                        .build(), false, 0.5),
+
+                //Take close artifacts in
                 Intake.INSTANCE.turnOn(),
-                Overtake.INSTANCE.turnOn(),
-                Drivetrain.INSTANCE.drive(-20, 0.4),
+                new FollowPath(builder.addPath(
+                                new BezierCurve(PedroComponent.follower().getPose(), PedroComponent.follower().getPose().plus(new Pose(40, 0))))
+                        .setConstantHeadingInterpolation(180)
+                        .build(), false, 0.5),
                 Intake.INSTANCE.turnOff(),
-                Overtake.INSTANCE.turnOff(),
-                Drivetrain.INSTANCE.drive(20, 0.4),
-                Drivetrain.INSTANCE.turn(70, 0.5),
-                Drivetrain.INSTANCE.drive(-14, 0.6),
-                new Delay(0.5),
-                Drivetrain.INSTANCE.turn(10, 0.3),
-                new Delay(0.5),
+
+                //Drive back to far shooting zone
+                new FollowPath(builder.addPath(
+                                new BezierCurve(PedroComponent.follower().getPose(), farScoringZone))
+                        .setLinearHeadingInterpolation(PedroComponent.follower().getHeading(), farScoringZone.getHeading())
+                        .build(), false, 0.5),
+
+
                 alignWithAprilTag,
-                shootAll
+
+                shootThree
         );
     }
 
     @Override
     public void onStartButtonPressed() {
         PedroComponent.follower().setPose(farScoringZone);
-        int id = isRed ? 24 : 20;
-        alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize, false);
         autonomousRoutine().schedule();
     }
 
     @Override
     public void onInit()
     {
-        OTOS = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
-        Drivetrain.INSTANCE.configureOtos();
-
-        updateTelemetry().schedule();
-        ActiveOpMode.telemetry().addData("Aliance", isRed ? "Red" : "Blue");
+        ActiveOpMode.telemetry().addData("Aliance", "Red");
         Gamepads.gamepad1().b().whenBecomesTrue(new Command()
         {
             @Override
             public boolean isDone()
             {
+                ActiveOpMode.telemetry().addData("Aliance", "Blue");
+                ActiveOpMode.updateTelemetry(ActiveOpMode.telemetry());
                 isRed = false;
-                return true;
+                farScoringZone = farScoringZone.mirror();
+                closeArtifacts = closeArtifacts.mirror();
+                return false;
             }
         });
 
@@ -123,8 +130,5 @@ public class Auton extends rootOpMode
                 .setStreamFormat(VisionPortal.StreamFormat.YUY2)
                 .setAutoStopLiveView(true)
                 .build();
-
-
-        imu = new IMUEx("imu", Direction.UP, Direction.FORWARD).zeroed();
     }
 }
