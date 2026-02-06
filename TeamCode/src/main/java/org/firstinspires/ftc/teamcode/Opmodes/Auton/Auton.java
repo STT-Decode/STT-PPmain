@@ -61,7 +61,7 @@ public class Auton extends rootOpMode
 
         return new SequentialGroup(
                 Drivetrain.INSTANCE.turn(10 * blueFactor, 0.3),
-                new Delay(1),
+                new Delay(1.3),
                 alignWithAprilTag,
                 shootAll,
                 Drivetrain.INSTANCE.turn(-12 * blueFactor, 0.3),
@@ -81,6 +81,7 @@ public class Auton extends rootOpMode
                 Overtake.INSTANCE.reverse(),
                 new Delay(0.2),
                 Overtake.INSTANCE.turnOff(),
+                new Delay(0.7),
                 alignWithAprilTag,
                 shootAll,
                 Drivetrain.INSTANCE.drive(30, 0.5)
