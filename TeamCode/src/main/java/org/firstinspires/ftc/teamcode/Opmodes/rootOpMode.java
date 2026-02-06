@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Subsystems.AlignWithAprilTag;
 import org.firstinspires.ftc.teamcode.Subsystems.Drivetrain;
+import org.firstinspires.ftc.teamcode.Subsystems.FlywheelTest;
 import org.firstinspires.ftc.teamcode.Subsystems.Overtake;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.Subsystems.Feeder;
@@ -36,7 +37,7 @@ public class rootOpMode extends NextFTCOpMode
     public rootOpMode()
     {
         addComponents(
-            new SubsystemComponent(Flywheel.INSTANCE, Feeder.INSTANCE, Intake.INSTANCE, Overtake.INSTANCE, Drivetrain.INSTANCE, imuTest.INSTANCE),
+            new SubsystemComponent(Flywheel.INSTANCE, FlywheelTest.INSTANCE, Feeder.INSTANCE, Intake.INSTANCE, Overtake.INSTANCE, Drivetrain.INSTANCE, imuTest.INSTANCE),
                 BulkReadComponent.INSTANCE,
                 BindingsComponent.INSTANCE,
                 new PedroComponent(Constants::createFollower)

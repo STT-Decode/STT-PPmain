@@ -7,7 +7,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Opmodes.rootOpMode;
 import org.firstinspires.ftc.teamcode.Subsystems.AlignWithAprilTag;
 import org.firstinspires.ftc.teamcode.Subsystems.Feeder;
-import org.firstinspires.ftc.teamcode.Subsystems.Flywheel;
+import org.firstinspires.ftc.teamcode.Subsystems.FlywheelTest;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.Overtake;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -49,15 +49,15 @@ public class CommandDriveSinglePlayer extends rootOpMode
 
         //Flywheels
         Gamepads.gamepad1().rightTrigger().greaterThan(0.3)
-                .whenBecomesTrue(Flywheel.INSTANCE::turnOn2)
-                .whenBecomesFalse(Flywheel.INSTANCE::turnOff);
+                .whenBecomesTrue(FlywheelTest.INSTANCE::turnOn)
+                .whenBecomesFalse(FlywheelTest.INSTANCE::turnOff);
 
-        Gamepads.gamepad1().leftBumper().whenBecomesTrue(Flywheel.INSTANCE.changeFlywheelPower(-0.02));
-        Gamepads.gamepad1().rightBumper().whenBecomesTrue(Flywheel.INSTANCE.changeFlywheelPower(0.02));
+        Gamepads.gamepad1().leftBumper().whenBecomesTrue(FlywheelTest.INSTANCE.changeFlywheelPower(-0.02));
+        Gamepads.gamepad1().rightBumper().whenBecomesTrue(FlywheelTest.INSTANCE.changeFlywheelPower(0.02));
 
         Gamepads.gamepad1().x()
-                .whenBecomesTrue(Flywheel.INSTANCE.bumpFlywheelSpeed())
-                .whenBecomesFalse(Flywheel.INSTANCE.unbumpFlywheelSpeed());
+                .whenBecomesTrue(FlywheelTest.INSTANCE.bumpFlywheelSpeed())
+                .whenBecomesFalse(FlywheelTest.INSTANCE.unbumpFlywheelSpeed());
 
         //Intake
         Gamepads.gamepad1().leftTrigger().greaterThan(0.1).whenTrue(() -> Intake.INSTANCE.setCustomPower(Gamepads.gamepad1().leftTrigger().get()).schedule())
@@ -74,7 +74,7 @@ public class CommandDriveSinglePlayer extends rootOpMode
                                         .whenBecomesFalse(Intake.INSTANCE.turnOff());
 
         Gamepads.gamepad1().dpadRight()
-                .whenBecomesTrue(Flywheel.INSTANCE.autoSetFlywheelSpeed(-1));
+                .whenBecomesTrue(FlywheelTest.INSTANCE.autoSetFlywheelSpeed(-1));
 
     }
 

@@ -42,7 +42,7 @@ public class Auton extends rootOpMode
 
     SequentialGroup shootAll = new SequentialGroup(
             new LambdaCommand().setStart(Flywheel.INSTANCE::turnOn),
-            new Delay(2),
+            new Delay(2.2),
             Overtake.INSTANCE.turnOn(),
             new Delay(0.3),
             Overtake.INSTANCE.turnOff(),
@@ -59,24 +59,27 @@ public class Auton extends rootOpMode
 
     private Command autonomousRoutine() {
 
+        double batteryFactor = 1 / 1.3;
+
         return new SequentialGroup(
-                Drivetrain.INSTANCE.turn(10 * blueFactor, 0.3),
-                new Delay(1.3),
+                Drivetrain.INSTANCE.drive(3, 0.3),
+                Drivetrain.INSTANCE.turn(12 * blueFactor, 0.3 * batteryFactor),
+                new Delay(1.6),
                 alignWithAprilTag,
                 shootAll,
-                Drivetrain.INSTANCE.turn(-12 * blueFactor, 0.3),
-                Drivetrain.INSTANCE.drive(10, 0.7),
-                Drivetrain.INSTANCE.turn(-70 * blueFactor, 0.5),
+                Drivetrain.INSTANCE.turn(-12 * blueFactor, 0.3 * batteryFactor),
+                Drivetrain.INSTANCE.drive(14, 0.7 * batteryFactor),
+                Drivetrain.INSTANCE.turn(-70 * blueFactor, 0.5 * batteryFactor),
                 Intake.INSTANCE.turnOn(),
                 Overtake.INSTANCE.turnOn(),
-                Drivetrain.INSTANCE.drive(-50, 0.4),
+                Drivetrain.INSTANCE.drive(-58, 0.4 * batteryFactor),
                 Intake.INSTANCE.turnOff(),
                 Overtake.INSTANCE.turnOff(),
-                Drivetrain.INSTANCE.drive(40, 0.4),
-                Drivetrain.INSTANCE.turn(70 * blueFactor, 0.5),
-                Drivetrain.INSTANCE.drive(-10, 0.6),
+                Drivetrain.INSTANCE.drive(48, 0.4 * batteryFactor),
+                Drivetrain.INSTANCE.turn(70 * blueFactor, 0.5 * batteryFactor),
+                Drivetrain.INSTANCE.drive(-12, 0.6 * batteryFactor),
                 new Delay(0.5),
-                Drivetrain.INSTANCE.turn(10 * blueFactor, 0.3),
+                Drivetrain.INSTANCE.turn(10 * blueFactor, 0.3 * batteryFactor),
                 new Delay(0.5),
                 Overtake.INSTANCE.reverse(),
                 new Delay(0.2),
@@ -84,7 +87,7 @@ public class Auton extends rootOpMode
                 new Delay(0.7),
                 alignWithAprilTag,
                 shootAll,
-                Drivetrain.INSTANCE.drive(30, 0.5)
+                Drivetrain.INSTANCE.drive(15, 0.5 * batteryFactor)
         );
     }
 
