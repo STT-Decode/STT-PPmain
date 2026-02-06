@@ -52,8 +52,8 @@ public class CommandDriveSinglePlayer extends rootOpMode
                 .whenBecomesTrue(FlywheelTest.INSTANCE::turnOn)
                 .whenBecomesFalse(FlywheelTest.INSTANCE::turnOff);
 
-        Gamepads.gamepad1().leftBumper().whenBecomesTrue(FlywheelTest.INSTANCE.changeFlywheelPower(-0.02));
-        Gamepads.gamepad1().rightBumper().whenBecomesTrue(FlywheelTest.INSTANCE.changeFlywheelPower(0.02));
+        Gamepads.gamepad1().leftBumper().whenBecomesTrue(FlywheelTest.INSTANCE.changeFlywheelPower(-0.01));
+        Gamepads.gamepad1().rightBumper().whenBecomesTrue(FlywheelTest.INSTANCE.changeFlywheelPower(0.01));
 
         Gamepads.gamepad1().x()
                 .whenBecomesTrue(FlywheelTest.INSTANCE.bumpFlywheelSpeed())

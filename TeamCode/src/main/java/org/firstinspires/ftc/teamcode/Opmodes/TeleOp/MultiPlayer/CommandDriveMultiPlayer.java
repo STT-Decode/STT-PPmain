@@ -57,8 +57,8 @@ public class CommandDriveMultiPlayer extends rootOpMode
                 .whenBecomesTrue(FlywheelTest.INSTANCE::turnOn)
                 .whenBecomesFalse(FlywheelTest.INSTANCE::turnOff);
 
-        Gamepads.gamepad2().leftBumper().whenBecomesTrue(FlywheelTest.INSTANCE.changeFlywheelPower(-0.02));
-        Gamepads.gamepad2().rightBumper().whenBecomesTrue(FlywheelTest.INSTANCE.changeFlywheelPower(0.02));
+        Gamepads.gamepad2().leftBumper().whenBecomesTrue(FlywheelTest.INSTANCE.changeFlywheelPower(-0.01));
+        Gamepads.gamepad2().rightBumper().whenBecomesTrue(FlywheelTest.INSTANCE.changeFlywheelPower(0.01));
 
         Gamepads.gamepad2().x()
                 .whenBecomesTrue(FlywheelTest.INSTANCE.bumpFlywheelSpeed())

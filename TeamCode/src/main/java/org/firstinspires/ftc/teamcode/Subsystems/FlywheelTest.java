@@ -81,8 +81,8 @@ public class FlywheelTest implements Subsystem
             public boolean isDone()
             {
                 flywheelPower2 -= 0.11;
-                new SetPower(flywheel1, 0).schedule();
-                new SetPower(flywheel2, 0).schedule();
+                new SetPower(flywheel1, flywheelPower2).schedule();
+                new SetPower(flywheel2, flywheelPower2).schedule();
                 return true;
             }
         };
