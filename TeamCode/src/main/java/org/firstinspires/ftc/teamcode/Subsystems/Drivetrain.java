@@ -62,7 +62,7 @@ public class Drivetrain implements Subsystem
             public void update()
             {
                 currentPos = OTOS.getPosition();
-                distanceMoved = Math.max(currentPos.y - startPos.y, currentPos.x - startPos.x);
+                distanceMoved = Math.max(Math.abs(currentPos.y - startPos.y), Math.abs(currentPos.x - startPos.x));
             }
 
             @Override

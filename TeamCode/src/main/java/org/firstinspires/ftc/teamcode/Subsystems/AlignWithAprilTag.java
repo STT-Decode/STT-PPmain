@@ -13,6 +13,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import java.util.List;
 
 import dev.nextftc.core.commands.Command;
+import dev.nextftc.core.commands.delays.Delay;
 import dev.nextftc.ftc.ActiveOpMode;
 import dev.nextftc.hardware.impl.Direction;
 import dev.nextftc.hardware.impl.IMUEx;
@@ -56,7 +57,7 @@ public class AlignWithAprilTag extends Command
         doneWithCalculations = false;
         imu = new IMUEx("imu", Direction.BACKWARD, Direction.UP).zeroed();
 
-        OFFSET = useMatchOffset ? 50 : 70;
+        OFFSET = useMatchOffset ? 50 : 80;
     }
 
     @Override
@@ -80,23 +81,23 @@ public class AlignWithAprilTag extends Command
                     {
                         offset = OFFSET;
                     }
-                    double rotation = (detection.center.x - ((double) camSize.getWidth() / 2) - offset) / camSize.getWidth() * 2 * 1.3;
+                    double rotation = (detection.center.x - ((double) camSize.getWidth() / 2) - offset) / camSize.getWidth() * 2 * 1;
                     ActiveOpMode.telemetry().addData("Rotation", rotation);
                     ActiveOpMode.telemetry().update();
 
-                    if (Math.abs(rotation) > 0.07)
+                    if (Math.abs(rotation) > 0.06)
                     {
                         backLeft.setPower(-rotation);
                         backRight.setPower(rotation);
                         frontRight.setPower(rotation);
                         frontLeft.setPower(-rotation);
-                    } else
-                    {
-                        backLeft.setPower(0);
-                        backRight.setPower(0);
-                        frontRight.setPower(0);
-                        frontLeft.setPower(0);
+                    } else {
+                        backLeft.setPower(-Math.copySign(0.06, rotation));
+                        backRight.setPower(Math.copySign(0.06, rotation));
+                        frontRight.setPower(Math.copySign(0.06, rotation));
+                        frontLeft.setPower(-Math.copySign(0.06, rotation));
                     }
+
                     /*if ((Math.abs(detection.center.x - ((double) camSize.getWidth() / 2)) <= 7) && ((detection.id == this.id) || (this.id == -1)))
                     {
                         alignedToApriltag = true;
@@ -163,14 +164,14 @@ public class AlignWithAprilTag extends Command
 
             ActiveOpMode.telemetry().addData("DetectionID", detection.id);
 
-            if ((Math.abs(detection.center.x - ((double) camSize.getWidth() / 2) - offset) <= 5) && ((detection.id == this.id) || (this.id == -1)))
+            if ((Math.abs(detection.center.x - ((double) camSize.getWidth() / 2) - offset) <= 4) && ((detection.id == this.id) || (this.id == -1)))
             {
                 return true;
             }
         }
 
 
-
+        new Delay(0.5).schedule();
         return currentDetections.isEmpty();
     }
 

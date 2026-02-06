@@ -30,7 +30,7 @@ public class Flywheel implements Subsystem
     boolean state;
 
     double CLOSEVELOCITY = 1900;
-    double FARVELOCITY = 2020;
+    double FARVELOCITY = 2000;
 
     @Override
     public void initialize()
@@ -51,26 +51,34 @@ public class Flywheel implements Subsystem
             if (flywheelVelocityGoal != flywheel2.getVelocity())
             {
                 flywheelPower += ((flywheelVelocityGoal - Math.abs(flywheel2.getVelocity())) / 50000);
-                //new SetPower(flywheel1, flywheelPower).schedule();
-                //new SetPower(flywheel2, flywheelPower).schedule();
+                new SetPower(flywheel1, flywheelPower).schedule();
+                new SetPower(flywheel2, flywheelPower).schedule();
             }
         } else
         {
-            //flywheel1.setPower(0);
-            //flywheel2.setPower(0);
+            flywheel1.setPower(0);
+            flywheel2.setPower(0);
         }
 
         flywheelPower = Math.min(flywheelPower, 1);
-        /*ActiveOpMode.telemetry().addData("flywheelPower", flywheelPower);
+        ActiveOpMode.telemetry().addData("flywheelPower", flywheelPower);
         ActiveOpMode.telemetry().addData("goalVelocity", flywheelVelocityGoal);
         ActiveOpMode.telemetry().addData("current Velocity", flywheel2.getVelocity());
-        ActiveOpMode.updateTelemetry(ActiveOpMode.telemetry());*/
+        ActiveOpMode.updateTelemetry(ActiveOpMode.telemetry());
     }
 
     public void turnOn()
     {
         state = true;
         flywheelPower = 0.80;
+        new SetPower(flywheel1, flywheelPower).schedule();
+        new SetPower(flywheel2, flywheelPower).schedule();
+        ActiveOpMode.updateTelemetry(ActiveOpMode.telemetry());
+    }
+
+    public void turnOn2()
+    {
+        state = true;
         new SetPower(flywheel1, flywheelPower2).schedule();
         new SetPower(flywheel2, flywheelPower2).schedule();
         ActiveOpMode.telemetry().addData("flywheelPower", flywheelPower2);
@@ -99,7 +107,7 @@ public class Flywheel implements Subsystem
             @Override
             public boolean isDone()
             {
-                flywheelPower2 += 0.04;
+                flywheelPower2 += 0.03;
                 return true;
             }
         };
@@ -112,7 +120,7 @@ public class Flywheel implements Subsystem
             @Override
             public boolean isDone()
             {
-                flywheelPower2 += 0.04;
+                flywheelPower2 -= 0.03;
                 return true;
             }
         };

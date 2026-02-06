@@ -49,11 +49,15 @@ public class CommandDriveSinglePlayer extends rootOpMode
 
         //Flywheels
         Gamepads.gamepad1().rightTrigger().greaterThan(0.3)
-                .whenBecomesTrue(Flywheel.INSTANCE::turnOn)
+                .whenBecomesTrue(Flywheel.INSTANCE::turnOn2)
                 .whenBecomesFalse(Flywheel.INSTANCE::turnOff);
 
-        Gamepads.gamepad2().leftBumper().whenBecomesTrue(Flywheel.INSTANCE.changeFlywheelPower(-0.02));
-        Gamepads.gamepad2().rightBumper().whenBecomesTrue(Flywheel.INSTANCE.changeFlywheelPower(0.02));
+        Gamepads.gamepad1().leftBumper().whenBecomesTrue(Flywheel.INSTANCE.changeFlywheelPower(-0.02));
+        Gamepads.gamepad1().rightBumper().whenBecomesTrue(Flywheel.INSTANCE.changeFlywheelPower(0.02));
+
+        Gamepads.gamepad1().x()
+                .whenBecomesTrue(Flywheel.INSTANCE.bumpFlywheelSpeed())
+                .whenBecomesFalse(Flywheel.INSTANCE.unbumpFlywheelSpeed());
 
         //Intake
         Gamepads.gamepad1().leftTrigger().greaterThan(0.1).whenTrue(() -> Intake.INSTANCE.setCustomPower(Gamepads.gamepad1().leftTrigger().get()).schedule())
@@ -68,11 +72,6 @@ public class CommandDriveSinglePlayer extends rootOpMode
 
         Gamepads.gamepad1().dpadLeft().whenBecomesTrue(Intake.INSTANCE.reverse())
                                         .whenBecomesFalse(Intake.INSTANCE.turnOff());
-
-
-        Gamepads.gamepad1().x()
-                .whenBecomesTrue(Feeder.INSTANCE.fire());
-
 
         Gamepads.gamepad1().dpadRight()
                 .whenBecomesTrue(Flywheel.INSTANCE.autoSetFlywheelSpeed(-1));
