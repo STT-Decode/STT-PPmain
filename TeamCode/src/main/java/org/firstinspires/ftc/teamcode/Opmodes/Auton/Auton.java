@@ -19,7 +19,6 @@ import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.commands.delays.Delay;
 import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.commands.utility.LambdaCommand;
-import dev.nextftc.extensions.pedro.PedroComponent;
 import dev.nextftc.ftc.ActiveOpMode;
 import dev.nextftc.ftc.Gamepads;
 
@@ -59,7 +58,7 @@ public class Auton extends rootOpMode
 
     private Command autonomousRoutine() {
 
-        double batteryFactor = 1 / 1.3;
+        double batteryFactor = 1 / 1.2;
 
         return new SequentialGroup(
                 Drivetrain.INSTANCE.drive(3, 0.3),
@@ -68,18 +67,18 @@ public class Auton extends rootOpMode
                 alignWithAprilTag,
                 shootAll,
                 Drivetrain.INSTANCE.turn(-12 * blueFactor, 0.3 * batteryFactor),
-                Drivetrain.INSTANCE.drive(14, 0.7 * batteryFactor),
+                Drivetrain.INSTANCE.drive(32, 0.7 * batteryFactor),
                 Drivetrain.INSTANCE.turn(-70 * blueFactor, 0.5 * batteryFactor),
                 Intake.INSTANCE.turnOn(),
                 Overtake.INSTANCE.turnOn(),
-                Drivetrain.INSTANCE.drive(-58, 0.4 * batteryFactor),
+                Drivetrain.INSTANCE.drive(-73, 0.4 * batteryFactor),
                 Intake.INSTANCE.turnOff(),
                 Overtake.INSTANCE.turnOff(),
-                Drivetrain.INSTANCE.drive(48, 0.4 * batteryFactor),
+                Drivetrain.INSTANCE.drive(45, 0.4 * batteryFactor),
                 Drivetrain.INSTANCE.turn(70 * blueFactor, 0.5 * batteryFactor),
-                Drivetrain.INSTANCE.drive(-12, 0.6 * batteryFactor),
+                Drivetrain.INSTANCE.drive(-25 , 0.6 * batteryFactor),
                 new Delay(0.5),
-                Drivetrain.INSTANCE.turn(10 * blueFactor, 0.3 * batteryFactor),
+                Drivetrain.INSTANCE.turn(4 * blueFactor, 0.3 * batteryFactor),
                 new Delay(0.5),
                 Overtake.INSTANCE.reverse(),
                 new Delay(0.2),
@@ -93,7 +92,6 @@ public class Auton extends rootOpMode
 
     @Override
     public void onStartButtonPressed() {
-        PedroComponent.follower().setPose(farScoringZone);
         int id = isRed ? 24 : 20;
         blueFactor = isRed ? 1 : -1;
         alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize, false);
@@ -114,6 +112,8 @@ public class Auton extends rootOpMode
             public boolean isDone()
             {
                 isRed = false;
+                ActiveOpMode.telemetry().addData("Alliance", "Blue");
+                ActiveOpMode.telemetry().update();
                 return true;
             }
         });

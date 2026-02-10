@@ -20,7 +20,7 @@ public class Overtake implements Subsystem
 
     public Command turnOn()
     {
-        return new SequentialGroup(new SetPower(overtakeMotor, 1), new Command() {
+        return new SequentialGroup(new SetPower(overtakeMotor, 0.8), new Command() {
             @Override
             public boolean isDone() {
                 setState(true);

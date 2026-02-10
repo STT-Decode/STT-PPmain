@@ -170,7 +170,7 @@ public class Drivetrain implements Subsystem
         // inverse of the error. For example, if you move the robot 100 inches and
         // the sensor reports 103 inches, set the linear scalar to 100/103 = 0.971
         OTOS.setLinearScalar(1.08);
-        //OTOS.setAngularScalar(1);
+        OTOS.setAngularScalar(1.15);
 
         // The IMU on the OTOS includes a gyroscope and accelerometer, which could
         // have an offset. Note that as of firmware version 1.0, the calibration

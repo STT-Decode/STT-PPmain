@@ -57,7 +57,7 @@ public class AlignWithAprilTag extends Command
         doneWithCalculations = false;
         imu = new IMUEx("imu", Direction.BACKWARD, Direction.UP).zeroed();
 
-        OFFSET = useMatchOffset ? 50 : 87;
+        OFFSET = useMatchOffset ? 34 : 87;
     }
 
     @Override

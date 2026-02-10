@@ -23,7 +23,7 @@ public class FlywheelTest implements Subsystem
 
     double flywheelVelocityGoal;
     double flywheelPower;
-    double flywheelPower2 = 0.80;
+    double flywheelPower2 = 0.72;
     boolean state;
 
     double CLOSEVELOCITY = 1900;
