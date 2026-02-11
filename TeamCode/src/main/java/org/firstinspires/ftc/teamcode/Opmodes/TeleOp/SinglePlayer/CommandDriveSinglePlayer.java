@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Opmodes.rootOpMode;
 import org.firstinspires.ftc.teamcode.Subsystems.AlignWithAprilTag;
+import org.firstinspires.ftc.teamcode.Subsystems.AlignWithAprilTagTest;
 import org.firstinspires.ftc.teamcode.Subsystems.Feeder;
 import org.firstinspires.ftc.teamcode.Subsystems.FlywheelTest;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
@@ -44,8 +45,8 @@ public class CommandDriveSinglePlayer extends rootOpMode
         BindingManager.update();
 
         int id = isRed ? 24 : 20;
-        Command alignWithAprilTag = new AlignWithAprilTag(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize, true);
-        Gamepads.gamepad1().dpadUp().whenBecomesTrue(alignWithAprilTag);
+        Command alignWithAprilTagTest = new AlignWithAprilTagTest(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize, true);
+        Gamepads.gamepad1().dpadUp().whenBecomesTrue(alignWithAprilTagTest.requires(alignWithAprilTagTest));
 
         //Flywheels
         Gamepads.gamepad1().rightTrigger().greaterThan(0.3)

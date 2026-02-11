@@ -5,9 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Opmodes.rootOpMode;
-import org.firstinspires.ftc.teamcode.Subsystems.AlignWithAprilTag;
 import org.firstinspires.ftc.teamcode.Subsystems.AlignWithAprilTagTest;
-import org.firstinspires.ftc.teamcode.Subsystems.Feeder;
 import org.firstinspires.ftc.teamcode.Subsystems.FlywheelTest;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.Overtake;
@@ -15,17 +13,15 @@ import org.firstinspires.ftc.teamcode.Subsystems.imuTest;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
+import dev.nextftc.bindings.BindingManager;
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.ftc.ActiveOpMode;
 import dev.nextftc.ftc.Gamepads;
 import dev.nextftc.hardware.driving.MecanumDriverControlled;
-import dev.nextftc.bindings.BindingManager;
-import dev.nextftc.hardware.impl.Direction;
-import dev.nextftc.hardware.impl.IMUEx;
 
-@TeleOp(name = "DriveMulti")
-public class CommandDriveMultiPlayer extends rootOpMode
+@TeleOp(name = "DriveMultiTest")
+public class CommandDriveMultiPlayerTest extends rootOpMode
 {
     boolean isRed = true;
 
@@ -50,15 +46,15 @@ public class CommandDriveMultiPlayer extends rootOpMode
         int id = isRed ? 24 : 20;
 
         Command alignWithAprilTagTest = new AlignWithAprilTagTest(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize, true);
-        Gamepads.gamepad1().rightBumper().whenBecomesTrue(alignWithAprilTagTest.requires(alignWithAprilTagTest));
+        Gamepads.gamepad2().rightBumper().whenBecomesTrue(alignWithAprilTagTest.requires(alignWithAprilTagTest));
 
         //Flywheels
         Gamepads.gamepad2().rightTrigger().greaterThan(0.3)
                 .whenBecomesTrue(FlywheelTest.INSTANCE::turnOn)
                 .whenBecomesFalse(FlywheelTest.INSTANCE::turnOff);
 
-        Gamepads.gamepad2().leftBumper().whenBecomesTrue(FlywheelTest.INSTANCE.changeFlywheelPower(-0.01));
-        Gamepads.gamepad2().rightBumper().whenBecomesTrue(FlywheelTest.INSTANCE.changeFlywheelPower(0.01));
+        Gamepads.gamepad1().leftBumper().whenBecomesTrue(FlywheelTest.INSTANCE.changeFlywheelPower(-0.01));
+        Gamepads.gamepad1().rightBumper().whenBecomesTrue(FlywheelTest.INSTANCE.changeFlywheelPower(0.01));
 
         Gamepads.gamepad2().x()
                 .whenBecomesTrue(FlywheelTest.INSTANCE.bumpFlywheelSpeed())
@@ -77,7 +73,7 @@ public class CommandDriveMultiPlayer extends rootOpMode
         Gamepads.gamepad2().dpadLeft().whenBecomesTrue(Intake.INSTANCE.reverse())
                                         .whenBecomesFalse(Intake.INSTANCE.turnOff());
 
-        Gamepads.gamepad1().dpadUp().whenBecomesTrue(imuTest.INSTANCE.getimu());
+        Gamepads.gamepad2().dpadUp().whenBecomesTrue(imuTest.INSTANCE.getimu());
     }
 
     @Override
@@ -90,8 +86,6 @@ public class CommandDriveMultiPlayer extends rootOpMode
             @Override
             public boolean isDone()
             {
-                ActiveOpMode.telemetry().addData("Alliance", "Blue");
-                ActiveOpMode.telemetry().update();
                 isRed = false;
                 return true;
             }
