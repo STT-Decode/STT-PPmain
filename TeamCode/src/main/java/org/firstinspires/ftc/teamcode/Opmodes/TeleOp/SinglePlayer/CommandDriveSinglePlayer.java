@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Feeder;
 import org.firstinspires.ftc.teamcode.Subsystems.FlywheelTest;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.Overtake;
+import org.firstinspires.ftc.teamcode.Subsystems.imuTest;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
@@ -46,7 +47,7 @@ public class CommandDriveSinglePlayer extends rootOpMode
 
         int id = isRed ? 24 : 20;
         Command alignWithAprilTagTest = new AlignWithAprilTagTest(hardwareMap, id, backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor, aprilTag, camSize, true);
-        Gamepads.gamepad1().dpadUp().whenBecomesTrue(alignWithAprilTagTest.requires(alignWithAprilTagTest));
+        Gamepads.gamepad1().b().whenBecomesTrue(alignWithAprilTagTest.requires(alignWithAprilTagTest));
 
         //Flywheels
         Gamepads.gamepad1().rightTrigger().greaterThan(0.3)
@@ -77,6 +78,7 @@ public class CommandDriveSinglePlayer extends rootOpMode
         Gamepads.gamepad1().dpadRight()
                 .whenBecomesTrue(FlywheelTest.INSTANCE.autoSetFlywheelSpeed(-1));
 
+        Gamepads.gamepad1().dpadUp().whenBecomesTrue(imuTest.INSTANCE.getimu());
     }
 
     @Override
