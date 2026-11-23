@@ -88,7 +88,7 @@ public class SingleSTA extends LinearOpMode {
             lastup = turret_up;
             lastdown = turret_down;
 
-            turretupdownservo.setPosition(turretupdownpos);
+//            turretupdownservo.setPosition(turretupdownpos);
 
 
             //Motorsnelheden toewijzen

@@ -14,12 +14,6 @@ public class All_Parts
     private DcMotorEx rf;
     private DcMotorEx lb;
     private DcMotorEx rb;
-    private DcMotorEx shooter;
-    private DcMotorEx intake;
-    private DcMotorEx passtrough;
-
-    private Servo srewolfIU;
-    private Servo srewolfDanny;
 
     public void init(HardwareMap map)
     {
@@ -48,26 +42,7 @@ public class All_Parts
         rb.setPower(-rightRearPower);
         lb.setPower(leftRearPower);
     }
-//    public double getflyvel(){
-//        return flywheel1.getVelocity();
-//    }
-//    public void setLfPower(double power)
-//    {
-//        flywheel1.setPower(power);
-//        flywheel2.setPower(-power);
-//    }
-//    public void ninjitsu(double power){flywheel1.setPower(power);
-//        flywheel2.setPower(power);}
-//    public void setServo1pos(double power){
-//        overtake_1.setPower(power);
-//    }
-//    public void setServo2pos(double pos){
-//        overtake_2.setPosition(pos);
-//    }
-//
-//    public void setServo3pos(double pos){
-//        overtake_3.setPosition(pos);
-//    }
+
 
 
 }
